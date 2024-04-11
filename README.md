@@ -1,6 +1,6 @@
 # IntelliBreeze
 
-
+![image info](graphics/logo.jpeg)
 
 ## Introduction
 
