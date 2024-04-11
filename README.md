@@ -28,6 +28,8 @@ TBD (To Be Decided)
 
 The following diagram illustrates how the basic overview of the project should look like:-
 
+![diagram](/uploads/e0d46160a709ef92ca2b59f12a5f4e79/diagram.png)
+
 ## Contributers
 
 <details><summary>Team Members</summary>
