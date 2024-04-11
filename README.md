@@ -1,6 +1,6 @@
 # IntelliBreeze
 
-![image info](graphics/logo.jpeg)
+<img src="graphics/logo.jpeg" alt="image info" width="450" height="450">
 
 ## Introduction
 
