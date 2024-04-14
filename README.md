@@ -1,6 +1,10 @@
 # IntelliBreeze
 
-<img src="graphics/logo.jpeg" alt="image info" width="450" height="450">
+<img src="graphics/logo.jpeg" alt="image info" width="400" height="400">
+
+## Table of Content 
+
+[[_TOC_]] 
 
 ## Introduction
 
@@ -8,7 +12,7 @@ Our product is a smart fan system that is capable of providing optimal comfort i
 
 The sensors attached to our smart fan provide temperature and energy consumption analytics to the user through our pocket-friendly app. Additionally, the system will notify the user upon any adjustments in the fan speed. Together, this allows the user to stay informed about their environment and the state of the fan, promoting control over their usage.
 
-## Requirements
+## Dependencies & Requirements
 
 Here are a couple of things that you will need before moving on to the **Installation Guide** of IntelliBreeze.
 
@@ -16,9 +20,11 @@ Here are a couple of things that you will need before moving on to the **Install
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Wio Terminal Grove Sensors (The list of sensors can be found in the Wiki)
 
+
 ## Installation Guide 
 
 TBD (To Be Decided)
+
 
 ## Usage
 
