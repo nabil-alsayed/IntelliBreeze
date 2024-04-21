@@ -1,5 +1,6 @@
 #include <math.h>
 #include"TFT_eSPI.h"
+#include "rpcWiFi.h"
 TFT_eSPI tft;
 
 const int B = 4275;               // B value of the thermistor
