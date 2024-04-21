@@ -1,10 +1,14 @@
+import React from "react";
+import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
+import Header from "./components/Header";
+import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 
-export default function App() {
+export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
-      <Text>Hello World!</Text>
+      <Header name={name} />
+      <MetricsDisplayWidget />
       <StatusBar style="auto" />
     </View>
   );
@@ -13,8 +17,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#f3f3f3", // Light grey background
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "top",
+    paddingTop: 50,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
 });
