@@ -5,11 +5,13 @@
 #include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <PubSubClient.h>
+
+
  
 //TEMPERATURE_READING_INITIALISATIONS
 const int B = 4275;               // B value of the thermistor
 const int R0 = 100000;            // R0 = 100k
-const int pinTempSensor = A0;     // Grove - Temperature Sensor connect to A0
+const int pinTempSensor = 5;     // Grove - Temperature Sensor connect to A0
 const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
@@ -18,8 +20,8 @@ const int tempTitleY = 60;
 
  
 // Update these with values suitable for your network.
-const char* ssid = "TP-Link_797D_5G"; // WiFi Name
-const char* password = "83831348";  // WiFi Password
+const char* ssid = "Tele2_357564"; // WiFi Name
+const char* password = "vujjwagy";  // WiFi Password
 const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
 TFT_eSPI tft;
 WiFiClient wioClient;
@@ -168,3 +170,4 @@ void loop() {
         //Serial.println(msg);
   }
 }
+
