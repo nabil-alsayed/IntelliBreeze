@@ -5,21 +5,23 @@
 #include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <PubSubClient.h>
+#include <DHT.h>
+
+#define DHT_PIN 0  
+#define DHT_TYPE DHT11
+
+DHT dht(DHT_PIN, DHT_TYPE);
  
 //TEMPERATURE_READING_INITIALISATIONS
-const int B = 4275;               // B value of the thermistor
-const int R0 = 100000;            // R0 = 100k
-const int pinTempSensor = A0;     // Grove - Temperature Sensor connect to A0
 const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
  
-
  
 // Update these with values suitable for your network.
-const char* ssid = "TP-Link_797D_5G"; // WiFi Name
-const char* password = "83831348";  // WiFi Password
+const char* ssid = "Tele2_357564"; // WiFi Name
+const char* password = "vujjwagy";  // WiFi Password
 const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
 TFT_eSPI tft;
 WiFiClient wioClient;
@@ -63,7 +65,6 @@ void setup_temperature(){
  
 }
 void callback(char* topic, byte* payload, unsigned int length) {
-  //tft.fillScreen(TFT_BLACK);
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -114,43 +115,30 @@ void setup() {
   setup_wifi();
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
   client.setCallback(callback);
+  dht.begin(); 
 }
 void loop() {
  
-//BEGINNING_OF_TEMPERATURE_CODE
-   float tempValue = analogRead(pinTempSensor);
-   
-/*
-    y = y + 40;
-   
-      
-      if (y >= tft.height()){
-         y = 0;
-    tft.fillScreen(TFT_RED);
-  }
-  */
+   float tempValue = dht.readTemperature();
   
-    int temperature = map(tempValue,20,358,-40,125);// convert to temperature via datasheet
-    String temperatureString = String(temperature);
+    String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
 
    
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
     tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
-    tft.setTextSize(8);               
+    tft.setTextSize(5);               
     tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from (0, 0)
-    tft.drawString(".", tempReadingX + 80, tempReadingY - 35);
-    tft.drawString("C", tempReadingX + 110, tempReadingY);
+    tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
+    tft.drawString("C", tempReadingX + 170, tempReadingY);
  
     Serial.print("temperature = ");
-    Serial.println(temperature);
+    Serial.println(tempValue);
    
  
     delay(5000);
     tft.fillScreen(TFT_RED);
- 
-//END_OF_TEMPERATURE_CODE
  
   if (!client.connected()) {
     reconnect();
@@ -160,11 +148,11 @@ void loop() {
   if (now - lastMsg > 2000) {
     lastMsg = now;
     ++value;
-    snprintf(msg, 50, "%.1f", temperature); // Convert temperature to string
+    snprintf(msg, 50, "%.1f", temperatureChars); // Convert temperature to string
         client.publish(TEMP_PUB_TOPIC, temperatureChars); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.print("Published temperature: ");
-         Serial.println(temperatureChars);
-        //Serial.println(msg);
+         Serial.println(tempValue);
   }
 }
+
