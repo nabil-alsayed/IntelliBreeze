@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, Text, View, Button } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import { Client } from "paho-mqtt";
+import FanSpeedDisplayWidget from "./components/FanSpeedDisplayWidget";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
@@ -11,7 +12,7 @@ export default function App({ name = "Nabil" }) {
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
     const client = new Client("broker.hivemq.com", 8000, clientId);
-
+ 
     const onMessageArrived = (message) => {
       console.log("temperature:", message.payloadString);
       if (message.destinationName === "/intellibreeze/sensor/temperature") {
@@ -25,7 +26,7 @@ export default function App({ name = "Nabil" }) {
       onSuccess: () => {
         console.log("Connected Successfully");
         client.subscribe("/intellibreeze/sensor/temperature");
-      },
+      }, 
       onFailure: () => {
         console.log("Failed to connect!");
       },
@@ -33,11 +34,11 @@ export default function App({ name = "Nabil" }) {
 
     return () => client.disconnect(); // to sclean up the connection when the component unmounts
   }, []);
-
   return (
     <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value} />
+      <FanSpeedDisplayWidget value={value} />
       <StatusBar style="auto" />
     </View>
   );
