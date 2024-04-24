@@ -1,14 +1,15 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import FanSpeedButton from "./FanSpeedButton";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const FanSpeedDisplayWidget = (props) => {
   return (
     <View style={styles.container}>
         <FanSpeedButton
-        FmetricName="Fan Speed"
-        FmetricValue={props.value}
-        FmetricUnit="rpm"
+        buttonTitle = "Fan Speed"
+        buttonValue = {props.value}
+        buttonUnits = "rpm"
         />
     </View>
   );

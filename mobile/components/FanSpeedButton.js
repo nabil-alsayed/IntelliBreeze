@@ -1,19 +1,20 @@
 import React from "react";
-import { Text, View, StyleSheet, Button } from "react-native";
+import { Text, View, StyleSheet, Button} from "react-native";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
-const FanSpeedButton = ({FmetricName, FmetricValue, FmetricUnit}) =>{
+const FanSpeedButton = ({buttonTitle, buttonValue, buttonUnits}) =>{
     return(
-    <View style={styles.Fcontainer}>
-        <Text style={[styles.Fvalue, styles.Fchild]}>
-          {FmetricValue} {FmetricUnit}
+    <View style={styles.fanButtonContainer}>
+        <Text style={[styles.speedValue, styles.fanChild, {color: "blue"}]}>
+          {buttonValue} {buttonUnits}
         </Text>
-        <Text style={[styles.Fname, styles.Fchild]}>{FmetricName}</Text>
+        <Text style={[styles.title, styles.fanChild, {color: "blue"}]}>{buttonTitle}</Text>
       </View>
     );    
 };
 
 const styles = StyleSheet.create({
-    Fcontainer: {
+    fanButtonContainer: {
       padding: 15,
       flexDirection: "column",
       borderRadius: 20,
@@ -24,16 +25,16 @@ const styles = StyleSheet.create({
       alignItems: "center",
       justifyContent: "center",
     },
-    Fchild: {
+    fanChild: {
       margin: 3,
     },
-    Fvalue: {
+    speedValue: {
       fontWeight: "bold",
       fontSize: 20,
     },
-    Fname: {
+    title: {
       fontSize: 15,
-    },
+    }
   });
 
   export default FanSpeedButton;
