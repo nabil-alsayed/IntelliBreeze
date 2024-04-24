@@ -1,23 +1,17 @@
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
 import React, {useState} from 'react';
-import {CheckBox, Text, StyleSheet, View} from 'react-native';
-
+import CheckBox from '@react-native-community/checkbox';
 
 const DefaultCheckBox = () => {
-    const[isSelected, setSelection] = useState(false);
+    const[isSelected, setIsSelected] = useState(false);
 
     return (
         <CheckBox
+            disabled={false}
             value = {isSelected}
-            onValueChange = {setSelection(true)}
+            onValueChange={(newValue) => setIsSelected(newValue)}
 
-
-
+        ></CheckBox>
     )
 
 }
-
-const styles = StyleSheet.create({
-    container:
-})
+export default DefaultCheckBox;

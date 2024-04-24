@@ -4,6 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import { Client } from "paho-mqtt";
+import DefaultCheckBox from "./components/DefaultCheckBox";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
@@ -38,6 +39,7 @@ export default function App({ name = "Nabil" }) {
     <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value} />
+      <DefaultCheckBox />
       <StatusBar style="auto" />
     </View>
   );
