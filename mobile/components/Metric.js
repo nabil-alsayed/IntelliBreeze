@@ -14,25 +14,28 @@ const Metric = ({ metricName, metricValue, metricUnit }) => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 15,
-    flexDirection: "column",
-    borderRadius: 20,
-    backgroundColor: "white",
-    width: "45%",
-    height: 150,
-    margin: 5,
+    display: "flex",
+    width: 170,
+    maxHeight: 170,
+    minHeight: 120,
+    padding: 20,
     alignItems: "center",
     justifyContent: "center",
-  },
-  child: {
-    margin: 3,
+    gap: 10,
+    flexShrink: 0,
+    alignSelf: "stretch",
+    backgroundColor: "#fff",
+    borderRadius: "20",
   },
   value: {
     fontWeight: "bold",
     fontSize: 20,
   },
   name: {
-    fontSize: 15,
+    color: "#000",
+    fontSize: 20,
+    fontStyle: "normal",
+    fontWeight: 400,
   },
 });
 

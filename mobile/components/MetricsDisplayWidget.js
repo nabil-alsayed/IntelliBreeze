@@ -18,11 +18,10 @@ const MetricsDisplayWidget = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row", // Aligns children (Metric components) in a row
-    padding: 10,
     // justifyContent: "space-around", // Even spacing around the Metric components
-    justifyContent: "flex-start",
+    justifyContent: "space-evenly",
+    columnGap: 15,
     width: "100%", // Full width to contain the Metric components
-    justifyContent: "center",
   },
 });
 
