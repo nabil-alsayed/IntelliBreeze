@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TemperatureThresholdSettings from "./screens/TemperatureThresholdSettings";
 import { useState, useEffect } from "react";
-import { Button, StyleSheet, View } from "react-native";
+import {Button, StyleSheet, TouchableOpacity, View, Image} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
@@ -58,10 +58,15 @@ const HomeScreen = ({ navigation, name, value }) => (
     <View style={styles.container}>
         <Header name={name} />
         <MetricsDisplayWidget value={value} />
-        <Button
-            title="TempSettings"
+        <TouchableOpacity
+            style={styles.buttonContainer}
             onPress={() => navigation.navigate("TemperatureThresholdSettings")}
-        />
+        >
+            <Image
+                source={require('./assets/OtherIcons/thresholdlogo.png')} //temperature settings icon
+                style={styles.logo}
+            />
+        </TouchableOpacity>
         <StatusBar style="auto" />
     </View>
 );
@@ -75,5 +80,15 @@ const styles = StyleSheet.create({
         paddingTop: 50,
         paddingLeft: 10,
         paddingRight: 10,
+        position: 'relative',
+    },
+    buttonContainer: {
+        position: 'absolute',
+        bottom: 20,
+        right: 20,
+    },
+    logo: {
+        width: 70, // Adjust the width as needed
+        height: 70, // Adjust the height as needed
     },
 });
