@@ -13,6 +13,7 @@
     "@expo/vector-icons": "^14.0.0",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
+    "firebase": "^10.11.1",
     "mqtt": "^5.5.3",
     "paho-mqtt": "^1.1.0",
     "react": "18.2.0",
