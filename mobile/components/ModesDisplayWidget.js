@@ -30,7 +30,6 @@ const styles = StyleSheet.create({
   text:{
     color: "#000",
     fontSize: 20,
-    fontWeight: 500,
   },
   addTitle:{
     color: "#868585",
