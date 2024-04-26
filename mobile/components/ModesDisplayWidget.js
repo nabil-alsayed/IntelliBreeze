@@ -13,7 +13,7 @@ const ModesDisplayWidget = () => {
           <View style={styles.plus} >
             <FontAwesome6 name={"plus"} size={24} color={"grey"} />
           </View>
-          <Text style={styles.addTitle}>Add</Text>
+          <Text style={styles.addTitle}>Add Mode</Text>
         </View>
       </View>
     </View>
