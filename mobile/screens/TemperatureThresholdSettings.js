@@ -1,9 +1,24 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Slider from "@react-native-community/slider";
 
 export default function TemperatureThresholdSettings() {
     const [range, setRange] = useState(0);
+    const [preferredUnit, setPreferredUnit] = useState('C');
+
+    const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
+        if (preferredUnit === 'F') {
+            return Math.floor(Math.round((temp * 9/5) + 32)) + '°F';
+        } else if (preferredUnit === 'K') {
+            return Math.floor((temp + 273.15).toFixed(2)) + 'K';
+        }
+        return Math.floor(temp) + '°C';
+    }
+
+    useEffect(() => { //This function allows modification of the preferredUnit test variable
+        setPreferredUnit('C');
+    }, []);
+
 
     return (
         <View style={styles.container}>
@@ -11,6 +26,7 @@ export default function TemperatureThresholdSettings() {
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
             <View style={styles.line}></View>
+            <Text style={{ fontSize: 40, fontWeight: "bold", marginTop: 50 }}>{convertTemperature(range)}</Text>
             <View style={styles.adjustmentContainer}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
@@ -18,12 +34,16 @@ export default function TemperatureThresholdSettings() {
                 />
                 <Slider
                     style={{ width: 300, height: 50 }}
+                    onValueChange={(value) => setRange(value)}
+                    minimumValue={-50}
+                    maximumValue={100}
                 />
                 <Image
                     source={require('../assets/OtherIcons/hotlogo.png')}
                     style={styles.hotLogo}
                 />
             </View>
+            <View style={styles.line}></View>
 
         </View>
     );
@@ -68,7 +88,7 @@ const styles = StyleSheet.create({
     adjustmentContainer: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between", // Added for spacing between logos and slider
-        marginTop: 20,
+        justifyContent: "space-between",
+        marginTop: 180,
     },
 });
