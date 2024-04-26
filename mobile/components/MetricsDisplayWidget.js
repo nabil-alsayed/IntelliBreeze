@@ -6,11 +6,12 @@ const MetricsDisplayWidget = (props) => {
   return (
     <View style={styles.container}>
       <Metric
+        iconName="temperature-half"
         metricName="Temperature"
         metricValue={props.value}
         metricUnit="°c"
       />
-      <Metric metricName="Humidity" metricValue="20" metricUnit="%" />
+      <Metric iconName= "droplet" metricName="Humidity" metricValue="20" metricUnit="%" />
     </View>
   );
 };
