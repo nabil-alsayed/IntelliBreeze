@@ -1,17 +1,17 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Mode from "./Mode";
-import { AntDesign } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
 
 const ModesDisplayWidget = () => {
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.text}>General Modes</Text>
         <View style={styles.modesContainer}>
-        <Mode />
+        <Mode iconName="envira" modeName="Eco-friendly"/>
         <View style={styles.plusContainer}>
           <View style={styles.plus} >
-            <AntDesign name={"plus"} size={24} color={"grey"} />
+            <FontAwesome6 name={"plus"} size={24} color={"grey"} />
           </View>
           <Text style={styles.addTitle}>Add</Text>
         </View>

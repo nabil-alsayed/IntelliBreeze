@@ -1,13 +1,14 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
+import { FontAwesome6 } from '@expo/vector-icons';
 
-const MetricsDisplayWidget = (props) => {
+const MetricsDisplayWidget = ( props ) => {
   return (
       <View style={styles.mainContainer}>
         <View style={styles.modeContainer}>
-          <Text> Mode </Text>
+          <FontAwesome6 name={props.iconName} size={25}/>
         </View>
-        <Text style={styles.modeTitle}>Mode</Text>
+        <Text style={styles.modeTitle}>{props.modeName}</Text>
       </View>
   );
 };
