@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Image } from "react-native";
 import Slider from "@react-native-community/slider";
 
@@ -16,9 +16,8 @@ export default function TemperatureThresholdSettings() {
     }
 
     useEffect(() => { //This function allows modification of the preferredUnit test variable
-        setPreferredUnit('C');
+        setPreferredUnit('K');
     }, []);
-
 
     return (
         <View style={styles.container}>
@@ -26,18 +25,20 @@ export default function TemperatureThresholdSettings() {
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
             <View style={styles.line}></View>
-            <Text style={{ fontSize: 40, fontWeight: "bold", marginTop: 50 }}>{convertTemperature(range)}</Text>
             <View style={styles.adjustmentContainer}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
                     style={styles.coldLogo}
                 />
-                <Slider
-                    style={{ width: 300, height: 50 }}
-                    onValueChange={(value) => setRange(value)}
-                    minimumValue={-50}
-                    maximumValue={100}
-                />
+                <View style={styles.sliderWrapper}>
+                    <Text style={styles.thresholdLabel}>LOW to MEDIUM Threshold: {convertTemperature(range)}</Text>
+                    <Slider
+                        style={{ width: 300, height: 50 }}
+                        onValueChange={(value) => setRange(value)}
+                        minimumValue={-50}
+                        maximumValue={100}
+                    />
+                </View>
                 <Image
                     source={require('../assets/OtherIcons/hotlogo.png')}
                     style={styles.hotLogo}
@@ -91,4 +92,12 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginTop: 180,
     },
+    thresholdLabel: {
+        fontSize: 18,
+        fontWeight: "bold",
+        marginBottom: 10,
+    },
+    sliderWrapper: {
+        alignItems: "center",
+    }
 });
