@@ -18,9 +18,14 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
             const newTemp = (temperature * 9/5) + 32;
             setTemp(Math.round(newTemp));
             setUnit('°F');
-        } else {
+        } else if (unit === '°F'){
             // Convert Fahrenheit to Celsius
-            const newTemp = (temperature - 32) * 5/9;
+            const newTemp = (((temperature - 32) * 5/9) + 273);
+            setTemp(Math.round(newTemp));
+            setUnit('K');
+        }else {
+            // Convert Fahrenheit to Kelvin
+            const newTemp = temperature - 273 ;
             setTemp(Math.round(newTemp));
             setUnit('°C');
         }
