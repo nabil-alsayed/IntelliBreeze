@@ -75,6 +75,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 20,
   },
+  auto: {
+    display: "flex",
+    width: 70,
+    height: 70,
+    padding: 10,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    backgroundColor: "#fff",
+  },
 });
 
 export default ModesDisplayWidget;
