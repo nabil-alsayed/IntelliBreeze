@@ -4,13 +4,27 @@ import {FontAwesome6} from '@expo/vector-icons';
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
 
-    const [temperature, setTemperature] = useState(metricValue);
+    const [temperature, setTemp] = useState(metricValue);
     const [unit, setUnit] = useState(metricUnit); //
 
     useEffect(() => {
-        setTemperature(metricValue);
+        setTemp(metricValue);
         setUnit(metricUnit);
     }, [metricValue, metricUnit]);
+
+    const convertTemperature = () => {
+        if (unit === 'C') {
+            // Convert Celsius to Fahrenheit
+            const newTemp = (temperature * 9/5) + 32;
+            setTemp(Math.round(newTemp));
+            setUnit('F');
+        } else {
+            // Convert Fahrenheit to Celsius
+            const newTemp = (temperature - 32) * 5/9;
+            setTemp(Math.round(newTemp));
+            setUnit('C');
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -18,10 +32,10 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
                 <FontAwesome6 name={ iconName } size={24} color={metricName === "Humidity" ? "skyblue" : "black"}/>
                 {/*Value*/}
                 <Text style={[styles.value, styles.child]}>
-                    {metricValue}
+                    {temperature}
                 </Text>
                 {/*Unit*/}
-                <Text style={[styles.value, styles.child]}>
+                <Text style={[styles.value, styles.child]} onPress={convertTemperature}>
                     {metricUnit}
                 </Text>
             </View>
