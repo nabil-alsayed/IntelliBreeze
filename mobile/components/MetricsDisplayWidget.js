@@ -6,11 +6,12 @@ const MetricsDisplayWidget = (props) => {
   return (
     <View style={styles.container}>
       <Metric
+        iconName="temperature-half"
         metricName="Temperature"
         metricValue={props.value}
         metricUnit="°c"
       />
-      <Metric metricName="Humidity" metricValue="20" metricUnit="%" />
+      <Metric iconName= "droplet" metricName="Humidity" metricValue="20" metricUnit="%" />
     </View>
   );
 };
@@ -18,11 +19,10 @@ const MetricsDisplayWidget = (props) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row", // Aligns children (Metric components) in a row
-    padding: 10,
     // justifyContent: "space-around", // Even spacing around the Metric components
-    justifyContent: "flex-start",
+    justifyContent: "space-evenly",
+    columnGap: 15,
     width: "100%", // Full width to contain the Metric components
-    justifyContent: "center",
   },
 });
 

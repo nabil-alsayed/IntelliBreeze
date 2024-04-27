@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
+import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
@@ -38,6 +39,7 @@ export default function App({ name = "Nabil" }) {
     <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value} />
+      <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>
   );
@@ -48,9 +50,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f3f3f3",
     alignItems: "center",
+    flexDirection: "column",
     justifyContent: "flex-start",
+    gap: 20,
     paddingTop: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
   },
 });
