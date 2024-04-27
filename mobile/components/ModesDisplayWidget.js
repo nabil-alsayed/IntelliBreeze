@@ -7,14 +7,33 @@ import { Divider } from '@rneui/themed';
 const ModesDisplayWidget = () => {
   return (
     <View style={styles.mainContainer}>
-      <Text style={styles.text}>General Modes</Text>
-        <View style={styles.modesContainer}>
-        <Mode iconName="envira" modeName="Eco-friendly"/>
-        <View style={styles.plusContainer}>
-          <View style={styles.plus} >
-            <FontAwesome6 name={"plus"} size={24} color={"grey"} />
+      <Text style={styles.sectionTitle}>General Modes</Text>
+
+      {/* Auto + Modes Container */}
+      <View style={styles.subContainer}>
+
+        {/*  Auto button */}
+        <View style={styles.smallContainer}>
+          <View style={styles.auto} >
+            <FontAwesome6 name={"gear"} size={24} color={"black"} />
           </View>
-          <Text style={styles.addTitle}>Add Mode</Text>
+          <Text style={styles.subTitle}>Auto</Text>
+        </View>
+
+        {/* Add Modes Container */}
+        <View style={styles.subContainer}>
+
+          {/*  List of Modes */}
+          <Mode iconName="envira" modeName="Eco-friendly"/>
+
+          {/*  Add button */}
+          <View style={styles.smallContainer}>
+            <View style={styles.plus} >
+              <FontAwesome6 name={"plus"} size={24} color={"grey"} />
+            </View>
+            <Text style={styles.subTitle}>Add Mode</Text>
+          </View>
+
         </View>
       </View>
     </View>
