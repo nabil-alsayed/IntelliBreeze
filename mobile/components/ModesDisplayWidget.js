@@ -47,20 +47,20 @@ const styles = StyleSheet.create({
     width: "100%",
     rowGap: 15,
   },
-  text:{
+  sectionTitle:{
     color: "#000",
     fontSize: 20,
   },
-  addTitle:{
+  subTitle:{
     color: "#868585",
   },
-  modesContainer: {
+  subContainer: {
     flexDirection: "row",
     justifyContent: "flex-start",
     width: "100%",
     columnGap: 15,
   },
-  plusContainer:{
+  smallContainer:{
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
