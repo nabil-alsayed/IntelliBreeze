@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const FanSpeedScreen = () => {
     return(
         <View style = {styles.container}> 
-            <Text> Hello gay skillz</Text>
+            <Text> Fan Speed Slider Example</Text>
         </View>
 
 

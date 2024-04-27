@@ -60,7 +60,7 @@ const HomeScreen = ({ navigation, name, value }) => (
   <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value}/>
-      <FanSpeedDisplayWidget value  = {value}  navigation = {navigation} onPress = {() => {navigation.navigate("FanSpeedScreen")}} />
+      <FanSpeedDisplayWidget value  = {value}  navigation = {navigation}/>
       <StatusBar style="auto" />
   </View>
 );
