@@ -1,17 +1,36 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 
 const FanSpeedScreen = () => {
     return(
+      <View>
         <View style = {styles.container}> 
             <Text> Fan Speed Slider Example</Text>
         </View>
 
+        <View style = {styles.container}> 
+        <Text> Fan Speed Slider Example</Text>
+        </View>
 
+        <View style = {styles.button}> 
+          <Image> style = {styles.image} source={require("../assets/Power.png")}</Image>
+        </View>
+      
+      </View>
     );
 } 
 
 const styles = StyleSheet.create({
+    button: {
+      flex: 1,
+      backgroundColor: "#fff",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    image: {
+      width: 100,
+      height: 100
+    },
     container: {
       padding: 15,
       flexDirection: "column",
