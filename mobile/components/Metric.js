@@ -7,6 +7,11 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
     const [temperature, setTemperature] = useState(metricValue);
     const [unit, setUnit] = useState(metricUnit); //
 
+    useEffect(() => {
+        setTemperature(metricValue);
+        setUnit(metricUnit);
+    }, [metricValue, metricUnit]);
+
     return (
         <View style={styles.container}>
             <View style={styles.metricValueIcon}>
