@@ -20,6 +20,9 @@ const ModesDisplayWidget = () => {
           <Text style={styles.subTitle}>Auto</Text>
         </View>
 
+        {/* Divider */}
+        <Divider orientation="vertical" width={1} />
+
         {/* Add Modes Container */}
         <View style={styles.subContainer}>
 
