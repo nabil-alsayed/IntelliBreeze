@@ -3,12 +3,21 @@ import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
+
+    const [temperature, setTemperature] = useState(metricValue);
+    const [unit, setUnit] = useState(metricUnit); //
+
     return (
         <View style={styles.container}>
             <View style={styles.metricValueIcon}>
                 <FontAwesome6 name={ iconName } size={24} color={metricName === "Humidity" ? "skyblue" : "black"}/>
+                {/*Value*/}
                 <Text style={[styles.value, styles.child]}>
-                    {metricValue} {metricUnit}
+                    {metricValue}
+                </Text>
+                {/*Unit*/}
+                <Text style={[styles.value, styles.child]}>
+                    {metricUnit}
                 </Text>
             </View>
             <Text style={[styles.name, styles.child]}>{metricName}</Text>
