@@ -8,7 +8,8 @@ import { faFan } from "@fortawesome/free-solid-svg-icons";
 library.add(faFan);
 
 export default function TemperatureThresholdSettings() {
-    const [range, setRange] = useState(0);
+    const [lowToMediumRange, setLowToMediumRange] = useState(0);
+    const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [preferredUnit, setPreferredUnit] = useState('C');
 
     const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
@@ -21,8 +22,9 @@ export default function TemperatureThresholdSettings() {
     }
 
     useEffect(() => { //This function allows modification of the preferredUnit test variable
-        setPreferredUnit('F');
+        setPreferredUnit('C');
     }, []);
+
 
     return (
         <View style={styles.container}>
@@ -41,10 +43,11 @@ export default function TemperatureThresholdSettings() {
                         <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
                         <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
                     </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(range)}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(lowToMediumRange)}</Text>
                     <Slider
                         style={{ width: 300, height: 50 }}
-                        onValueChange={(value) => setRange(value)}
+                        value={lowToMediumRange}
+                        onValueChange={(value) => setLowToMediumRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
                     />
@@ -68,10 +71,11 @@ export default function TemperatureThresholdSettings() {
                         <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
                         <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
                     </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(range)}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(mediumToHighRange)}</Text>
                     <Slider
                         style={{ width: 300, height: 50 }}
-                        onValueChange={(value) => setRange(value)}
+                        value = {mediumToHighRange}
+                        onValueChange={(value) => setMediumToHighRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
                     />
