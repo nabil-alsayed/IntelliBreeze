@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Mode from "./Mode";
 import { FontAwesome6 } from '@expo/vector-icons';
+import { Divider } from '@rneui/themed';
 
 const ModesDisplayWidget = () => {
   return (
