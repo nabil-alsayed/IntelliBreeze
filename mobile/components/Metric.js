@@ -13,17 +13,24 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
     }, [metricValue, metricUnit]);
 
     const convertTemperature = () => {
-        if (unit === 'C') {
+        if (unit === '°C') {
             // Convert Celsius to Fahrenheit
             const newTemp = (temperature * 9/5) + 32;
             setTemp(Math.round(newTemp));
-            setUnit('F');
+            setUnit('°F');
         } else {
             // Convert Fahrenheit to Celsius
             const newTemp = (temperature - 32) * 5/9;
             setTemp(Math.round(newTemp));
-            setUnit('C');
+            setUnit('°C');
         }
+    };
+
+    const getOnPressHandler = () => {
+        if (metricName === "Temperature") {
+            return convertTemperature;
+        }
+        return null;  // No handler if condition is not met
     };
 
     return (
@@ -35,8 +42,8 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
                     {temperature}
                 </Text>
                 {/*Unit*/}
-                <Text style={[styles.value, styles.child]} onPress={convertTemperature}>
-                    {metricUnit}
+                <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={getOnPressHandler()}>
+                    {unit}
                 </Text>
             </View>
             <Text style={[styles.name, styles.child]}>{metricName}</Text>
@@ -73,6 +80,9 @@ const styles = StyleSheet.create({
       flexDirection:"row",
       columnGap: 10,
     },
+    temperature:{
+        textDecorationLine: "underline",
+    }
 });
 
 export default Metric;
