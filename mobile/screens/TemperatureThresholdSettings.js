@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import {View, Text, StyleSheet, Image, Button, Alert} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFan } from "@fortawesome/free-solid-svg-icons";
+import SaveButton from "../components/SaveButton";
+import WarningMessage from "../components/WarningMessage";
 
 library.add(faFan);
 
@@ -11,6 +13,7 @@ export default function TemperatureThresholdSettings() {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [preferredUnit, setPreferredUnit] = useState('C');
+    const [showWarning, setShowWarning] = useState(false);
 
     const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
         if (preferredUnit === 'F') {
@@ -24,6 +27,17 @@ export default function TemperatureThresholdSettings() {
     useEffect(() => { //This function allows modification of the preferredUnit test variable
         setPreferredUnit('C');
     }, []);
+
+    const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
+        if (lowToMediumRange > mediumToHighRange) {
+            setShowWarning(true);
+        } else {
+            setShowWarning(false);
+        }
+    }
+
+
+
 
 
     return (
@@ -85,7 +99,23 @@ export default function TemperatureThresholdSettings() {
                     style={styles.hotLogo}
                 />
             </View>
+            <View style={styles.container}>
+                <SaveButton onPress={() => {
+                    checkThreshold(lowToMediumRange, mediumToHighRange);
+                    console.log('Save button pressed');
+                }} />
+            </View>
+
+            {showWarning && (
+                <WarningMessage
+                    message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold.
+                    This means that the fan will run faster at lower speeds. Are you sure you want this?"
+                    onPress={() => setShowWarning(false)}
+                />
+            )}
         </View>
+
+
     );
 }
 
@@ -144,4 +174,9 @@ const styles = StyleSheet.create({
     sliderWrapper: {
         alignItems: "center",
     },
+    warningMessage: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    }
 });
