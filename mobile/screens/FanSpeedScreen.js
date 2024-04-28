@@ -9,7 +9,9 @@ const FanSpeedScreen = () => {
             <Text> Fan Speed Slider Example</Text>
         </View>
 
-        <PowerButton style = {styles.button}/>
+        <View style = {styles.buttonContainer}>
+          <PowerButton style = {styles.button}/>
+        </View>
 
       </View>
     );
@@ -17,11 +19,7 @@ const FanSpeedScreen = () => {
 
 const styles = StyleSheet.create({
     button: {
-      flex: 1,
       backgroundColor: "#fff",
-      flexDirection: 'column', // so that it goes to column
-      alignItems: "center",  // align  button to center           
-      justifyContent: "flex-end", // should flex to end but idk why u not working      
     },  
     container: {
       padding: 15,
@@ -33,6 +31,15 @@ const styles = StyleSheet.create({
       margin: 5,
       alignItems: "center",
       justifyContent: "center",
+    },
+    buttonContainer: {
+      flex: 1,
+      width: '100%',
+      alignItems: 'center',
+      justifyContent: 'flex-end',
+      marginTop: 450,
+      paddingRight: 30,
+      marginLeft: 17
     },
     child: {
       margin: 3,

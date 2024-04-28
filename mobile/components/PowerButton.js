@@ -6,7 +6,7 @@ const PowerButton = () => {
     return(
       <View>
         <TouchableOpacity 
-            style={styles.button}
+    
             onPress={() => setIsModalVisible(true)}
         >
 
@@ -18,7 +18,6 @@ const PowerButton = () => {
          visible={isModalVisible}
          onRequestClose= {() => setIsModalVisible(false)}
          animationType= "slide"
-         color = "blue"
         >
             <View style={{flex: 1, backgroundColor: "rainbow", padding: 60}}>
                 <Text> Manas is gay :* </Text>
