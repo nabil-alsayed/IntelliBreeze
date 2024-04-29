@@ -4,6 +4,7 @@ import {Text, View, StyleSheet, TextInput} from 'react-native';
 const AddModeForm = () => {
 
     const [modeName, setModeName ] = useState('');
+    const [selectedIcon, setSelectedIcon] = useState('');
 
     return (
         <View style={styles.form}>
