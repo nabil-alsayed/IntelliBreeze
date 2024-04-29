@@ -49,9 +49,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#f3f3f3",
-    alignItems: "center",
+    alignItems: "flex-start",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "start",
     gap: 20,
     paddingTop: 50,
     paddingLeft: 20,
