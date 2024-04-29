@@ -14,12 +14,25 @@ const IconPicker = ({ onSelectIcon }) => {
                 </TouchableOpacity>
             ))}
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
+    container: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        padding: 10,
+    },
+    iconOption: {
+        padding: 10,
+        margin: 5,
+        width: 60,
+        height: 60,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#f0f0f0',
+        borderRadius: 30,
     }
 });
 
