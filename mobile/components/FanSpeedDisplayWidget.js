@@ -1,9 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import FanSpeedButton from "./FanSpeedButton";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+
 
 const FanSpeedDisplayWidget = ({ value, navigation }) => {
     const handleButtonPress = () => {

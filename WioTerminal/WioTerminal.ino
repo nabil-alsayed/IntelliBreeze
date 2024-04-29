@@ -6,6 +6,7 @@
 #include"TFT_eSPI.h"
 #include <PubSubClient.h>
 #include <DHT.h>
+#include <MQTT_FanSpeed.h>
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
@@ -31,6 +32,10 @@ char msg[50];
 int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+
+bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
+
+
 byte fanPin = 16; 
  
 void setup_wifi() {
@@ -106,27 +111,35 @@ void reconnect() {
     }
   }
 }
-void setup() {
-  tft.begin();
-  tft.fillScreen(TFT_BLACK);
-  tft.setRotation(3);
- 
-  Serial.println();
-  Serial.begin(115200);
-  setup_wifi();
-  client.setServer(mqtt_server, 1883); // Connect the MQTT Server
-  client.setCallback(callback);
-  dht.begin(); 
-  digitalWrite(fanPin, LOW);
-}
-void loop() {
-   digitalWrite(fanPin, HIGH); 
-   float tempValue = dht.readTemperature();
+  void setup() {
+    tft.begin();
+    tft.fillScreen(TFT_BLACK);
+    tft.setRotation(3);
   
+    Serial.println();
+    Serial.begin(115200);
+    setup_wifi();
+    client.setServer(mqtt_server, 1883); // Connect the MQTT Server
+    client.setCallback(callback);
+    dht.begin(); 
+    digitalWrite(fanPin, LOW);
+  }
+
+
+
+  void loop() {
+   digitalWrite(fanPin, HIGH); 
+
+    float tempValue = dht.readTemperature();
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
 
-   
+
+    //CODE FOR FAN SPEED MQTT
+    String fanSpeedString = String(fanSpeedValue);
+    const char* fanSpeedChars = fanSpeedValue.c_str();
+
+
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
     tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
@@ -154,7 +167,20 @@ void loop() {
         client.publish(TEMP_PUB_TOPIC, temperatureChars); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.print("Published temperature: ");
-         Serial.println(tempValue);
+        Serial.println(tempValue);
+
+
+    // CODE FOR FAN SPEED MQTT
+    snprintf(msg, 50, "", fanSpeedChars); //Fan speed value is converted to string
+      if(manualMode){ // checks if the mode set by the user is manual or automatic, and based on that it publishes to the respective topic
+        client.publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars);
+      }else{
+        client.publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars);
+      }
+      Serial.print("Published fan speed: "); // printing the value is published on the serial moniter to keep track
+        Serial.println(tempValue);
+
+
   }
 }
 

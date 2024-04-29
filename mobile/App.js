@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import { Client } from "paho-mqtt";
 import FanSpeedDisplayWidget from "./components/FanSpeedDisplayWidget";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 import FanSpeedScreen from "./screens/FanSpeedScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -50,7 +49,7 @@ export default function App({ name = "Nabil" }) {
                </Stack.Screen>
                <Stack.Screen name="FanSpeedScreen" component={FanSpeedScreen} />
            </Stack.Navigator>
-       </NavigationContainer>
+    </NavigationContainer>
   );
 }
 
@@ -60,7 +59,7 @@ const HomeScreen = ({ navigation, name, value }) => (
   <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value}/>
-      <FanSpeedDisplayWidget value  = {value}  navigation = {navigation}/>
+      <FanSpeedDisplayWidget value = {value} navigation = {navigation}/>
       <StatusBar style="auto" />
   </View>
 );
