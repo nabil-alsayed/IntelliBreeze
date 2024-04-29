@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
         borderRadius:10,
         width:"100%",
     },
+    label: {
+        fontWeight:"600",
+        fontSize:15
+    }
 })
 
 export default AddModeForm;
