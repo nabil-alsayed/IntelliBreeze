@@ -46,7 +46,8 @@ export default function TemperatureThresholdSettings() {
             <View style={styles.header}>
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
-            <View style={styles.line}></View>
+            <View style={styles.headerLine}></View>
+            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change</Text>
             <View style={styles.adjustmentContainerLM}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
@@ -57,7 +58,7 @@ export default function TemperatureThresholdSettings() {
                         <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
                         <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
                     </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(lowToMediumRange)}</Text>
+                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value={lowToMediumRange}
@@ -85,7 +86,8 @@ export default function TemperatureThresholdSettings() {
                         <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
                         <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
                     </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Threshold: {convertTemperature(mediumToHighRange)}</Text>
+
+                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(mediumToHighRange)}</Text>
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value = {mediumToHighRange}
@@ -102,7 +104,6 @@ export default function TemperatureThresholdSettings() {
             <View style={styles.container}>
                 <SaveButton onPress={() => {
                     checkThreshold(lowToMediumRange, mediumToHighRange);
-                    console.log('Save button pressed');
                 }} />
             </View>
 
@@ -147,6 +148,13 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 1
     },
+    headerLine: {
+        borderBottomWidth: 1,
+        borderBottomColor: "#ccc",
+        width: "110%",
+        marginTop: 1,
+        marginBottom: 5,
+    },
     hotLogo: {
         width: 40,
         height: 40,
@@ -171,6 +179,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: "bold",
         marginBottom: 10,
+        marginLeft: 12,
 
     },
     sliderWrapper: {
@@ -180,5 +189,12 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+    },
+    infoText: {
+        fontSize: 16,
+        color: "#666",
+        textAlign: "center",
+        marginBottom: 10,
     }
+
 });
