@@ -16,6 +16,8 @@ const AddModeForm = () => {
                 value={modeName}
                 placeholder="Mode Name"
             />
+            <Text style={styles.label}> Choose Mode Icon</Text>
+            <IconPicker onSelectIcon={setSelectedIcon} selectedIcon={selectedIcon}/>
         </View>
     )
 }
