@@ -9,7 +9,7 @@ const AddModeForm = () => {
 
     return (
         <View style={styles.form}>
-            <Text style={{fontWeight:"600",fontSize:15,}}>Mode Name</Text>
+            <Text style={styles.label}>Choose Mode Name</Text>
             <TextInput
                 style={styles.input}
                 onChangeText={setModeName}
