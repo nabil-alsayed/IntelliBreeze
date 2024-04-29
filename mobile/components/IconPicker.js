@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
     // The list of Icons to use in the picker
     const icons = ['bolt','filter','bed', 'sun-o', 'money','book', 'moon-o', 'heart','magic','paw','smile-o','refresh','leaf','tint','gamepad','cog','home','lock'];
 
+const IconPicker = ({ onSelectIcon }) => {
     return (
         <View style = {styles.container}>
 
