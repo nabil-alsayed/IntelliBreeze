@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {Text, View, StyleSheet, TextInput} from 'react-native';
+import IconPicker from "./IconPicker";
 
 const AddModeForm = () => {
 
