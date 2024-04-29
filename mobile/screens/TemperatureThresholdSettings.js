@@ -108,10 +108,12 @@ export default function TemperatureThresholdSettings() {
 
             {showWarning && (
                 <WarningMessage
-                    message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold.
-                    This means that the fan will run faster at lower speeds. Are you sure you want this?"
+                    message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
+                    This means that the fan will run faster at lower speeds.
+                    Are you sure you want this?"
                     onPress={() => setShowWarning(false)}
                 />
+
             )}
         </View>
 

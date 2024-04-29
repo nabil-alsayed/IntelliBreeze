@@ -1,12 +1,19 @@
 import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import {View, Text, Button, StyleSheet, Modal} from 'react-native';
 
 const WarningMessage = ({ message, onPress }) => {
     return (
-        <View style={styles.container}>
-            <Text style={styles.message}>{message}</Text>
-            <Button title="Save Anyway" onPress={onPress} />
-        </View>
+        <Modal
+            animationType="fade"
+            transparent={true}
+            onRequestClose={() => {}}>
+            <View style={styles.container}>
+                <View style={styles.warningContainer}>
+                    <Text style={styles.message}>{message}</Text>
+                    <Button title="Save Anyway" onPress={onPress} />
+                </View>
+            </View>
+        </Modal>
     );
 };
 
@@ -16,9 +23,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        width: '100',
-        height: '15%',
-        backgroundColor: '#ffc107', // Semi-transparent background to overlay on the screen
+        width: '105%',
+        height: '20%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        marginTop: 300,
     },
     warningContainer: {
         backgroundColor: '#ffc107',
@@ -31,6 +39,9 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 16,
         marginBottom: 5,
+        marginLeft: 10,
+        marginRight: 10,
+        alignItems: "center",
     },
 });
 
