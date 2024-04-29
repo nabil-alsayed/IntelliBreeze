@@ -9,8 +9,8 @@ const IconPicker = ({ onSelectIcon, selectedIcon }) => {
     return (
         <View style={styles.container}>
             {icons.map((icon) => (
-                <TouchableOpacity key={icon} style={styles.iconOption} onPress={() => onSelectIcon(icon)}>
-                    <Icon name={icon} size={30} color="#555" />
+                <TouchableOpacity key={icon} style={[styles.iconOption, { backgroundColor: selectedIcon === icon ? "#169eff" : "#000" }]} onPress={() => onSelectIcon(icon)}>
+                    <Icon name={icon} size={30} color={"#fff"}/>
                 </TouchableOpacity>
             ))}
         </View>
