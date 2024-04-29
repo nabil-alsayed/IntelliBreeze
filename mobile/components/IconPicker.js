@@ -7,8 +7,12 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 const IconPicker = ({ onSelectIcon }) => {
     return (
-        <View style = {styles.container}>
-
+        <View style={styles.container}>
+            {icons.map((icon) => (
+                <TouchableOpacity key={icon} style={styles.iconOption} onPress={() => onSelectIcon(icon)}>
+                    <Icon name={icon} size={30} color="#555" />
+                </TouchableOpacity>
+            ))}
         </View>
     )
 }
