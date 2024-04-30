@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
+
+export const tempUnitContext = createContext()
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
 
@@ -47,9 +49,11 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
                     {temperature}
                 </Text>
                 {/*Unit*/}
+                <tempUnitContext.Provider value={unit}>
                 <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={getOnPressHandler()}>
                     {unit}
                 </Text>
+                </tempUnitContext.Provider>
             </View>
             <Text style={[styles.name, styles.child]}>{metricName}</Text>
         </View>

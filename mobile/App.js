@@ -1,13 +1,17 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
+import {tempUnitContext} from "./components/Metric";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
+
+  const tempUnit = useContext(tempUnitContext);
+
 
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
@@ -23,23 +27,26 @@ export default function App({ name = "Nabil" }) {
     client.onMessageArrived = onMessageArrived;
 
     client.connect({
-      onSuccess: (props) => {
+      onSuccess: () => {
         console.log("Connected Successfully");
         client.subscribe("/intellibreeze/sensor/temperature");
 
         //if statements for celsius, fahrenheit, kelvin
         let tempUnitString;
 
-       if  (props.metricUnit === '°C'){
+       if  (tempUnit === '°C'){
          tempUnitString = '°C';
-       } else if (props.metricUnit === '°F'){
+         console.log("celsius");
+       } else if (tempUnit === '°F'){
          tempUnitString = '°F';
+         console.log("fahr");
        } else{
          tempUnitString = 'K'
+         console.log("kelvin");
        }
-        const tempUnit = new Paho.Message(tempUnitString);
-       tempUnit.destinationName = "/intellibreeze/app/tempUnit"
-        client.publish(tempUnit);
+        const tempUnitMessage = new Paho.Message(tempUnitString);
+       tempUnitMessage.destinationName = "/intellibreeze/app/tempUnit"
+        client.publish(tempUnitMessage);
       },
       onFailure: () => {
         console.log("Failed to connect!");
@@ -52,7 +59,7 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value} metricUnit={metricUnit}/>
+      <MetricsDisplayWidget value={value}/>
       <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>
