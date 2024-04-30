@@ -64,6 +64,20 @@ const styles = StyleSheet.create({
     label: {
         fontWeight:"600",
         fontSize:15
+    },
+    button:{
+        borderRadius:15,
+        backgroundColor:"#169EFFFF",
+        width: "100%",
+        height: 50,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    settingField:{
+        width:"100%",
+        rowGap:10,
+        flexShrink:1,
+        padding:15
     }
 })
 
