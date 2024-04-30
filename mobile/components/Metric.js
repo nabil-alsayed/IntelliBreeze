@@ -54,8 +54,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        width: 170,
-        maxHeight: 170,
+        flex: 1,
         minHeight: 120,
         padding: 20,
         alignItems: "center",
