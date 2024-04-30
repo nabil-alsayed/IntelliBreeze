@@ -36,6 +36,18 @@ const TemporaryData = [
 ];
 
 const ModesDisplayWidget = () => {
+
+  const [selectedModeId, setSelectedModeId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+
+    const handleOpenModal = () => {
+        setModalVisible(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalVisible(false);
+    };
+
   return (
     <View style={styles.mainContainer}>
       <Text style={styles.sectionTitle}>General Modes</Text>
