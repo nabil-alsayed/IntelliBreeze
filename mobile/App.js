@@ -16,11 +16,21 @@ export default function App({ name = "Nabil" }) {
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
     const client = new Client("broker.hivemq.com", 8000, clientId);
+
+    const TEMP_SUB_TOPIC = "/intellibreeze/sensor/temperature"; //Intialising all the topics as variables
+    const MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed";
+    const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
+
  
     const onMessageArrived = (message) => {
-      console.log("temperature:", message.payloadString);
-      if (message.destinationName === "/intellibreeze/sensor/temperature") {
+  
+      if (message.destinationName === TEMP_SUB_TOPIC) {
+        console.log("temperature:", message.payloadString);
         setValue(parseInt(message.payloadString));
+      }else if(message.destinationName === MANUAL_FAN_SPEED_SUB_TOPIC){  // Based on what topic the message belongs the that particular message will be printed on the console
+        console.log("fan speed (Manual Mode)", message.payloadString);
+      }else if(message.destinationName === AUTO_FAN_SPEED_SUB_TOPIC){
+        console.log("fan speed (Automatic Mode)", message.payloadString);
       }
     };
 
@@ -29,7 +39,9 @@ export default function App({ name = "Nabil" }) {
     client.connect({
       onSuccess: () => {
         console.log("Connected Successfully");
-        client.subscribe("/intellibreeze/sensor/temperature");
+        client.subscribe(TEMP_SUB_TOPIC);
+        client.subscribe(AUTO_FAN_SPEED_SUB_TOPIC);
+        client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
       }, 
       onFailure: () => {
         console.log("Failed to connect!");
@@ -45,7 +57,7 @@ export default function App({ name = "Nabil" }) {
                    name="Home"
                    options={{ headerShown: false }}
                >
-                   {(props) => <HomeScreen {...props} name={name} value={value} />}
+                   {(props) => <HomeScreen {...props} name={name}/>}
                </Stack.Screen>
                <Stack.Screen name="FanSpeedScreen" component={FanSpeedScreen} />
            </Stack.Navigator>
@@ -59,7 +71,7 @@ const HomeScreen = ({ navigation, name, value }) => (
   <View style={styles.container}>
       <Header name={name} />
       <MetricsDisplayWidget value={value}/>
-      <FanSpeedDisplayWidget value = {value} navigation = {navigation}/>
+      <FanSpeedDisplayWidget navigation = {navigation}/>
       <StatusBar style="auto" />
   </View>
 );
