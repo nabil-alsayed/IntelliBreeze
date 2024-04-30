@@ -12,15 +12,19 @@ const AddModeForm = () => {
     let screenWidth = Dimensions.get('window').width - 150;
     return (
         <View style={styles.form}>
-            <Text style={styles.label}>Choose Mode Name</Text>
-            <TextInput
-                style={styles.input}
-                onChangeText={setModeName}
-                value={modeName}
-                placeholder="Mode Name"
-            />
-            <Text style={styles.label}> Choose Mode Icon</Text>
-            <IconPicker onSelectIcon={setSelectedIcon} selectedIcon={selectedIcon}/>
+            <View style={styles.settingField}>
+                <Text style={styles.label}>Choose Mode Name</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={setModeName}
+                    value={modeName}
+                    placeholder="Mode Name"
+                />
+            </View>
+            <View style={styles.settingField}>
+                <Text style={styles.label}> Choose Mode Icon</Text>
+                <IconPicker onSelectIcon={setSelectedIcon} selectedIcon={selectedIcon}/>
+            </View>
             <View style={styles.settingField}>
                 <Text style={styles.label}>Choose Mode Name</Text>
                 <TextInput
