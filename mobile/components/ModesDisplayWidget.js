@@ -108,7 +108,13 @@ const ModesDisplayWidget = () => {
           style={{width:"100%", height:"100%"}}
       >
           <View style={styles.modalView}>
-          <AddModeForm/>
+
+            <View style={{position:"absolute", top:20, right:20}}>
+                <Icon name={"close"} size={20} onPress={handleCloseModal}/>
+            </View>
+
+            <AddModeForm/>
+
             <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} ><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
             <Pressable style={[styles.button,{backgroundColor:"#ff1631",}]} onPress={handleCloseModal}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
           </View>
