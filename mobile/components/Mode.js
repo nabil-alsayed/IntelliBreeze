@@ -5,8 +5,8 @@ import { FontAwesome6 } from '@expo/vector-icons';
 const MetricsDisplayWidget = ( props ) => {
   return (
       <View style={styles.mainContainer}>
-        <View style={styles.modeContainer}>
-          <FontAwesome6 name={props.iconName} size={25}/>
+        <View style={[styles.modeContainer, {backgroundColor : props.selected === true ? "#169EFFFF" : "#fff"}]}>
+          <FontAwesome6 name={props.iconName} size={25} style={{color : props.selected === true ? "#fff" : "#000"}}/>
         </View>
         <Text style={styles.modeTitle}>{props.modeName}</Text>
       </View>
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
     borderRadius: 20,
   },
   modeTitle:{
