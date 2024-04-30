@@ -100,6 +100,24 @@ const ModesDisplayWidget = () => {
           />
         </View>
       </View>
+      <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={handleCloseModal}
+          style={{width:"100%"}}
+      >
+        <View style={styles.centeredView}>
+
+          <View style={styles.modalView}>
+          <AddModeForm/>
+            <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} ><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
+            <Pressable style={[styles.button,{backgroundColor:"#ff1631",}]} onPress={handleCloseModal}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
+          </View>
+
+        </View>
+
+      </Modal>
     </View>
   );
 };
