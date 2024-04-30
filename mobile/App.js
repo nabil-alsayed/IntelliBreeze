@@ -37,10 +37,12 @@ export default function App({ name = "Nabil" }) {
 
   return (
     <View style={styles.container}>
-      <Header name={name} />
-      <MetricsDisplayWidget value={value} />
-      <ModeDisplayWidget />
-      <StatusBar style="auto" />
+      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} style={styles.innerContainer} contentContainerStyle={styles.innerContainer}>
+        <Header name={name} style={{position:"sticky"}}/>
+        <MetricsDisplayWidget value={value} />
+        <ModeDisplayWidget />
+        <StatusBar style="auto" />
+      </ScrollView>
     </View>
   );
 }
