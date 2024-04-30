@@ -3,7 +3,8 @@ import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
 const SaveButton = ({ onPress, title }) => {
     return (
-        <TouchableOpacity style={styles.button} onPress={onPress}>
+        <TouchableOpacity
+            style={styles.button} onPress={onPress}>
             <Text style={styles.buttonText}>{"Save"}</Text>
         </TouchableOpacity>
     );

@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, Button, Alert} from "react-native";
+import {View, Text, StyleSheet, Image, Button, Alert, Animated} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faFan } from "@fortawesome/free-solid-svg-icons";
 import SaveButton from "../components/SaveButton";
 import WarningMessage from "../components/WarningMessage";
-
+import ConfirmationMessage from "../components/ConfirmationMessage";
 library.add(faFan);
 
 export default function TemperatureThresholdSettings() {
@@ -14,6 +14,8 @@ export default function TemperatureThresholdSettings() {
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [preferredUnit, setPreferredUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+
 
     const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
         if (preferredUnit === 'F') {
@@ -33,10 +35,9 @@ export default function TemperatureThresholdSettings() {
             setShowWarning(true);
         } else {
             setShowWarning(false);
+            setShowConfirmation(true);
         }
     }
-
-
 
 
 
@@ -108,12 +109,26 @@ export default function TemperatureThresholdSettings() {
             </View>
 
             {showWarning && (
+
                 <WarningMessage
                     message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
                     This means that the fan will run faster at a lower temperature.
                     Are you sure you want this?"
                     onPress={() => setShowWarning(false)}
                 />
+
+
+            )}
+
+            {showConfirmation && (
+
+                   <ConfirmationMessage
+                      message="Settings Saved!"
+                      onPress={() => setShowConfirmation(false)}
+                   />
+
+
+
 
             )}
         </View>
