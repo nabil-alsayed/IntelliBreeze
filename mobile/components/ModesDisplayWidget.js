@@ -179,7 +179,7 @@ modalView: {
   borderRadius: 20,
   paddingHorizontal: 20,
   paddingTop:35,
-  rowGap:10,
+  rowGap:20,
   alignItems: 'center',
   width:"100%",
   height:"100%",
