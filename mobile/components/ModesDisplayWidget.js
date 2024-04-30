@@ -168,6 +168,33 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
   },
+    centeredView: {
+      flex: 1,
+      justifyContent: 'center',
+},
+modalView: {
+  backgroundColor: 'white',
+  borderRadius: 20,
+  paddingHorizontal: 20,
+  paddingTop:35,
+  rowGap:10,
+  alignItems: 'center',
+  width:"100%",
+  height:"100%",
+},
+buttonClose: {
+  backgroundColor: "#2196F3",
+      borderRadius: 20,
+      padding: 10,
+      elevation: 2,
+      marginTop: 15,
+},button:{
+    borderRadius:15,
+    width: "100%",
+    height: 50,
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });
 
 export default ModesDisplayWidget;
