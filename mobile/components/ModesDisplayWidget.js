@@ -3,6 +3,8 @@ import {FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} fr
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
+import AddModeForm from "./AddModeForm";
+
 const TemporaryData = [
   {
     id: '1',
