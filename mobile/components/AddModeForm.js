@@ -5,7 +5,8 @@ import IconPicker from "./IconPicker";
 const AddModeForm = () => {
 
     const [modeName, setModeName ] = useState('');
-    const [selectedIcon, setSelectedIcon] = useState('');
+    const [selectedIcon, setSelectedIcon] = useState('home');
+    const [fanSpeed, setFanSpeed] = useState(0)
 
     return (
         <View style={styles.form}>
