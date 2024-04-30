@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {AntDesign} from "@expo/vector-icons";
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
 
@@ -105,13 +106,12 @@ const ModesDisplayWidget = () => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={handleCloseModal}
-          style={{width:"100%", height:"100%"}}
       >
           <View style={styles.modalView}>
 
-            <View style={{position:"absolute", top:20, right:20}}>
-                <Icon name={"close"} size={20} onPress={handleCloseModal}/>
-            </View>
+            <TouchableOpacity style={{position:"absolute", top:65, right:35} } onPress={handleCloseModal} >
+                <AntDesign name={"close"} size={30} />
+            </TouchableOpacity>
 
             <AddModeForm/>
 
@@ -170,15 +170,11 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
   },
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-},
 modalView: {
   backgroundColor: '#fff',
   borderRadius: 20,
   paddingHorizontal: 20,
-  paddingTop:35,
+  paddingTop:90,
   rowGap:20,
   alignItems: 'center',
   width:"100%",
