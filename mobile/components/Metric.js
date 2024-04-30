@@ -61,8 +61,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         gap: 10,
-        flexShrink: 0,
-        alignSelf: "stretch",
         backgroundColor: "#fff",
         borderRadius: 20,
     },
@@ -73,8 +71,6 @@ const styles = StyleSheet.create({
     name: {
         color: "#000",
         fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "normal",
     },
     metricValueIcon:{
       flexDirection:"row",
