@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, TextInput} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Dimensions} from 'react-native';
+import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 
 const AddModeForm = () => {
