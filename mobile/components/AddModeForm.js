@@ -16,14 +16,14 @@ const AddModeForm = () => {
                 <Text style={styles.label}>Choose Mode Name</Text>
                 <TextInput
                     style={styles.input}
-                    onChangeText={setModeName}
+                    onChangeText={text => setModeName(text)}
                     value={modeName}
                     placeholder="Mode Name"
                 />
             </View>
             <View style={styles.settingField}>
                 <Text style={styles.label}> Choose Mode Icon</Text>
-                <IconPicker onSelectIcon={setSelectedIcon} selectedIcon={selectedIcon}/>
+                <IconPicker onSelectIcon={icon => setSelectedIcon(icon)} selectedIcon={selectedIcon}/>
             </View>
             <View style={styles.settingField}>
                 <Text style={styles.label}> Choose Fan Speed</Text>
