@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, {useState} from "react";
+import {FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Divider } from '@rneui/themed';
