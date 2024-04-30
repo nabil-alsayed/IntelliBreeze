@@ -105,7 +105,7 @@ const ModesDisplayWidget = () => {
           transparent={true}
           visible={modalVisible}
           onRequestClose={handleCloseModal}
-          style={{width:"100%"}}
+          style={{width:"100%", height:"100%"}}
       >
           <View style={styles.modalView}>
           <AddModeForm/>
