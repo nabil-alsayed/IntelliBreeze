@@ -9,11 +9,17 @@ const icons = ['home','bolt','filter','bed', 'sun-o', 'money','book', 'moon-o', 
 const IconPicker = ({ onSelectIcon, selectedIcon }) => {
     return (
         <View style={styles.container}>
-            {icons.map((icon) => (
-                <TouchableOpacity key={icon} style={[styles.iconOption, { backgroundColor: selectedIcon === icon ? "#169eff" : "#000" }]} onPress={() => onSelectIcon(icon)}>
-                    <Icon name={icon} size={30} color={"#fff"}/>
-                </TouchableOpacity>
-            ))}
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+                {icons.map((icon) => (
+                    <TouchableOpacity key={icon} style={[styles.iconOption, { backgroundColor: selectedIcon === icon ? "#169eff" : "#000" }]} onPress={() => onSelectIcon(icon)}>
+                        <Icon name={icon} size={25} color={"#fff"}/>
+                    </TouchableOpacity>
+                ))}
+            </ScrollView>
+            <Divider orientation="vertical" size={2}/>
+            <View style={[styles.iconOption, {backgroundColor: "green"}]}>
+                <Icon name={selectedIcon} size={25} color={"#fff"}/>
+            </View>
         </View>
     );
 };
