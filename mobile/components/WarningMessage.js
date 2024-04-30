@@ -10,6 +10,7 @@ const WarningMessage = ({ message, onPress }) => {
             <View style={styles.container}>
                 <View style={styles.warningContainer}>
                     <Text style={styles.message}>{message}</Text>
+                    <Button title="Cancel" onPress={onPress} />
                     <Button title="Save Anyway" onPress={onPress} />
                 </View>
             </View>
