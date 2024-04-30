@@ -66,20 +66,38 @@ const ModesDisplayWidget = () => {
         {/* Divider */}
         <Divider orientation="vertical" width={1} />
 
-        {/* Add Modes Container */}
-        <View style={styles.subContainer}>
-
-          {/*  List of Modes */}
-          <Mode iconName="envira" modeName="Eco-friendly"/>
-
-          {/*  Add button */}
-          <View style={styles.smallContainer}>
-            <View style={styles.plus} >
-              <FontAwesome6 name={"plus"} size={24} color={"grey"} />
-            </View>
-            <Text style={styles.subTitle}>Add Mode</Text>
-          </View>
-
+        {/*  Add button */}
+        <View style={styles.smallContainer}>
+          <TouchableOpacity
+              style={[styles.plus,{borderWidth:1,padding:10,
+                borderRadius:20,borderColor:"lightgrey",
+                borderStyle:"dashed"}]}
+              onPress={handleOpenModal}
+          >
+            <Icon name={"plus"} size={24} color={"grey"} />
+          </TouchableOpacity>
+          <Text style={styles.subTitle}>Add Mode</Text>
+        </View>
+        <View style={{width:160}}>
+          <FlatList
+              data={TemporaryData}
+              keyExtractor={item => item.id}
+              horizontal={true}
+              contentContainerStyle={{ columnGap: 15 }}
+              showsHorizontalScrollIndicator={false}
+              renderItem={({ item }) => (
+                  <View>
+                    <TouchableOpacity onPress={() => setSelectedModeId(item.id)}>
+                      <Mode
+                          iconName={item.customModes.icon}
+                          modeName={item.customModes.modeName}
+                          selected={item.id === selectedModeId}
+                      />
+                    </TouchableOpacity>
+                  </View>
+              )}
+              showsVerticalScrollIndicator={false}
+          />
         </View>
       </View>
     </View>
