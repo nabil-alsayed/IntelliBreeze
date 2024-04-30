@@ -58,7 +58,7 @@ const ModesDisplayWidget = () => {
         {/*  Auto button */}
         <View style={styles.smallContainer}>
           <View style={styles.auto} >
-            <FontAwesome6 name={"gear"} size={24} color={"black"} />
+            <Icon name={"gear"} size={24} color={"black"} />
           </View>
           <Text style={styles.subTitle}>Auto</Text>
         </View>
