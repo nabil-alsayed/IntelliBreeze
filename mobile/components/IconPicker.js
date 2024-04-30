@@ -27,15 +27,15 @@ const IconPicker = ({ onSelectIcon, selectedIcon }) => {
 const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
-        padding: 10,
+        flexWrap: 'nowrap',
+        width:"100%",
+        justifyContent:"space-between",
     },
     iconOption: {
-        padding: 10,
-        margin: 5,
-        width: 60,
-        height: 60,
+        // padding: 10,
+        marginHorizontal: 5,
+        width: 40,
+        height: 40,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#f0f0f0',
