@@ -26,13 +26,18 @@ const AddModeForm = () => {
                 <IconPicker onSelectIcon={setSelectedIcon} selectedIcon={selectedIcon}/>
             </View>
             <View style={styles.settingField}>
-                <Text style={styles.label}>Choose Mode Name</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={setModeName}
-                    value={modeName}
-                    placeholder="Mode Name"
-                />
+                <Text style={styles.label}> Choose Fan Speed</Text>
+                <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",columnGap:15}}>
+                    <MultiSlider
+                        sliderLength={screenWidth}
+                        onValuesChange={(values) => setFanSpeed(values)}
+                        min={0}
+                        max={100}
+                        step={1}
+                        allowOverlap={false}
+                    />
+                    <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
+                </View>
             </View>
         </View>
     )
