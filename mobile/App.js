@@ -49,14 +49,18 @@ export default function App({ name = "Nabil" }) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f3f3f3",
+    flex:1,
     alignItems: "flex-start",
     flexDirection: "column",
     justifyContent: "start",
-    gap: 20,
+    backgroundColor: "#f3f3f3",
     paddingTop: 50,
-    paddingLeft: 20,
-    paddingRight: 20,
+    paddingHorizontal:20,
+    width:"100%"
+  },
+  innerContainer: {
+    flexDirection: "column",
+    width:"100%",
+    rowGap:20
   },
 });
