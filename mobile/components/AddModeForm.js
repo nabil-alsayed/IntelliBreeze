@@ -50,7 +50,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent:"center",
         rowGap:10,
-        backgroundColor:"#fff",
         borderRadius:20,
     },
     input: {
