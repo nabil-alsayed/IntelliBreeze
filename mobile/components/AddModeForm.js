@@ -9,6 +9,7 @@ const AddModeForm = () => {
     const [selectedIcon, setSelectedIcon] = useState('home');
     const [fanSpeed, setFanSpeed] = useState(0)
 
+    let screenWidth = Dimensions.get('window').width - 150;
     return (
         <View style={styles.form}>
             <Text style={styles.label}>Choose Mode Name</Text>
