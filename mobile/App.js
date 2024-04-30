@@ -23,9 +23,23 @@ export default function App({ name = "Nabil" }) {
     client.onMessageArrived = onMessageArrived;
 
     client.connect({
-      onSuccess: () => {
+      onSuccess: (props) => {
         console.log("Connected Successfully");
         client.subscribe("/intellibreeze/sensor/temperature");
+
+        //if statements for celsius, fahrenheit, kelvin
+        let tempUnitString;
+
+       if  (props.metricUnit === '°C'){
+         tempUnitString = '°C';
+       } else if (props.metricUnit === '°F'){
+         tempUnitString = '°F';
+       } else{
+         tempUnitString = 'K'
+       }
+        const tempUnit = new Paho.Message(tempUnitString);
+       tempUnit.destinationName = "/intellibreeze/app/tempUnit"
+        client.publish(tempUnit);
       },
       onFailure: () => {
         console.log("Failed to connect!");
@@ -38,7 +52,7 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value} />
+      <MetricsDisplayWidget value={value} metricUnit={metricUnit}/>
       <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>
