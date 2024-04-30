@@ -124,6 +124,7 @@ const ModesDisplayWidget = () => {
 
 const styles = StyleSheet.create({
   mainContainer:{
+    flex:1,
     flexDirection: "column",
     justifyContent: "flex-start",
     width: "100%",
