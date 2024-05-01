@@ -1,0 +1,30 @@
+import { initializeApp } from 'firebase/app';
+import { getFirestore } from "firebase/firestore";
+
+// Optionally import the services that you want to use
+// import {...} from "firebase/auth";
+// import {...} from "firebase/database";
+// import {...} from "firebase/functions";
+// import {...} from "firebase/storage";
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+    apiKey: "AIzaSyBnz-EGZsxJSTq1c1VRFCLzeRIq0i4Xzd8",
+    authDomain: "intelliiibreeze.firebaseapp.com",
+    databaseURL: "https://intelliiibreeze-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "intelliiibreeze",
+    storageBucket: "intelliiibreeze.appspot.com",
+    messagingSenderId: "852271854530",
+    appId: "1:852271854530:web:479eb1aba6cfc4b69f1c5b",
+    measurementId: "G-Q7EF05D56J"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+
+
+// Initialize Cloud Firestore and get a reference to the service
+const db = getFirestore(app);
+
+export { db };
