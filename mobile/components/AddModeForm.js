@@ -1,13 +1,30 @@
 import React, { useState } from 'react';
-import {Text, View, StyleSheet, TextInput, Dimensions} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Dimensions, Pressable} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
+import { db } from "../firebaseConfig";
+import { collection, addDoc } from "firebase/firestore";
 
 const AddModeForm = () => {
 
     const [modeName, setModeName ] = useState('');
     const [selectedIcon, setSelectedIcon] = useState('home');
-    const [fanSpeed, setFanSpeed] = useState(0)
+    const [fanSpeed, setFanSpeed] = useState([0])
+
+    const submitMode = async () => {
+        try {
+            const docRef = await addDoc(collection(db,"modes"), {
+                ModeName: modeName,
+                SelectedIcon: selectedIcon,
+                FanSpeed: fanSpeed[0]
+            });
+            console.log("Document written with ID: ", docRef.id);
+            alert('Mode added successfully!');
+        } catch (error) {
+            console.error("Failed to add mode:", error);
+            alert('Failed to add mode');
+        }
+    };
 
     let screenWidth = Dimensions.get('window').width - 150;
     return (
@@ -39,6 +56,7 @@ const AddModeForm = () => {
                     <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
                 </View>
             </View>
+            <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} onPress={submitMode}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
         </View>
     )
 }
