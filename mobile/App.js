@@ -5,8 +5,15 @@ import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
+import { ModeFormContext } from "./contexts/ModeFormContext";
 
 export default function App({ name = "Nabil" }) {
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const modeFormContextValue = {
+    modalVisible,
+    setModalVisible
+  };
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -38,10 +45,14 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} style={styles.innerContainer} contentContainerStyle={styles.innerContainer}>
-        <Header name={name} style={{position:"sticky"}}/>
-        <MetricsDisplayWidget value={value} />
-        <ModeDisplayWidget />
-        <StatusBar style="auto" />
+        <ModeFormContext.Provider
+            value={ modeFormContextValue }
+        >
+          <Header name={name} style={{position:"sticky"}}/>
+          <MetricsDisplayWidget value={value} />
+          <ModeDisplayWidget />
+          <StatusBar style="auto" />
+        </ModeFormContext.Provider>
       </ScrollView>
     </View>
   );
