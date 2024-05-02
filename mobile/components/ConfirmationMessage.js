@@ -1,30 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {View, Text, Button, StyleSheet, Modal, Animated} from 'react-native';
+import React from 'react';
+import { View, Text, StyleSheet, Modal } from 'react-native';
 
-const ConfirmationMessage = ({ message, onPress }) => {
-    const opacity = useState(new Animated.Value(0)) [0]
-
-
-    useEffect(() => {
-        Animated.timing(opacity, {
-            toValue: 1,
-            duration: 1000,
-            useNativeDriver: true
-        }).start()
-    }, [opacity]);
-
-
+const ConfirmationMessage = ({ message }) => {
     return (
         <Modal
             animationType="fade"
             transparent={true}
             onRequestClose={() => {}}>
             <View style={styles.container}>
-                <Animated.View>
-                <View style={[styles.confirmationContainer, {opacity}]}>
+                <View style={styles.confirmationContainer}>
                     <Text style={styles.message}>{message}</Text>
                 </View>
-                </Animated.View>
             </View>
         </Modal>
     );
@@ -36,9 +22,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         position: 'absolute',
-        width: '105%',
-        height: '20%',
-        marginTop: 300,
+        width: '100%',
+        height: '100%',
     },
     confirmationContainer: {
         backgroundColor: '#0180ee',
@@ -53,7 +38,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         marginLeft: 10,
         marginRight: 10,
-        alignItems: "center",
+        textAlign: 'center',
     },
 });
 

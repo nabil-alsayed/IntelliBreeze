@@ -33,6 +33,7 @@ export default function TemperatureThresholdSettings() {
     const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
         if (lowToMediumRange > mediumToHighRange) {
             setShowWarning(true);
+            setShowConfirmation(false);
         } else {
             setShowWarning(false);
             setShowConfirmation(true);
