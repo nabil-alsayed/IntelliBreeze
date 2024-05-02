@@ -11,10 +11,21 @@ const AddModeForm = () => {
     const [modeName, setModeName ] = useState('');
     const [selectedIcon, setSelectedIcon] = useState('home');
     const [fanSpeed, setFanSpeed] = useState([0])
+    const [formValid, setFormValid] = useState(false);
     const {setModalVisible} = useContext(ModeFormContext)
+
     const handleModalClose = () => { setModalVisible(false) }
 
+    //to Validate forms input fields
+    const validateForm = () => {
+        return modeName.length <= 12 && modeName.length > 0 && selectedIcon && fanSpeed[0] > 0;
+    };
+
     const submitMode = async () => {
+        if (!validateForm()) {
+            alert('Please fill in all fields correctly.');
+            return;
+        }
         try {
             const docRef = await addDoc(collection(db,"modes"), {
                 ModeName: modeName,
@@ -32,35 +43,44 @@ const AddModeForm = () => {
     let screenWidth = Dimensions.get('window').width - 150;
     return (
         <View style={styles.form}>
-            <View style={styles.settingField}>
-                <Text style={styles.label}>Choose Mode Name</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={text => setModeName(text)}
-                    value={modeName}
-                    placeholder="Mode Name"
-                />
-            </View>
-            <View style={styles.settingField}>
-                <Text style={styles.label}> Choose Mode Icon</Text>
-                <IconPicker onSelectIcon={icon => setSelectedIcon(icon)} selectedIcon={selectedIcon}/>
-            </View>
-            <View style={styles.settingField}>
-                <Text style={styles.label}> Choose Fan Speed</Text>
-                <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",columnGap:15}}>
-                    <MultiSlider
-                        sliderLength={screenWidth}
-                        onValuesChange={(values) => setFanSpeed(values)}
-                        min={0}
-                        max={100}
-                        step={1}
-                        allowOverlap={false}
-                    />
-                    <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
-                </View>
-            </View>
-            <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} onPress={submitMode}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
             <ModeFormContext.Provider value={setModalVisible}>
+                <View style={styles.settingField}>
+                    <Text style={styles.label}>Choose Mode Name</Text>
+                    <TextInput
+                        style={styles.input}
+                        onChangeText={text => {
+                            setModeName(text);
+                            setFormValid(validateForm());
+                        }}
+                        value={modeName}
+                        placeholder="Mode Name"
+                        maxLength={12}
+                    />
+                </View>
+                <View style={styles.settingField}>
+                    <Text style={styles.label}> Choose Mode Icon</Text>
+                    <IconPicker onSelectIcon={icon => setSelectedIcon(icon)} selectedIcon={selectedIcon}/>
+                </View>
+                <View style={styles.settingField}>
+                    <Text style={styles.label}> Choose Fan Speed</Text>
+                    <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",columnGap:15}}>
+                        <MultiSlider
+                            sliderLength={screenWidth}
+                            onValuesChange={(values) => {
+                                setFanSpeed(values);
+                                setFormValid(validateForm());
+                            }
+                        }
+                            min={0}
+                            max={100}
+                            step={1}
+                            allowOverlap={false}
+                        />
+                        <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
+                    </View>
+                </View>
+                <Pressable style={[styles.button,{backgroundColor: validateForm() === true ? "#169EFFFF" : "#909092"}]} onPress={submitMode}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
+                <Pressable style={[styles.button,{backgroundColor:"#ff1631"}]} onPress={handleModalClose}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
             </ModeFormContext.Provider>
         </View>
     )
