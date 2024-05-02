@@ -61,21 +61,15 @@ const ModesDisplayWidget = () => {
         </View>
         <View style={{width:160}}>
           <FlatList
-              data={TemporaryData}
+              data={modes}
               keyExtractor={item => item.id}
               horizontal={true}
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <View>
-                    <TouchableOpacity onPress={() => setSelectedModeId(item.id)}>
-                      <Mode
-                          iconName={item.customModes.icon}
-                          modeName={item.customModes.modeName}
-                          selected={item.id === selectedModeId}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)}>
+                    <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
+                  </TouchableOpacity>
               )}
               showsVerticalScrollIndicator={false}
           />
