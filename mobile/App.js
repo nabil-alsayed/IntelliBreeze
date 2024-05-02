@@ -4,14 +4,11 @@ import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
-import { Client } from "paho-mqtt";
-import {tempUnitContext} from "./components/Metric";
+import { Client,Message } from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
-
-  const tempUnit = useContext(tempUnitContext);
-
+  const [tempUnit, setTempUnit] = useState('°C');
 
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
@@ -44,9 +41,9 @@ export default function App({ name = "Nabil" }) {
          tempUnitString = 'K'
          console.log("kelvin");
        }
-        const tempUnitMessage = new Paho.Message(tempUnitString);
+        const tempUnitMessage = new Message(tempUnitString);
        tempUnitMessage.destinationName = "/intellibreeze/app/tempUnit"
-        client.publish(tempUnitMessage);
+        client.send(tempUnitMessage);
       },
       onFailure: () => {
         console.log("Failed to connect!");
