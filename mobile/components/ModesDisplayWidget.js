@@ -34,15 +34,15 @@ const TemporaryData = [
     }
   },
 ];
+import {ModeFormContext} from "../contexts/ModeFormContext";
 
 const ModesDisplayWidget = () => {
 
   const [selectedModeId, setSelectedModeId] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const { modalVisible, setModalVisible } = useContext(ModeFormContext);
 
-    const handleOpenModal = () => {
-        setModalVisible(true);
-    };
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
 
     const handleCloseModal = () => {
         setModalVisible(false);
