@@ -8,6 +8,12 @@ import SaveButton from "../components/SaveButton";
 import WarningMessage from "../components/WarningMessage";
 import ConfirmationMessage from "../components/ConfirmationMessage";
 library.add(faFan);
+import 'firebase/database';
+import { db } from "../firebaseConfig";
+import {initializeApp} from "firebase/app";
+import { collection, addDoc } from "firebase/firestore"
+
+
 
 export default function TemperatureThresholdSettings() {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -15,6 +21,7 @@ export default function TemperatureThresholdSettings() {
     const [preferredUnit, setPreferredUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const collectionRef = collection(db, 'temperatureThresholds');
 
 
     const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
@@ -30,13 +37,28 @@ export default function TemperatureThresholdSettings() {
         setPreferredUnit('C');
     }, []);
 
-    const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
-        if (lowToMediumRange > mediumToHighRange) {
+    async function addThreshold (lowToMediumRange, mediumToHighRange) {
+
+        const newThresholds = {
+            LowToMediumRange: lowToMediumRange,
+            MediumToHighRange: mediumToHighRange
+        }
+        try {
+            const thresholdRef = await addDoc(collectionRef, newThresholds);
+        } catch (error) {
+            console.error("Failed to save!");
+            alert("Failed to save. Please try again later. ");
+        }
+    }
+
+    const checkThreshold = (lowToMediumRange, mediumToHighRange) => { //this is the core method which verifies the slider input
+        if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
             setShowWarning(true);
             setShowConfirmation(false);
         } else {
             setShowWarning(false);
-            setShowConfirmation(true);
+            addThreshold(lowToMediumRange, mediumToHighRange).then(r => setShowConfirmation(true)); //threshold addition is successful hence we return confirmation message
+
         }
     }
 
@@ -75,7 +97,9 @@ export default function TemperatureThresholdSettings() {
                 />
             </View>
 
+
             <View style={styles.line}></View>
+
 
             {/*MEDIUM to HIGH Slider begins here*/}
             <View style={styles.adjustmentContainerMH}>
@@ -109,6 +133,8 @@ export default function TemperatureThresholdSettings() {
                 }} />
             </View>
 
+
+            {/*condition and execution to show the warning message*/}
             {showWarning && (
 
                 <WarningMessage
@@ -121,6 +147,7 @@ export default function TemperatureThresholdSettings() {
 
             )}
 
+            {/*condition and execution to show the confirmation message*/}
             {showConfirmation && (
 
                    <ConfirmationMessage
