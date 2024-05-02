@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
+import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
@@ -36,21 +37,30 @@ export default function App({ name = "Nabil" }) {
 
   return (
     <View style={styles.container}>
-      <Header name={name} />
-      <MetricsDisplayWidget value={value} />
-      <StatusBar style="auto" />
+      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} style={styles.innerContainer} contentContainerStyle={styles.innerContainer}>
+        <Header name={name} style={{position:"sticky"}}/>
+        <MetricsDisplayWidget value={value} />
+        <ModeDisplayWidget />
+        <StatusBar style="auto" />
+      </ScrollView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex:1,
+    alignItems: "flex-start",
+    flexDirection: "column",
+    justifyContent: "start",
     backgroundColor: "#f3f3f3",
-    alignItems: "center",
-    justifyContent: "flex-start",
     paddingTop: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingHorizontal:20,
+    width:"100%"
+  },
+  innerContainer: {
+    flexDirection: "column",
+    width:"100%",
+    rowGap:20
   },
 });
