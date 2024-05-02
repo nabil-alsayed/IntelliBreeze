@@ -90,7 +90,6 @@ const ModesDisplayWidget = () => {
 
             <AddModeForm/>
 
-            <Pressable style={[styles.button,{backgroundColor:"#ff1631",}]} onPress={handleCloseModal}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
           </View>
 
       </Modal>
