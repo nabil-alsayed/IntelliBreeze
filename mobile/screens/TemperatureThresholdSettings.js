@@ -37,14 +37,14 @@ export default function TemperatureThresholdSettings() {
         setPreferredUnit('C');
     }, []);
 
-    async function addThreshold (lowToMediumRange, mediumToHighRange) {
+    async function addThreshold (lowToMediumRange, mediumToHighRange) { //this method is repsonsible for adding the slider values to the firebase
 
         const newThresholds = {
             LowToMediumRange: lowToMediumRange,
             MediumToHighRange: mediumToHighRange
         }
         try {
-            const thresholdRef = await addDoc(collectionRef, newThresholds);
+            await addDoc(collectionRef, newThresholds);
         } catch (error) {
             console.error("Failed to save!");
             alert("Failed to save. Please try again later. ");
@@ -141,9 +141,14 @@ export default function TemperatureThresholdSettings() {
                     message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
                     This means that the fan will run faster at a lower temperature.
                     Are you sure you want this?"
-                    onPress={() => setShowWarning(false)}
-                />
+                    onPressCancel={() => setShowWarning(false)}
+                    onPressSave={()=> {
+                        addThreshold(lowToMediumRange, mediumToHighRange) //function to store values to firebase is called
+                            .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
+                            .then(setShowConfirmation(true)); //threshold addition is successful hence we return confirmation message
 
+                    }}
+                />
 
             )}
 
