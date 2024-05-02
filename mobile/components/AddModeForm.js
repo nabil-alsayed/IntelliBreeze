@@ -1,15 +1,18 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {Text, View, StyleSheet, TextInput, Dimensions, Pressable} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
 import { collection, addDoc } from "firebase/firestore";
+import { ModeFormContext } from "../contexts/ModeFormContext";
 
 const AddModeForm = () => {
 
     const [modeName, setModeName ] = useState('');
     const [selectedIcon, setSelectedIcon] = useState('home');
     const [fanSpeed, setFanSpeed] = useState([0])
+    const {setModalVisible} = useContext(ModeFormContext)
+    const handleModalClose = () => { setModalVisible(false) }
 
     const submitMode = async () => {
         try {
@@ -57,6 +60,8 @@ const AddModeForm = () => {
                 </View>
             </View>
             <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} onPress={submitMode}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
+            <ModeFormContext.Provider value={setModalVisible}>
+            </ModeFormContext.Provider>
         </View>
     )
 }
