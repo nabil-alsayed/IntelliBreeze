@@ -34,6 +34,7 @@ const AddModeForm = () => {
             });
             console.log("Document written with ID: ", docRef.id);
             alert('Mode added successfully!');
+            handleModalClose();
         } catch (error) {
             console.error("Failed to add mode:", error);
             alert('Failed to add mode');
