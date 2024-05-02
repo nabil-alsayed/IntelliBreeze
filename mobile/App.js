@@ -11,7 +11,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 
 export default function App({ name = "Nabil" }) {
-  const [value, setValue] = useState(0);
+  const [temperature, setTemperature] = useState(0);
+  const [fanSpeed, setFanSpeed] = useState(0);
 
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
@@ -25,11 +26,13 @@ export default function App({ name = "Nabil" }) {
     const onMessageArrived = (message) => {
   
       if (message.destinationName === TEMP_SUB_TOPIC) {
+        setTemperature(parseInt(message.payloadString));
         console.log("temperature:", message.payloadString);
-        setValue(parseInt(message.payloadString));
       }else if(message.destinationName === MANUAL_FAN_SPEED_SUB_TOPIC){  // Based on what topic the message belongs the that particular message will be printed on the console
+        setFanSpeed(parseInt(message.payloadString));
         console.log("fan speed (Manual Mode)", message.payloadString);
       }else if(message.destinationName === AUTO_FAN_SPEED_SUB_TOPIC){
+        setFanSpeed(parseInt(message.payloadString));
         console.log("fan speed (Automatic Mode)", message.payloadString);
       }
     };
@@ -57,7 +60,7 @@ export default function App({ name = "Nabil" }) {
                    name="Home"
                    options={{ headerShown: false }}
                >
-                   {(props) => <HomeScreen {...props} name={name}/>}
+                   {(props) => <HomeScreen {...props} name={name} temperature = {temperature} fanSpeed = {fanSpeed}/>}
                </Stack.Screen>
                <Stack.Screen name="FanSpeedScreen" component={FanSpeedScreen} />
            </Stack.Navigator>
@@ -67,11 +70,11 @@ export default function App({ name = "Nabil" }) {
 
 const Stack = createStackNavigator();
 
-const HomeScreen = ({ navigation, name, value }) => (
+const HomeScreen = ({ name, navigation, fanSpeed, temperature}) => (
   <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value}/>
-      <FanSpeedDisplayWidget navigation = {navigation}/>
+      <MetricsDisplayWidget value={temperature}/>
+      <FanSpeedDisplayWidget value = {fanSpeed} navigation = {navigation}/>
       <StatusBar style="auto" />
   </View>
 );

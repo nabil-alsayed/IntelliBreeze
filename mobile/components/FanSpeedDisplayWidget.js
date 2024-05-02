@@ -7,6 +7,7 @@ const FanSpeedDisplayWidget = ({ value, navigation }) => {
     const handleButtonPress = () => {
       navigation.navigate("FanSpeedScreen");
     };
+    
   return (
     <View style={styles.container}>
         <FanSpeedButton
