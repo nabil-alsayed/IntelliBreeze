@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, StyleSheet, Modal } from 'react-native';
+import {View, Text, StyleSheet, Modal, Button} from 'react-native';
 
-const ConfirmationMessage = ({ message }) => {
+const ConfirmationMessage = ({ message, onPress }) => {
     return (
         <Modal
             animationType="fade"
@@ -10,7 +10,9 @@ const ConfirmationMessage = ({ message }) => {
             <View style={styles.container}>
                 <View style={styles.confirmationContainer}>
                     <Text style={styles.message}>{message}</Text>
+                        <Button title="OK" onPress={onPress} color = "gold" />
                 </View>
+
             </View>
         </Modal>
     );
