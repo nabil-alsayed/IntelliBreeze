@@ -17,9 +17,17 @@ const ModesDisplayWidget = () => {
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
 
-    const handleCloseModal = () => {
-        setModalVisible(false);
-    };
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
+      const fetchedModes = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setModes(fetchedModes);
+    });
+
+    return () => unsubscribe();  // Clean up the subscription
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
