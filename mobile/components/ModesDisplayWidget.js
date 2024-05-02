@@ -5,6 +5,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
+import { collection, onSnapshot } from "firebase/firestore";
+import {db} from "../firebaseConfig";
 
 const ModesDisplayWidget = () => {
 
