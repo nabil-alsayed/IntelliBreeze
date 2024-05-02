@@ -1,39 +1,9 @@
-import React, {useState} from "react";
-import {FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {useContext, useEffect, useState} from "react";
+import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
-
-const TemporaryData = [
-  {
-    id: '1',
-    name: 'John Doe',
-    customModes: {
-      icon: 'fan',
-      modeName: 'Night Mode',
-      selected:true
-    }
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    customModes: {
-      icon: 'sun',
-      modeName: 'Day Mode',
-      selected:false
-    }
-  },
-  {
-    id: '3',
-    name: 'Jane Smith',
-    customModes: {
-      icon: 'car',
-      modeName: 'Car Mode',
-      selected:false
-    }
-  },
-];
 import {ModeFormContext} from "../contexts/ModeFormContext";
 
 const ModesDisplayWidget = () => {
