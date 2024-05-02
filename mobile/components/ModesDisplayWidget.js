@@ -10,6 +10,7 @@ import {db} from "../firebaseConfig";
 
 const ModesDisplayWidget = () => {
 
+  const [modes, setModes] = useState([]);
   const [selectedModeId, setSelectedModeId] = useState(null);
   const { modalVisible, setModalVisible } = useContext(ModeFormContext);
 
