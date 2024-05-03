@@ -1,12 +1,14 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
+import { ModeFormProvider } from "./contexts/ModeFormContext";
 
 export default function App({ name = "Nabil" }) {
+
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -36,27 +38,30 @@ export default function App({ name = "Nabil" }) {
   }, []);
 
   return (
-    <View style={styles.container}>
-      <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} style={styles.innerContainer} contentContainerStyle={styles.innerContainer}>
-        <Header name={name} style={{position:"sticky"}}/>
-        <MetricsDisplayWidget value={value} />
-        <ModeDisplayWidget />
-        <StatusBar style="auto" />
-      </ScrollView>
-    </View>
+      <ModeFormProvider>
+        <View style={styles.container}>
+          <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
+              <Header name={name} style={{position:"sticky"}}/>
+              <MetricsDisplayWidget value={value} />
+              <ModeDisplayWidget />
+              <StatusBar style="auto" />
+          </ScrollView>
+        </View>
+      </ModeFormProvider>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    alignItems: "flex-start",
+    alignItems: "center",
     flexDirection: "column",
-    justifyContent: "start",
+    justifyContent: "center",
     backgroundColor: "#f3f3f3",
     paddingTop: 50,
     paddingHorizontal:20,
-    width:"100%"
+    width:"100%",
+    height:"100"
   },
   innerContainer: {
     flexDirection: "column",

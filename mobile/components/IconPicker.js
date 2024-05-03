@@ -17,7 +17,7 @@ const IconPicker = ({ onSelectIcon, selectedIcon }) => {
                 ))}
             </ScrollView>
             <Divider orientation="vertical" size={2}/>
-            <View style={[styles.iconOption, {backgroundColor: "green"}]}>
+            <View style={[styles.iconOption, {backgroundColor: "#398e15"}]}>
                 <Icon name={selectedIcon} size={25} color={"#fff"}/>
             </View>
         </View>

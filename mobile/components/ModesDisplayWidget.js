@@ -1,53 +1,48 @@
-import React, {useState} from "react";
-import {FlatList, Modal, Pressable, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, {useContext, useEffect, useState} from "react";
+import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {AntDesign} from "@expo/vector-icons";
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
-
-const TemporaryData = [
-  {
-    id: '1',
-    name: 'John Doe',
-    customModes: {
-      icon: 'fan',
-      modeName: 'Night Mode',
-      selected:true
-    }
-  },
-  {
-    id: '2',
-    name: 'Jane Smith',
-    customModes: {
-      icon: 'sun',
-      modeName: 'Day Mode',
-      selected:false
-    }
-  },
-  {
-    id: '3',
-    name: 'Jane Smith',
-    customModes: {
-      icon: 'car',
-      modeName: 'Car Mode',
-      selected:false
-    }
-  },
-];
+import {ModeFormContext} from "../contexts/ModeFormContext";
+import { collection, onSnapshot } from "firebase/firestore";
+import {db} from "../firebaseConfig";
+import ModeSettingsForm from "./ModeSettingsForm";
 
 const ModesDisplayWidget = () => {
 
-  const [selectedModeId, setSelectedModeId] = useState(null);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
+  const [currentModeDetails, setCurrentModeDetails] = useState({});
+  const {
+    modes,
+    setModes,
+    modalVisible,
+    setModalVisible,
+    modeEditModalVisible,
+    setModeEditModalVisible
+  } = useContext(ModeFormContext);
 
-    const handleOpenModal = () => {
-        setModalVisible(true);
-    };
 
-    const handleCloseModal = () => {
-        setModalVisible(false);
-    };
+  const handleLongPress = (mode) => {
+    setCurrentModeDetails(mode);
+    setModeEditModalVisible(true);
+  };
+
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
+
+  useEffect(() => {
+    const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
+      const fetchedModes = querySnapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+      setModes(fetchedModes);
+    });
+
+    return () => unsubscribe();  // Clean up the subscription
+  }, []);
 
   return (
     <View style={styles.mainContainer}>
@@ -81,24 +76,29 @@ const ModesDisplayWidget = () => {
         </View>
         <View style={{width:160}}>
           <FlatList
-              data={TemporaryData}
+              data={modes}
               keyExtractor={item => item.id}
               horizontal={true}
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <View>
-                    <TouchableOpacity onPress={() => setSelectedModeId(item.id)}>
-                      <Mode
-                          iconName={item.customModes.icon}
-                          modeName={item.customModes.modeName}
-                          selected={item.id === selectedModeId}
-                      />
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
+                    <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
+                  </TouchableOpacity>
               )}
               showsVerticalScrollIndicator={false}
           />
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modeEditModalVisible}
+              style={{width:"100%", height:"100%"}}
+              onRequestClose={() => setModalVisible(false)}
+          >
+            <ModeSettingsForm
+                modeId={currentModeDetails.id}
+            />
+          </Modal>
         </View>
       </View>
       <Modal
@@ -107,17 +107,8 @@ const ModesDisplayWidget = () => {
           visible={modalVisible}
           onRequestClose={handleCloseModal}
       >
-          <View style={styles.modalView}>
 
-            <TouchableOpacity style={{position:"absolute", top:65, right:35} } onPress={handleCloseModal} >
-                <AntDesign name={"close"} size={30} />
-            </TouchableOpacity>
-
-            <AddModeForm/>
-
-            <Pressable style={[styles.button,{backgroundColor:"#169EFFFF",}]} ><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
-            <Pressable style={[styles.button,{backgroundColor:"#ff1631",}]} onPress={handleCloseModal}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
-          </View>
+        <AddModeForm style={styles.modalView}/>
 
       </Modal>
     </View>
