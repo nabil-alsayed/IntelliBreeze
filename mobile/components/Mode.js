@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const MetricsDisplayWidget = ( props ) => {
+const Mode = ( props ) => {
   return (
       <View style={styles.mainContainer}>
         <View style={[styles.modeContainer, {backgroundColor : props.selected === true ? "#169EFFFF" : "#fff"}]}>
@@ -34,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MetricsDisplayWidget;
+export default Mode;
