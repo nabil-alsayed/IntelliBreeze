@@ -115,9 +115,13 @@ const styles = StyleSheet.create({
         flexDirection: "column",
         width:"100%",
         alignItems: "center",
-        justifyContent:"center",
-        rowGap:10,
+        justifyContent:"flex-start",
+        rowGap:20,
         borderRadius:20,
+        backgroundColor:"#fff",
+        paddingHorizontal:20,
+        paddingTop:100,
+        flex:1
     },
     input: {
         height: 40,
