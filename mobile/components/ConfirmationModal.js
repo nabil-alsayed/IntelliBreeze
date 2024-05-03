@@ -57,6 +57,9 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         shadowOpacity:0.1,
+        shadowOffset:5,
+        shadowRadius:8,
+        flexShrink:1,
     },
     container: {
         backgroundColor: "#fff",
@@ -64,23 +67,35 @@ const styles = StyleSheet.create({
         padding: 20,
         justifyContent: "center",
         alignItems: "center",
-        width: 350,
-        height:200,
-        rowGap:20
+        width: "100%",
+        height:"100%",
+        rowGap:25,
+    },
+    label:{
+        fontSize:18,
+        fontWeight:"400"
     },
     buttonsContainer:{
         flexDirection:"row",
+        justifyContent:"space-evenly",
         columnGap:20
     },
     button:{
         color:"#fff",
-        width:100,
-        height:45,
+        height:55,
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        backgroundColor: "#169EFFFF",
+        borderRadius: 15,
+        flex:1,
+        borderStyle:"solid",
+        shadowOffset:0.5,
+        shadowOpacity:0.1
     },
     buttonText:{
-        color:"#000"
+        color:"#fff",
+        fontWeight:"400",
+        fontSize:18
     }
 });
 
