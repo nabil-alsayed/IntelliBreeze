@@ -21,7 +21,7 @@
   int value;
   
   const char* TEMP_PUB_TOPIC;
-  const char* TEMP_SUB_TOPIC;
+  const char* PREF_TEMP_SUB_TOPIC;
   const char* MANUAL_FAN_SPEED_SUB_TOPIC ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC =; //Topic for WIO to publish

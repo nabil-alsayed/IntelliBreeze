@@ -16,10 +16,10 @@ export default function App({ name = "Nabil" }) {
 
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
-    const client = new Client("broker.hivemq.com", 8000, clientId);
+    const client = new Client("broker.hivemq.com", Number(8000), clientId);
 
     const TEMP_SUB_TOPIC = "/intellibreeze/sensor/temperature"; //Intialising all the topics as variables
-    const MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed";
+    const MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/app/manual/fanspeed";
     const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
 
  
@@ -28,7 +28,7 @@ export default function App({ name = "Nabil" }) {
       if (message.destinationName === TEMP_SUB_TOPIC) {
         setTemperature(parseInt(message.payloadString));
         console.log("temperature:", message.payloadString);
-      }else if(message.destinationName === MANUAL_FAN_SPEED_SUB_TOPIC){  // Based on what topic the message belongs the that particular message will be printed on the console
+      }else if(message.destinationName === MANUAL_FAN_SPEED_PUB_TOPIC){  // Based on what topic the message belongs the that particular message will be printed on the console
         setFanSpeed(parseInt(message.payloadString));
         console.log("fan speed (Manual Mode)", message.payloadString);
       }else if(message.destinationName === AUTO_FAN_SPEED_SUB_TOPIC){
@@ -44,7 +44,6 @@ export default function App({ name = "Nabil" }) {
         console.log("Connected Successfully");
         client.subscribe(TEMP_SUB_TOPIC);
         client.subscribe(AUTO_FAN_SPEED_SUB_TOPIC);
-        client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
       }, 
       onFailure: () => {
         console.log("Failed to connect!");
@@ -73,7 +72,7 @@ const Stack = createStackNavigator();
 const HomeScreen = ({ name, navigation, fanSpeed, temperature}) => (
   <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={temperature}/>
+      <MetricsDisplayWidget  value = {temperature}/>
       <FanSpeedDisplayWidget value = {fanSpeed} navigation = {navigation}/>
       <StatusBar style="auto" />
   </View>

@@ -20,11 +20,16 @@
   
   //MQTT Topics for Publish and Subscribe
   TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
-  TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+  PREF_TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
   MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
 
+
+  void setupClient(){
+      client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
+      client.subscribe(PREF_TEMP_SUB_TOPIC);
+  }
 
   void setup_wifi() {
   delay(10);
@@ -35,10 +40,12 @@
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password); // Connecting WiFi
+  
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
+
   Serial.println("");
   Serial.println("WiFi connected");
   tft.fillScreen(TFT_BLACK);
@@ -53,10 +60,12 @@
     Serial.print(topic);
     Serial.print("] ");
     char buff_p[length];
+
     for (int i = 0; i < length; i++) {
       Serial.print((char)payload[i]);
       buff_p[i] = (char)payload[i];
     }
+    
     Serial.println();
     buff_p[length] = '\0';
     String msg_p = String(buff_p);
