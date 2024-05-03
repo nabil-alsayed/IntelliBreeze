@@ -91,7 +91,13 @@ const AddModeForm = () => {
                             min={1}
                             max={100}
                             step={1}
-                            allowOverlap={false}
+                            selectedStyle={{
+                                backgroundColor: '#169EFFFF',
+                            }}
+                            unselectedStyle={{
+                                backgroundColor: '#d3d3d3',
+                            }}
+                            containerStyle={styles.slider}
                         />
                         <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
                     </View>
