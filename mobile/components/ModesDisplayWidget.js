@@ -107,15 +107,8 @@ const ModesDisplayWidget = () => {
           onRequestClose={handleCloseModal}
           style={{width:"100%", height:"100%"}}
       >
-          <View style={styles.modalView}>
 
-            <View style={{position:"absolute", top:20, right:20}}>
-                <Icon name={"close"} size={20} onPress={handleCloseModal}/>
-            </View>
-
-            <AddModeForm/>
-
-          </View>
+        <AddModeForm style={styles.modalView}/>
 
       </Modal>
     </View>
