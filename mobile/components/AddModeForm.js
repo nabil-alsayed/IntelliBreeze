@@ -71,8 +71,8 @@ const AddModeForm = () => {
                         style={styles.input}
                         onChangeText={text => {
                             setModeName(text);
-                            setFormValid(validateForm());
                         }}
+                        onEndEditing={() => setFormValid(validateForm())}
                         value={modeName}
                         placeholder="Mode Name"
                         maxLength={12}
