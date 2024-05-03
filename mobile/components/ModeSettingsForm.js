@@ -71,7 +71,7 @@ const ModeSettingsForm = ({modeId} ) => {
 
     return (
     <View style={styles.form}>
-            <ConfirmationModal style={styles.modal} actionTitle={"Log Out"} visibility={modeConfirmationModalVisible} modeId={modeId}/>
+            <ConfirmationModal style={styles.modal} actionTitle={"Delete the mode"} visibility={modeConfirmationModalVisible} modeId={modeId}/>
             <View style={styles.settingField}>
                 <Text style={styles.label}>Choose Mode Name</Text>
                 <TextInput
