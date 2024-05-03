@@ -132,20 +132,26 @@ const styles = StyleSheet.create({
         width:"100%",
     },
     label: {
-        fontWeight:"600",
-        fontSize:15
+        fontWeight:"400",
+        fontSize:18
     },
     button:{
         borderRadius:15,
-        backgroundColor:"#169EFFFF",
-        width: "100%",
         height: 50,
         justifyContent:"center",
-        alignItems:"center"
+        alignItems:"center",
+        borderStyle:"solid",
+        shadowOffset:0.5,
+        shadowOpacity:0.1,
+        width:"100%"
+    },
+    buttonText:{
+        fontWeight:"400",
+        fontSize:18
     },
     settingField:{
         width:"100%",
-        rowGap:10,
+        rowGap:20,
         flexShrink:1,
         padding:15
     }
