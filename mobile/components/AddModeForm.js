@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TextInput, Dimensions, Pressable} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Pressable} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
