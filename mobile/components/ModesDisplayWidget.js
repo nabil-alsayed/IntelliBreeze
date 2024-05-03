@@ -7,10 +7,10 @@ import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
 import { collection, onSnapshot } from "firebase/firestore";
 import {db} from "../firebaseConfig";
-import ModeDetailsModal from "./ModeDetailsModal";
+import ModeSettingsForm from "./ModeSettingsForm";
 
 const ModesDisplayWidget = () => {
-  
+
   const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
@@ -94,7 +94,7 @@ const ModesDisplayWidget = () => {
               style={{width:"100%", height:"100%"}}
               onRequestClose={() => setModalVisible(false)}
           >
-            <ModeDetailsModal
+            <ModeSettingsForm
                 modeId={currentModeDetails.id}
             />
           </Modal>
