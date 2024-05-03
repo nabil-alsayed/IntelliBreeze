@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, View, StyleSheet, TextInput, Pressable} from 'react-native';
+import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
@@ -101,8 +101,10 @@ const AddModeForm = () => {
                         <Text style={{fontSize:15, fontWeight:"bold"}}>{fanSpeed}</Text>
                     </View>
                 </View>
-                <Pressable style={[styles.button,{backgroundColor: validateForm() === true ? "#169EFFFF" : "#909092"}]} onPress={submitMode}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Create Mode</Text></Pressable>
-                <Pressable style={[styles.button,{backgroundColor:"#ff1631"}]} onPress={handleModalClose}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
+                <View style={{ rowGap:10, flexDirection:"column", width:"100%" }}>
+                    <TouchableOpacity style={[styles.button,{backgroundColor: validateForm() === true ? "#169EFFFF" : "#909092"}]} onPress={submitMode}><Text style={[styles.buttonText,{color:"#fff"}]}>Create Mode</Text></TouchableOpacity>
+                    <TouchableOpacity style={[styles.button,{backgroundColor:"#fff"}]} onPress={handleModalClose}><Text style={[styles.buttonText,{color:"#000"}]}>Cancel</Text></TouchableOpacity>
+                </View>
             </ModeFormContext.Provider>
         </View>
     )
