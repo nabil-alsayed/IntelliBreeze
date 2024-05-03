@@ -40,10 +40,10 @@ const ConfirmationModal = ({ modeId, visibility, action, actionTitle }) => {
             >
                     <View style={styles.modal}>
                         <View style={styles.container}>
-                            <Text>Are you sure you want to {action}?</Text>
+                            <Text style={styles.label}>Are you sure you want to {actionTitle}?</Text>
                             <View style={styles.buttonsContainer}>
-                                <TouchableOpacity style={styles.button} onPress={deleteMode} ><Text style={styles.buttonText}>Delete</Text></TouchableOpacity>
-                                <TouchableOpacity style={styles.button} title="Close" onPress={handleCloseConfirmationModal}><Text style={styles.buttonText}>Close</Text></TouchableOpacity>
+                                <TouchableOpacity style={styles.button} onPress={deleteMode} ><Text style={styles.buttonText}>I'm sure!</Text></TouchableOpacity>
+                                <TouchableOpacity style={[styles.button,{backgroundColor: "#d40808"}]} title="Close" onPress={handleCloseConfirmationModal}><Text style={styles.buttonText}>Cancel</Text></TouchableOpacity>
                             </View>
                         </View>
                     </View>
