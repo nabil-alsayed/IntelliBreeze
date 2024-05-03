@@ -100,9 +100,11 @@ const ModeSettingsForm = ({modeId} ) => {
                     <Text style={{fontSize:15, fontWeight:"bold"}}>{modeDetails.fanSpeed.toString()}</Text>
                 </View>
             </View>
-            <Pressable style={[styles.button,{backgroundColor: validateForm() === true ? "#169EFFFF" : "#909092"}]} onPress={submitModification}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Apply Changes</Text></Pressable>
-            <Pressable style={[styles.button,{backgroundColor:"#ff1631"}]} onPress={handleOpenConfirmationModal}><Text style={{color:"white", fontSize:20, fontWeight:500}}>Delete</Text></Pressable>
-            <Pressable style={[styles.button,{backgroundColor:"#ffffff"}]} onPress={handleModalClose}><Text style={{color:"black", fontSize:20, fontWeight:500}}>Cancel</Text></Pressable>
+            <View style={{flexDirection:"row",columnGap:20,justifyContent:"space-around",width: "100%"}}>
+                <TouchableOpacity style={[styles.button,{backgroundColor: validateForm() ? "#169EFFFF" : "#909092",flex:1}]} onPress={submitModification}><Text style={[styles.buttonText,{color:"#fff"}]}>Apply Changes</Text></TouchableOpacity>
+                <TouchableOpacity style={[styles.button,{backgroundColor:"#d40808",width:"25%"}]} onPress={handleOpenConfirmationModal}><Icon name={"trash"} size={25} color={"white"}/></TouchableOpacity>
+            </View>
+            <TouchableOpacity style={[styles.button,{backgroundColor:"#ffffff",width: "100%"}]} onPress={handleModalClose}><Text style={[styles.buttonText,{color:"#000"}]}>Cancel</Text></TouchableOpacity>
     </View>
 )
 }
