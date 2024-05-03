@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
         width:"100%",
         alignItems: "center",
         justifyContent:"flex-start",
-        rowGap:10,
+        rowGap:20,
         borderRadius:20,
         backgroundColor:"#fff",
         paddingHorizontal:20,
@@ -131,22 +131,25 @@ const styles = StyleSheet.create({
         width:"100%",
     },
     label: {
-        fontWeight:"600",
-        fontSize:15
+        fontWeight:"400",
+        fontSize:18
     },
     button:{
         borderRadius:15,
-        width: "100%",
         height: 50,
         justifyContent:"center",
         alignItems:"center",
         borderStyle:"solid",
-        shadowOffset:2,
-        shadowOpacity:0.2
+        shadowOffset:0.5,
+        shadowOpacity:0.1
+    },
+    buttonText:{
+        fontWeight:"400",
+        fontSize:18
     },
     settingField:{
         width:"100%",
-        rowGap:10,
+        rowGap:20,
         flexShrink:1,
         padding:15
     },
