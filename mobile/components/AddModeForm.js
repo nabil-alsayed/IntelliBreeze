@@ -19,6 +19,11 @@ const AddModeForm = () => {
 
     const handleModalClose = () => { setModalVisible(false) }
 
+    const handleValuesChange = (values) => {
+        setFanSpeed(values);
+        setFormValid(validateForm())
+    };
+
     //to Validate forms input fields
     const validateForm = () => {
         return modeName.length <= 12 && modeName.length > 0 && selectedIcon && fanSpeed[0] > 0;
@@ -81,13 +86,9 @@ const AddModeForm = () => {
                     <Text style={styles.label}> Choose Fan Speed</Text>
                     <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",columnGap:15}}>
                         <MultiSlider
-                            sliderLength={screenWidth}
-                            onValuesChange={(values) => {
-                                setFanSpeed(values);
-                                setFormValid(validateForm());
-                            }
-                        }
-                            min={0}
+                            values={[0]}
+                            onValuesChange={handleValuesChange}
+                            min={1}
                             max={100}
                             step={1}
                             allowOverlap={false}
