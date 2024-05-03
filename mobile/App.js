@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect, useContext} from "react";
 import { StyleSheet, View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
@@ -54,13 +54,14 @@ export default function App({ name = "Nabil" }) {
 const styles = StyleSheet.create({
   container: {
     flex:1,
-    alignItems: "flex-start",
+    alignItems: "center",
     flexDirection: "column",
-    justifyContent: "start",
+    justifyContent: "center",
     backgroundColor: "#f3f3f3",
     paddingTop: 50,
     paddingHorizontal:20,
-    width:"100%"
+    width:"100%",
+    height:"100"
   },
   innerContainer: {
     flexDirection: "column",
