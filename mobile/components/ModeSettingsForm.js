@@ -6,6 +6,7 @@ import { db } from "../firebaseConfig";
 import IconPicker from "./IconPicker";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import ConfirmationModal from "./ConfirmationModal";
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const ModeSettingsForm = ({modeId} ) => {
     const {
