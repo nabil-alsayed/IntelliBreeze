@@ -3,7 +3,7 @@ import {Text, View, StyleSheet, TextInput, Dimensions, Pressable} from 'react-na
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
-import { collection, addDoc } from "firebase/firestore";
+import {collection, addDoc, onSnapshot} from "firebase/firestore";
 import { ModeFormContext } from "../contexts/ModeFormContext";
 
 const AddModeForm = () => {
@@ -20,6 +20,18 @@ const AddModeForm = () => {
     const validateForm = () => {
         return modeName.length <= 12 && modeName.length > 0 && selectedIcon && fanSpeed[0] > 0;
     };
+
+    useEffect(() => {
+        const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
+            const fetchedModes = querySnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            setModes(fetchedModes);
+        });
+
+        return () => unsubscribe();  // Clean up the subscription
+    }, []);
 
     const submitMode = async () => {
         if (!validateForm()) {
