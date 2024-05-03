@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {Text, View, StyleSheet, Dimensions, TextInput, Pressable} from 'react-native';
+import {Text, View, StyleSheet, TextInput, Pressable} from 'react-native';
 import { ModeFormContext } from "../contexts/ModeFormContext";
-import { deleteDoc, updateDoc, doc } from "firebase/firestore";
+import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import IconPicker from "./IconPicker";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
@@ -10,8 +10,6 @@ import ConfirmationModal from "./ConfirmationModal";
 const ModeSettingsForm = ({modeId} ) => {
     const {
         modes,
-        setModes,
-        modeEditModalVisible,
         setModeEditModalVisible,
         modeConfirmationModalVisible,
         setModeConfirmationModalVisible

@@ -61,7 +61,6 @@ const AddModeForm = () => {
         }
     };
 
-    let screenWidth = Dimensions.get('window').width - 150;
     return (
         <View style={styles.form}>
             <ModeFormContext.Provider value={setModalVisible}>

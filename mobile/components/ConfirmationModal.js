@@ -1,11 +1,11 @@
-import React, { useContext, useState } from 'react';
-import {Modal, View, Text, Button, StyleSheet, TouchableOpacity} from "react-native";
+import React, { useContext } from 'react';
+import {Modal, View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { ModeFormContext } from "../contexts/ModeFormContext";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
 const ConfirmationModal = ({ modeId, visibility, action, actionTitle }) => {
-    const { modeEditModalVisible, setModeEditModalVisible } = useContext(ModeFormContext);
+    const { setModeEditModalVisible } = useContext(ModeFormContext);
     const { modeConfirmationModalVisible, setModeConfirmationModalVisible } = useContext(ModeFormContext);
 
     const handleCloseConfirmationModal = () => {
