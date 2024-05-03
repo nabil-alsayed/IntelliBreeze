@@ -10,9 +10,12 @@ const AddModeForm = () => {
 
     const [modeName, setModeName ] = useState('');
     const [selectedIcon, setSelectedIcon] = useState('home');
-    const [fanSpeed, setFanSpeed] = useState([0])
-    const [formValid, setFormValid] = useState(false);
-    const {setModalVisible} = useContext(ModeFormContext)
+    const [fanSpeed, setFanSpeed] = useState([0]);
+    const {
+        setModes,
+        setModalVisible,
+        setFormValid,
+    } = useContext(ModeFormContext);
 
     const handleModalClose = () => { setModalVisible(false) }
 
