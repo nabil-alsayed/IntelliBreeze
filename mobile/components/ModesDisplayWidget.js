@@ -7,12 +7,14 @@ import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
 import { collection, onSnapshot } from "firebase/firestore";
 import {db} from "../firebaseConfig";
+import ModeDetailsModal from "./ModeDetailsModal";
 
 const ModesDisplayWidget = () => {
 
-  const [modes, setModes] = useState([]);
-  const [selectedModeId, setSelectedModeId] = useState(null);
-  const { modalVisible, setModalVisible } = useContext(ModeFormContext);
+  const handleLongPress = (mode) => {
+    setCurrentModeDetails(mode);
+    setModeEditModalVisible(true);
+  };
 
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
@@ -67,12 +69,23 @@ const ModesDisplayWidget = () => {
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)}>
+                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
                     <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
                   </TouchableOpacity>
               )}
               showsVerticalScrollIndicator={false}
           />
+          <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modeEditModalVisible}
+              style={{width:"100%", height:"100%"}}
+              onRequestClose={() => setModalVisible(false)}
+          >
+            <ModeDetailsModal
+                modeId={currentModeDetails.id}
+            />
+          </Modal>
         </View>
       </View>
       <Modal
