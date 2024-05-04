@@ -24,7 +24,7 @@ const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
                 </View>
                 <View style={styles.caption}>
                     <Text numberOfLines={1} style={{fontSize:15,fontWeight:"400"}}> Electricity consumption this {""}
-                        <TouchableOpacity><Text style={{color:"#169EFFFF",bottom:-4.7,fontSize:15,fontWeight:"400"}}>{timeFrame}</Text>
+                        <TouchableOpacity onPress={handleToggleFrame}><Text style={{color:"#169EFFFF",bottom:-2.6,fontSize:15,fontWeight:"400"}}>{timeFrame}</Text>
                         </TouchableOpacity>
                     </Text>
                 </View>
