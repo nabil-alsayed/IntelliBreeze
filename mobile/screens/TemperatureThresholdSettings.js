@@ -10,8 +10,8 @@ import ConfirmationMessage from "../components/ConfirmationMessage";
 library.add(faFan);
 import 'firebase/database';
 import { db } from "../firebaseConfig";
-import {initializeApp} from "firebase/app";
-import { collection, addDoc } from "firebase/firestore"
+import { collection, updateDoc, doc} from "firebase/firestore"
+//import {defaultProps as temperatureThresholds} from "react-native-web/src/modules/forwardedProps";
 
 
 
@@ -23,6 +23,12 @@ export default function TemperatureThresholdSettings() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
 
+    const newThresholds = { //variable to store data to firestore
+        LowToMediumRange: lowToMediumRange,
+        MediumToHighRange: mediumToHighRange
+    }
+
+
 
     const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
         if (preferredUnit === 'F') {
@@ -33,23 +39,26 @@ export default function TemperatureThresholdSettings() {
         return Math.floor(temp) + '°C';
     }
 
+
+
     useEffect(() => { //This function allows modification of the preferredUnit test variable
         setPreferredUnit('C');
     }, []);
 
-    async function addThreshold (lowToMediumRange, mediumToHighRange) { //this method is repsonsible for adding the slider values to the firebase
+    async function updateThreshold () { //this method is repsonsible for adding the slider values to the firebase
 
-        const newThresholds = {
-            LowToMediumRange: lowToMediumRange,
-            MediumToHighRange: mediumToHighRange
-        }
         try {
-            await addDoc(collectionRef, newThresholds);
+            const docRef = doc(collectionRef, 'aIPlgZv2kTA4axiMAnw5')
+            await updateDoc(docRef, newThresholds);
+            console.log("Saved Successfully!")
         } catch (error) {
             console.error("Failed to save!");
             alert("Failed to save. Please try again later. ");
         }
     }
+
+
+
 
     const checkThreshold = (lowToMediumRange, mediumToHighRange) => { //this is the core method which verifies the slider input
         if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
@@ -57,10 +66,15 @@ export default function TemperatureThresholdSettings() {
             setShowConfirmation(false);
         } else {
             setShowWarning(false);
-            addThreshold(lowToMediumRange, mediumToHighRange).then(r => setShowConfirmation(true)); //threshold addition is successful hence we return confirmation message
+            updateThreshold(lowToMediumRange, mediumToHighRange).then(() => {
+                setShowConfirmation(true); //threshold addition is successful hence we return confirmation message
+
+            });
+
 
         }
     }
+
 
 
 
@@ -143,9 +157,9 @@ export default function TemperatureThresholdSettings() {
                     Are you sure you want this?"
                     onPressCancel={() => setShowWarning(false)}
                     onPressSave={()=> {
-                        addThreshold(lowToMediumRange, mediumToHighRange) //function to store values to firebase is called
+                        updateThreshold(lowToMediumRange, mediumToHighRange) //function to store values to firebase is called
                             .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
-                            .then(setShowConfirmation(true)); //threshold addition is successful hence we return confirmation message
+
 
                     }}
                 />

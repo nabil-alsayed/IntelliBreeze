@@ -9,13 +9,16 @@ import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import { Client } from "paho-mqtt";
 
 const Stack = createStackNavigator();
+const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
+const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
 
 export default function App({ name = "Nabil" }) {
     const [value, setValue] = useState(0);
 
+
     useEffect(() => {
         const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
-        const client = new Client("broker.hivemq.com", 8000, clientId);
+        const client = new Client("broker.hivemq.com", 1883, clientId);
 
         const onMessageArrived = (message) => {
             console.log("temperature:", message.payloadString);
@@ -30,6 +33,8 @@ export default function App({ name = "Nabil" }) {
             onSuccess: () => {
                 console.log("Connected Successfully");
                 client.subscribe("/intellibreeze/sensor/temperature");
+                client.send(LM_PUB_TOPIC, );
+
             },
             onFailure: () => {
                 console.log("Failed to connect!");
