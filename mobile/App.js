@@ -68,6 +68,6 @@ const styles = StyleSheet.create({
   innerContainer: {
     flexDirection: "column",
     width:"100%",
-    rowGap:20
+    rowGap:15
   },
 });
