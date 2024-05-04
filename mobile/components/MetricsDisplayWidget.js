@@ -24,13 +24,12 @@ const MetricsDisplayWidget = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row", // Aligns children (Metric components) in a row
-    // justifyContent: "space-around", // Even spacing around the Metric components
-    justifyContent: "space-evenly",
-    columnGap: 15,
-    width: "100%", // Full width to contain the Metric components
-  },
+    container: {
+        flexDirection: "row",
+        justifyContent: "space-evenly",
+        columnGap: 15,
+        width: "100%",
+    },
 });
 
 export default MetricsDisplayWidget;
