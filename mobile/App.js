@@ -5,8 +5,8 @@ import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
-import { ModeFormProvider } from "./contexts/ModeFormContext";
 import EnergyConsumptionWidget from "./components/EnergyConsumption/Home/EnergyConsumptionWidget";
+import { ModeFormProvider } from "./contexts/ModeFormContext";
 
 export default function App({ name = "Nabil" }) {
 
@@ -43,7 +43,7 @@ export default function App({ name = "Nabil" }) {
         <View style={styles.container}>
           <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
               <Header name={name} style={{position:"sticky"}}/>
-              <EnergyConsumptionWidget/>
+              <EnergyConsumptionWidget />
               <MetricsDisplayWidget value={value} />
               <ModeDisplayWidget />
               <StatusBar style="auto" />
