@@ -3,6 +3,15 @@ import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
+    const [timeFrame, setTimeFrame] = useState("day");
+    const [counter, setCounter] = useState(0);
+    const frames = ["day", "week", "month", "year"];
+
+    const handleToggleFrame = () => {
+        const newCounter = (counter + 1) % frames.length; // Calculate next index
+        setCounter(newCounter); // Update the counter state
+        setTimeFrame(frames[newCounter]); // Update the time frame based on new counter
+    };
 
     return (
         <View style={styles.container}>
