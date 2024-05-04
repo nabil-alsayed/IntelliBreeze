@@ -34,3 +34,15 @@ export const subscribeToTemperature = (client, handleMessage) => {
         },
     });
 };
+
+export const unsubscribeFromTemperature = (client) => {
+    const topic = "/intellibreeze/sensor/temperature";
+    client.unsubscribe((topic), {
+        onSuccess: () => {
+            console.log("unsubscribed to temperature topic successfully");
+        },
+        onFailure: (error) => {
+            console.error("Failed to unsubscribe to temperature topic:", error.errorMessage);
+        },
+    })
+}
