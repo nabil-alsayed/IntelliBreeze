@@ -66,7 +66,7 @@ export default function TemperatureThresholdSettings() {
             setShowConfirmation(false);
         } else {
             setShowWarning(false);
-            updateThreshold(lowToMediumRange, mediumToHighRange).then(() => {
+            updateThreshold().then(() => {
                 setShowConfirmation(true); //threshold addition is successful hence we return confirmation message
 
             });
@@ -157,8 +157,9 @@ export default function TemperatureThresholdSettings() {
                     Are you sure you want this?"
                     onPressCancel={() => setShowWarning(false)}
                     onPressSave={()=> {
-                        updateThreshold(lowToMediumRange, mediumToHighRange) //function to store values to firebase is called
+                        updateThreshold() //function to store values to firebase is called
                             .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
+                            .then(setShowConfirmation(true))
 
 
                     }}
