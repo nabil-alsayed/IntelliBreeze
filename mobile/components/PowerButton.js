@@ -10,7 +10,7 @@ const PowerButton = () => {
             onPress={() => setIsModalVisible(true)}
         >
 
-            <Image style={styles.image} source={require("../assets/Power.png")} />  
+            <Image style={styles.buttonImage} source={require("../assets/Power.png")} />  
 
         </TouchableOpacity>
 
@@ -20,7 +20,7 @@ const PowerButton = () => {
          animationType= "slide"
         >
             <View style={{flex: 1, backgroundColor: "rainbow", padding: 60}}>
-                <Text> Manas is gay :* </Text>
+                <Text> Text example </Text>
                     <Button
                      title="Close"
                      color= "midnightblue"
@@ -34,7 +34,7 @@ const PowerButton = () => {
 }  
 
 const styles = StyleSheet.create({
-    image: {
+    buttonImage: {
       width: 100,
       height: 100,
     }
