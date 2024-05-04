@@ -9,10 +9,9 @@ import WarningMessage from "../components/WarningMessage";
 import ConfirmationMessage from "../components/ConfirmationMessage";
 library.add(faFan);
 import 'firebase/database';
+import "firebase/compat/app";
 import { db } from "../firebaseConfig";
-import { collection, updateDoc, doc} from "firebase/firestore"
-//import {defaultProps as temperatureThresholds} from "react-native-web/src/modules/forwardedProps";
-
+import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 
 
 export default function TemperatureThresholdSettings() {
@@ -22,6 +21,8 @@ export default function TemperatureThresholdSettings() {
     const [showWarning, setShowWarning] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
+    const documentID = 'aIPlgZv2kTA4axiMAnw5';
+
 
     const newThresholds = { //variable to store data to firestore
         LowToMediumRange: lowToMediumRange,
@@ -45,10 +46,32 @@ export default function TemperatureThresholdSettings() {
         setPreferredUnit('C');
     }, []);
 
+
+
+    useEffect(() => { //This fetches the temperatureThresholds from the firebase and renders the latest updated value
+        const fetchTemperatureThreshold = onSnapshot(collectionRef, (querySnapshot) => {
+            try {
+                querySnapshot.forEach((doc) => {
+                    const data = doc.data();
+                    setLowToMediumRange(data.LowToMediumRange);
+                    setMediumToHighRange(data.MediumToHighRange);
+
+                });
+            } catch (error) {
+                console.error("Failed to fetch previous thresholds", error);
+            }
+        });
+        return () => fetchTemperatureThreshold();
+    }, []);
+
+
+
+
+
     async function updateThreshold () { //this method is repsonsible for adding the slider values to the firebase
 
         try {
-            const docRef = doc(collectionRef, 'aIPlgZv2kTA4axiMAnw5')
+            const docRef = doc(collectionRef, documentID)
             await updateDoc(docRef, newThresholds);
             console.log("Saved Successfully!")
         } catch (error) {
