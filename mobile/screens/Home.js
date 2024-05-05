@@ -1,5 +1,3 @@
-import { NavigationContainer } from '@react-navigation/native'
-import Tabs from '../navigation/tabs'
 import { StyleSheet, View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "../components/Header";
