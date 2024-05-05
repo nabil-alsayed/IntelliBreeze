@@ -45,3 +45,14 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
         },
     })
 }
+
+export const publishTopic = (client, topic, topicName) => {
+    client.send(topic, {
+        onSuccess: () => {
+            console.log("Published to " + topicName + " topic successfully");
+        },
+        onFailure: (error) => {
+            console.error("Failed to publish to " + topicName + " topic:", error.errorMessage);
+        }
+    })
+}
