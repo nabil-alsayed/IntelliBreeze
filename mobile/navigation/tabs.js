@@ -25,6 +25,14 @@ const screenOptions = {
     }
 };
 function Tabs() {
+    const handleButtonOption = (buttonIcon) => ({
+        tabBarIcon: ({ focused }) => (
+            <View style={{ alignItems: "center", justifyContent: "center" }}>
+                <Icon name={buttonIcon} size={24} color={focused ? "#169EFF" : "#868585"} />
+            </View>
+        )
+    });
+
     return (
         <NavigationContainer>
             <Tab.Navigator screenOptions={screenOptions}>
