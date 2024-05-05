@@ -6,7 +6,8 @@ import {Button, StyleSheet, TouchableOpacity, View, Image} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
-import { Client } from "paho-mqtt";
+import {connectToMqtt} from "./utils/mqttUtils";
+
 
 const Stack = createStackNavigator();
 const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
@@ -15,34 +16,8 @@ const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
 export default function App({ name = "Nabil" }) {
     const [value, setValue] = useState(0);
 
+    connectToMqtt()
 
-    useEffect(() => {
-        const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
-        const client = new Client("broker.hivemq.com", 1883, clientId);
-
-        const onMessageArrived = (message) => {
-            console.log("temperature:", message.payloadString);
-            if (message.destinationName === "/intellibreeze/sensor/temperature") {
-                setValue(parseInt(message.payloadString));
-            }
-        };
-
-        client.onMessageArrived = onMessageArrived;
-
-        client.connect({
-            onSuccess: () => {
-                console.log("Connected Successfully");
-                client.subscribe("/intellibreeze/sensor/temperature");
-                client.send(LM_PUB_TOPIC, );
-
-            },
-            onFailure: () => {
-                console.log("Failed to connect!");
-            },
-        });
-
-        return () => client.disconnect(); // to clean up the connection when the component unmounts
-    }, []);
 
     return (
         <NavigationContainer>
