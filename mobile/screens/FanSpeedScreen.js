@@ -7,14 +7,15 @@ const FanSpeedScreen = () => {
 
   const[fanSpeedRange,setFanSpeedRange] = useState(0)
 
-
     return(
       <View>
         <View style = {styles.container}> 
             <View style = {styles.valueDisplayImageContainer}>
               <ImageBackground style={styles.valueDisplayImage} source={require("../assets/ValueDisplay.png")}>
-                <Text style = {{fontSize: 40, marginTop: 95, marginRight: 100, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
-                <Text style = {{fontSize: 40, marginLeft: 125, marginTop: -48, fontWeight: "bold"}}> rpm </Text>
+                <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
+                <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
+                <Text style = {{fontSize: 40, marginLeft: 127, marginTop: -48, fontWeight: "bold"}}> rpm </Text>
+                <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
               </ImageBackground>
             </View>
             <View style = {styles.slideContainer}>
@@ -51,8 +52,8 @@ const styles = StyleSheet.create({
       borderRadius: 20,
       backgroundColor: "white",
       width: "82%",
-      height: 340,
-      marginTop: 230,
+      height: 440,
+      marginTop: 130,
       alignItems: "center",
       justifyContent: "center",
       marginLeft: 39,

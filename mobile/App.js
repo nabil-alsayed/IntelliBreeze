@@ -37,7 +37,7 @@ export default function App({ name = "Nabil" }) {
       },
     });
 
-    return () => client.disconnect(); // to sclean up the connection when the component unmounts
+    return () => client.disconnect(); // to clean up the connection when the component unmounts
   }, []);
   return (
     <NavigationContainer>
