@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from "react";
 import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AntDesign} from "@expo/vector-icons";
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
