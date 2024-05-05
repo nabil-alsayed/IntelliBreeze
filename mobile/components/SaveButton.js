@@ -1,11 +1,10 @@
-import React,  {useState} from 'react';
-import { View, StyleSheet, TouchableOpacity, Image, Button, Pressable, Modal, Text } from 'react-native';
+import React, {useState} from 'react';
+import { View, StyleSheet, TouchableOpacity, Image, Text } from 'react-native';
 
-const PowerButton = () => {
-    const [isModalVisible, setIsModalVisible] = useState(false);
+const SaveButton = () => {
     return(
       <View>
-        <TouchableOpacity   onPress={() => setIsModalVisible(true)}>
+        <TouchableOpacity>
             <Image style={styles.buttonImage} source={require("../assets/SaveButton.png")} />  
         </TouchableOpacity>
       </View>
@@ -19,4 +18,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PowerButton;
+export default SaveButton;
