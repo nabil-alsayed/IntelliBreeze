@@ -1,29 +1,22 @@
-#include <Arduino.h>
-#include <WiFi.h>
-#include <PubSubClient.h>
- 
-#include <WiFi.h>
-#include <PubSubClient.h>
-#include <DHT.h>
-#include <MQTT_FanSpeed.h>
+#include "MQTT_FanSpeed.h"
   
   
-  ssid = "Tele2_357564"; // WiFi Name
-  password = "vujjwagy";  // WiFi Password
-  mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
+  const char* ssid = "TN_wifi_E22605"; // WiFi Name
+  const char* password = "HDMRAM96LY";  // WiFi Password
+  const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
   TFT_eSPI tft;
   WiFiClient wioClient;
   PubSubClient client(wioClient);
-  lastMsg = 0;
-  msg[50];
-  value = 0;
+  long lastMsg = 0;
+  char msg[50];
+  int value = 0;
   
   //MQTT Topics for Publish and Subscribe
-  TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
-  PREF_TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
-  MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
-  MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
-  AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
+  const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
+  const char* PREF_TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+  const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
+  const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
+  const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
 
 
   void setupClient(){

@@ -4,27 +4,26 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
- 
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <DHT.h>
+#include "TFT_eSPI.h"
 
   // Update these with values suitable for your network.
-  const char* ssid; // WiFi Name
-  const char* password;  // WiFi Password
-  const char* mqtt_server;  // MQTT Broker URL
-  TFT_eSPI tft;
-  WiFiClient wioClient;
-  PubSubClient client(wioClient);
-  long lastMsg;
-  char msg[50];
-  int value;
+  extern const char* ssid; // WiFi Name
+  extern const char* password;  // WiFi Password
+  extern const char* mqtt_server;  // MQTT Broker URL
+  extern TFT_eSPI tft;
+  extern WiFiClient wioClient;
+  extern PubSubClient client;
+  extern long lastMsg;
+  extern char msg[50];
+  extern int value;
   
-  const char* TEMP_PUB_TOPIC;
-  const char* PREF_TEMP_SUB_TOPIC;
-  const char* MANUAL_FAN_SPEED_SUB_TOPIC ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
-  const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
-  const char* AUTO_FAN_SPEED_PUB_TOPIC =; //Topic for WIO to publish
+  extern const char* TEMP_PUB_TOPIC;
+  extern const char* PREF_TEMP_SUB_TOPIC;
+  extern const char* MANUAL_FAN_SPEED_SUB_TOPIC ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
+  extern const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
+  extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
 
   
 
@@ -33,3 +32,5 @@
   void callback(char* topic, byte* payload, unsigned int length);
 
   void reconnect();
+
+  #endif
