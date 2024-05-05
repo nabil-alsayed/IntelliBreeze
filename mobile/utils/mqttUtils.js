@@ -1,4 +1,4 @@
-import { Client } from "paho-mqtt";
+import {Client, Message} from "paho-mqtt";
 
 // Configurations
 const MQTT_BROKER_URL = "broker.hivemq.com";
@@ -12,6 +12,8 @@ export const connectToMqtt = () => {
     client.connect({
         onSuccess: () => {
             console.log("Connected to MQTT broker successfully");
+
+
         },
         onFailure: (error) => {
             console.error("Failed to connect to MQTT broker:", error.errorMessage);
@@ -46,13 +48,11 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
     })
 }
 
-export const publishTopic = (client, topic, topicName) => {
-    client.send(topic, {
-        onSuccess: () => {
-            console.log("Published to " + topicName + " topic successfully");
-        },
-        onFailure: (error) => {
-            console.error("Failed to publish to " + topicName + " topic:", error.errorMessage);
-        }
-    })
+export const publishToTopic = (client, topic, thresholdString, topicName) => {
+    topicName = new Message(thresholdString);
+    topicName.destinationName = topic;
+    client.send(topicName);
+
+
+
 }

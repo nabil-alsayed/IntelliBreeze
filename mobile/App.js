@@ -16,8 +16,6 @@ const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
 export default function App({ name = "Nabil" }) {
     const [value, setValue] = useState(0);
 
-    connectToMqtt()
-
 
     return (
         <NavigationContainer>

@@ -12,6 +12,10 @@ import 'firebase/database';
 import "firebase/compat/app";
 import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+import { Client } from "paho-mqtt";
+
+
 
 
 export default function TemperatureThresholdSettings() {
@@ -22,6 +26,7 @@ export default function TemperatureThresholdSettings() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
+    const THRESHOLD_PUB_TOPIC = "/intellibreeze/app/temperatureThresholds"
 
 
     const newThresholds = { //variable to store data to firestore
@@ -74,6 +79,15 @@ export default function TemperatureThresholdSettings() {
             const docRef = doc(collectionRef, documentID)
             await updateDoc(docRef, newThresholds);
             console.log("Saved Successfully!")
+
+            const client = connectToMqtt();
+            client.onConnected = () => {
+                publishToTopic(client, THRESHOLD_PUB_TOPIC, String(mediumToHighRange), "temperature thresholds");
+                publishToTopic(client, THRESHOLD_PUB_TOPIC, String(lowToMediumRange), "temperature thresholds");
+
+            };
+
+
         } catch (error) {
             console.error("Failed to save!");
             alert("Failed to save. Please try again later. ");
