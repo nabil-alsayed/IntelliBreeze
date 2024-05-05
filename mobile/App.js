@@ -1,17 +1,17 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect} from "react";
 import { StyleSheet, View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
-import { Client,Message } from "paho-mqtt";
+import {Client, Message} from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
   const [tempUnit, setTempUnit] = useState('°C');
 
-  const getData = () => {
-
+  const getData = (data) => {
+    console.log(data)
   }
 
   useEffect(() => {
@@ -60,7 +60,7 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value} onSubmit={getData()}/>
+      <MetricsDisplayWidget value={value} onSubmit={getData}/>
       <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>

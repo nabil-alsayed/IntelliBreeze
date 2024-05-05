@@ -7,7 +7,7 @@ const MetricsDisplayWidget = (props) => {
     const [metricUnit, setMetricUnit] = useState("C");
     const sendUnitData = (e) => {
         e.preventDefault();
-        props.onSubmit(convertTemperature(metricUnit))
+        props.onSubmit(convertTemperature())
     }
   return (
     <View style={styles.container}>

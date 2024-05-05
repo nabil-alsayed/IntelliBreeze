@@ -9,9 +9,29 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
         setUnit(metricUnit);
     }, [metricValue, metricUnit]);
 
-convertTemperature(metricUnit);
+    const [temperature, setTemp] = useState(0);
+    const [unit, setUnit] = useState('°C'); //
 
+    const convertTemperature = () => {
 
+        if (unit === '°C') {
+            // Convert Celsius to Fahrenheit
+            const newTemp = (temperature * 9/5) + 32;
+            setTemp(Math.round(newTemp));
+            setUnit('°F');
+        } else if (unit === '°F'){
+            // Convert Fahrenheit to Celsius
+            const newTemp = (((temperature - 32) * 5/9) + 273);
+            setTemp(Math.round(newTemp));
+            setUnit('K');
+        }else {
+            // Convert Fahrenheit to Kelvin
+            const newTemp = temperature - 273 ;
+            setTemp(Math.round(newTemp));
+            setUnit('°C');
+        }
+        return unit
+    };
     return (
         <View style={styles.container}>
             <View style={styles.metricValueIcon}>
@@ -29,32 +49,6 @@ convertTemperature(metricUnit);
         </View>
     );
 };
-
-const convertTemperature = (unit) => {
-
-    const [temperature, setTemp] = useState(0);
-    const [unit, setUnit] = useState('°C'); //
-
-    if (unit === '°C') {
-        // Convert Celsius to Fahrenheit
-        const newTemp = (temperature * 9/5) + 32;
-        setTemp(Math.round(newTemp));
-        setUnit('°F');
-    } else if (unit === '°F'){
-        // Convert Fahrenheit to Celsius
-        const newTemp = (((temperature - 32) * 5/9) + 273);
-        setTemp(Math.round(newTemp));
-        setUnit('K');
-    }else {
-        // Convert Fahrenheit to Kelvin
-        const newTemp = temperature - 273 ;
-        setTemp(Math.round(newTemp));
-        setUnit('°C');
-    }
-    return unit
-};
-
-export {convertTemperature};
 
 const styles = StyleSheet.create({
     container: {
