@@ -1,14 +1,17 @@
-import React, {useState} from "react";
+import React, {useContext, useState} from "react";
 import { View, StyleSheet } from "react-native";
 import Metric from "./Metric";
-import {useTemperatureSubscription} from "../hooks/useTemperatureSubscription";
+import {useTopicSubscription} from "../hooks/useTopicSubscription";
 
 const MetricsDisplayWidget = () => {
     const [temperature, setTemperature] = useState(0);
+    const temperatureTopic = "/intellibreeze/sensor/temperature";
+    const topicName = "temperature";
 
-    useTemperatureSubscription((newTemperature) => {
+    // Subscribe for Temperature
+    useTopicSubscription((newTemperature) => {
         setTemperature(newTemperature);
-    });
+    },temperatureTopic,topicName);
 
     return (
         <View style={styles.container}>
