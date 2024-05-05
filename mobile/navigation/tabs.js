@@ -1,14 +1,38 @@
+import React from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import EnergyConsumptionStats from '../screens/EnergyConsumptionStats'
+import {NavigationContainer} from "@react-navigation/native";
+import { EnergyConsumptionStats, Home } from '../screens/index'
+import {View} from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 
 const Tab = createBottomTabNavigator();
 
+const screenOptions = {
+    tabBarShowLabel: false,
+    headerShown: false,
+    tabBarStyle: {
+        justifyContent:"center",
+        alignItems:"center",
+        padding:20,
+        position: "absolute",
+        bottom: 10,
+        right: 10,
+        left: 10,
+        elevation: 0,
+        height: 80,
+        borderRadius: 40,
+        backgroundColor: '#fff'
+    }
+};
 function Tabs() {
     return (
-        <Tab.Navigator>
-            <Tab.Screen name="Energy" component={EnergyConsumptionStats}/>
-        </Tab.Navigator>
-    );
+        <NavigationContainer>
+            <Tab.Navigator screenOptions={screenOptions}>
+                <Tab.Screen name={"Home"} component={Home} options={handleButtonOption("home")} />
+                <Tab.Screen name={"Stats"} component={EnergyConsumptionStats} options={handleButtonOption("bar-chart")} />
+            </Tab.Navigator>
+        </NavigationContainer>
+    )
 }
 
 export default Tabs;
