@@ -10,6 +10,10 @@ export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
   const [tempUnit, setTempUnit] = useState('°C');
 
+  const getData = () => {
+
+  }
+
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
     const client = new Client("broker.hivemq.com", 8000, clientId);
@@ -56,7 +60,7 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value}/>
+      <MetricsDisplayWidget value={value} onSubmit={getData()}/>
       <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>
