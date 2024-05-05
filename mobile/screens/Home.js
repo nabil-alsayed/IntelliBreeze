@@ -12,7 +12,7 @@ const Home = ({ name = "Nabil" }) => {
         <ModeFormProvider>
             <View style={styles.container}>
                 <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
-                    <Header name={name} style={{position:"sticky"}}/>
+                    <Header name={name} />
                     <EnergyConsumptionWidget />
                     <MetricsDisplayWidget />
                     <ModeDisplayWidget />
