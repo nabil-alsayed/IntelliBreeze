@@ -23,26 +23,25 @@ export const connectToMqtt = () => {
 
 // Method to subscribe to temperature
 
-export const subscribeToTemperature = (client, handleMessage) => {
+export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
     client.onMessageArrived = handleMessage;
-    client.subscribe("/intellibreeze/sensor/temperature", {
+    client.subscribe(topic, {
         onSuccess: () => {
-            console.log("Subscribed to temperature topic successfully");
+            console.log("Subscribed to " + topicName + " successfully");
         },
         onFailure: (error) => {
-            console.error("Failed to subscribe to temperature topic:", error.errorMessage);
+            console.error("Failed to subscribe " + topicName + " topic:", error.errorMessage);
         },
     });
 };
 
-export const unsubscribeFromTemperature = (client) => {
-    const topic = "/intellibreeze/sensor/temperature";
-    client.unsubscribe((topic), {
+export const unsubscribeFromTopic = (client, topic, topicName) => {
+    client.unsubscribe(topic, {
         onSuccess: () => {
-            console.log("unsubscribed to temperature topic successfully");
+            console.log("unsubscribed to " + topicName + " topic successfully");
         },
         onFailure: (error) => {
-            console.error("Failed to unsubscribe to temperature topic:", error.errorMessage);
+            console.error("Failed to unsubscribe to " + topicName + " topic:", error.errorMessage);
         },
     })
 }
