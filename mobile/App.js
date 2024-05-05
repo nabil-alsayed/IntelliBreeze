@@ -1,12 +1,9 @@
 import React from 'react';
-import { View, StyleSheet } from 'react-native';
-import Home from './screens/Home'
+import Tabs from "./navigation/tabs";
 
 export default function App(){
     return (
-        <View style={styles.container}>
-            <Home/>
-        </View>
+        <Tabs/>
     )
 }
 
