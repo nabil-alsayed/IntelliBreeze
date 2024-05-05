@@ -6,9 +6,3 @@ export default function App(){
         <Tabs/>
     )
 }
-
-const styles = StyleSheet.create({
-    container:{
-        flex:1
-    }
-})
