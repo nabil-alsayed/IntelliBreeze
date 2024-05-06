@@ -1,8 +1,5 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include <PubSubClient.h>
- 
-#include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <PubSubClient.h>
 #include <DHT.h>

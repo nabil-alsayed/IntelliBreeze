@@ -1,17 +1,14 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {useState, useEffect, useContext} from "react";
+import { StyleSheet, View, ScrollView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
+import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
-import FanSpeedDisplayWidget from "./components/FanSpeedDisplayWidget";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import FanSpeedScreen from "./screens/FanSpeedScreen";
-import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-
+import { ModeFormProvider } from "./contexts/ModeFormContext";
 
 export default function App({ name = "Nabil" }) {
+
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -40,39 +37,34 @@ export default function App({ name = "Nabil" }) {
     return () => client.disconnect(); // to clean up the connection when the component unmounts
   }, []);
   return (
-    <NavigationContainer>
-           <Stack.Navigator>
-               <Stack.Screen
-                   name="Home"
-                   options={{ headerShown: false }}
-               >
-                   {(props) => <HomeScreen {...props} name={name} value={value} />}
-               </Stack.Screen>
-               <Stack.Screen name="FanSpeedScreen" component={FanSpeedScreen} />
-           </Stack.Navigator>
-       </NavigationContainer>
+      <ModeFormProvider>
+        <View style={styles.container}>
+          <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
+              <Header name={name} style={{position:"sticky"}}/>
+              <MetricsDisplayWidget value={value} />
+              <ModeDisplayWidget />
+              <StatusBar style="auto" />
+          </ScrollView>
+        </View>
+      </ModeFormProvider>
   );
 }
 
-const Stack = createStackNavigator();
-
-const HomeScreen = ({ navigation, name, value }) => (
-  <View style={styles.container}>
-      <Header name={name} />
-      <MetricsDisplayWidget value={value}/>
-      <FanSpeedDisplayWidget value  = {value}  navigation = {navigation}/>
-      <StatusBar style="auto" />
-  </View>
-);
-
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: "#f3f3f3",
+    flex:1,
     alignItems: "center",
-    justifyContent: "flex-start",
+    flexDirection: "column",
+    justifyContent: "center",
+    backgroundColor: "#f3f3f3",
     paddingTop: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
+    paddingHorizontal:20,
+    width:"100%",
+    height:"100"
+  },
+  innerContainer: {
+    flexDirection: "column",
+    width:"100%",
+    rowGap:20
   },
 });
