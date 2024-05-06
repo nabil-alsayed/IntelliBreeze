@@ -1,5 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {StyleSheet, SafeAreaView} from 'react-native';
+import Chart from '../components/EnergyConsumption/Chart';
 
 const EnergyConsumptionStats = () => {
 
@@ -11,3 +12,11 @@ const EnergyConsumptionStats = () => {
 }
 
 export default EnergyConsumptionStats;
+
+const styles = StyleSheet.create({
+    container:{
+        flex:1,
+        justifyContent:"flex-start",
+        alignItems:"center"
+    }
+})
