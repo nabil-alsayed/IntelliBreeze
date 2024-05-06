@@ -1,10 +1,7 @@
 #include <Arduino.h>
-#include <WiFi.h>
 #include <PubSubClient.h>
- 
 #include <WiFi.h>
 #include"TFT_eSPI.h"
-#include <PubSubClient.h>
 #include <DHT.h>
 
 #define DHT_PIN 0  
@@ -31,6 +28,7 @@ char msg[50];
 int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+const char* THRESHOLD_SUB_TOPIC = "/intellibreeze/app/temperatureThresholds";
  
 void setup_wifi() {
   delay(10);
@@ -64,7 +62,22 @@ void setup_temperature(){
   tft.fillScreen(TFT_RED); //Red background
  
 }
+
+
+
 void callback(char* topic, byte* payload, unsigned int length) {
+
+  if (strcmp(topic, THRESHOLD_SUB_TOPIC) == 0) {
+    
+    String thresholdValue = "";
+    for (int i = 0; i < length; i++) {
+      thresholdValue += (char)payload[i];
+    }
+    
+    Serial.print("Received threshold value: ");
+    Serial.println(thresholdValue);
+  }
+
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -81,7 +94,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
   tft.print("MQTT Message: " );
   tft.setCursor((320 - tft.textWidth(msg_p)) / 2, 120);
   tft.print(msg_p); // Print receved payload
+
 }
+
+
+
+
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -96,6 +114,10 @@ void reconnect() {
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
+      client.subscribe(THRESHOLD_SUB_TOPIC);
+  
+      
+      
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -105,6 +127,9 @@ void reconnect() {
     }
   }
 }
+
+
+
 void setup() {
   tft.begin();
   tft.fillScreen(TFT_BLACK);
@@ -117,6 +142,10 @@ void setup() {
   client.setCallback(callback);
   dht.begin(); 
 }
+
+
+
+
 void loop() {
  
    float tempValue = dht.readTemperature();
@@ -155,4 +184,6 @@ void loop() {
          Serial.println(tempValue);
   }
 }
+
+
 

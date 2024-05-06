@@ -82,8 +82,8 @@ export default function TemperatureThresholdSettings() {
 
             const client = connectToMqtt();
             client.onConnected = () => {
-                publishToTopic(client, THRESHOLD_PUB_TOPIC, String(mediumToHighRange), "temperature thresholds");
-                publishToTopic(client, THRESHOLD_PUB_TOPIC, String(lowToMediumRange), "temperature thresholds");
+                publishToTopic(client, THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "temperature thresholds");
+                publishToTopic(client, THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "temperature thresholds");
 
             };
 
