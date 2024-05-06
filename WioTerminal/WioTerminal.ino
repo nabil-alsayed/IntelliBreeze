@@ -1,5 +1,4 @@
 #include "MQTT_FanSpeed.h"
-#include"TFT_eSPI.h"
 #include <DHT.h>
 
 
@@ -53,12 +52,16 @@
     float tempValue = dht.readTemperature();
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
+    String tempName = "Temperature";
+    const char* tempNameChar = tempName.c_str();
 
 
     //CODE FOR FAN SPEED MQTT
     float fanSpeedValue = 38;
     String fanSpeedString = String(fanSpeedValue);
     const char* fanSpeedChars = fanSpeedString.c_str();
+    String fanSpeedName = "Fan Speed";
+    const char* fanSpeedNameChar = tempName.c_str();
 
 
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
@@ -84,14 +87,21 @@
   if (now - lastMsg > 2000) {
     lastMsg = now;
     ++value;
+    
+    /*
     snprintf(msg, 50, "%.1f", temperatureChars); // Convert temperature to string
         client.publish(TEMP_PUB_TOPIC, temperatureChars); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.print("Published temperature: ");
         Serial.println(tempValue);
-
+    */
+    
+    publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
+    publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
 
     // CODE FOR FAN SPEED MQTT
+    /*
     snprintf(msg, 50, "", fanSpeedChars); //Fan speed value is converted to string
       //if(manualMode){ // checks if the mode set by the user is manual or automatic, and based on that it publishes to the respective topic
         client.publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars);
@@ -100,6 +110,7 @@
       
       Serial.print("Published fan speed: "); // printing the value is published on the serial moniter to keep track
         Serial.println(fanSpeedValue);
+    */
   }
 }
 

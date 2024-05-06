@@ -1,8 +1,8 @@
 #include "MQTT_FanSpeed.h"
   
   
-  const char* ssid = "TN_wifi_E22605"; // WiFi Name
-  const char* password = "HDMRAM96LY";  // WiFi Password
+  const char* ssid = "Tele2_357564"; // WiFi Name
+  const char* password = "vujjwagy";  // WiFi Password
   const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
   TFT_eSPI tft;
   WiFiClient wioClient;
@@ -89,6 +89,17 @@
       Serial.println(" try again in 5 seconds");
       // Wait 5 seconds before retrying
       delay(5000);
+      }
     }
   }
-}
+
+  void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName){
+
+    snprintf(msg, 50, "%.1f", payload); // Convert temperature to string
+        client.publish(SUBSCRIPTION_TOPIC, payload); // Publish temperature value to MQTT broker
+        //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
+        Serial.printf("Published %s\n", topicName);
+        Serial.println(payload);
+
+
+  }

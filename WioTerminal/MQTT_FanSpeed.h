@@ -25,11 +25,13 @@
   extern const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
 
-  
+  void setupClient();
 
   void setup_wifi();
 
   void callback(char* topic, byte* payload, unsigned int length);
+
+  void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName);
 
   void reconnect();
 
