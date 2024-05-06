@@ -45,13 +45,7 @@ export default function TemperatureThresholdSettings() {
         }
         return Math.floor(temp) + '°C';
     }
-
-
-
-    useEffect(() => { //This function allows modification of the preferredUnit test variable
-        setPreferredUnit('C');
-    }, []);
-
+    
 
 
     useEffect(() => { //This fetches the temperatureThresholds from the firebase and renders the latest updated value
