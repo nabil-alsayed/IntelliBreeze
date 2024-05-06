@@ -42,19 +42,44 @@ const EnergyConsumptionStats = () => {
                     }}
                 />
             </View>
-            <View >
+            <View style={styles.buttonContainer}>
                 {Object.keys(EnergyData).map((key) => (
                     <Pressable
                         key={key}
                         title={key.charAt(0).toUpperCase() + key.slice(1)}
                         onPress={() => setTimeframe(key)}
+                        style={styles.timeframe}
                     >
-                                <Text>{key}</Text>
+                                <Text style={styles.timeframeLabel}>{key}</Text>
                     </Pressable>
                 ))}
             </View>
         </View>
     );
 };
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        padding: 10,
+    },
+    timeframe: {
+        alignItems:"center",
+        backgroundColor:"#fff",
+        borderRadius:10,
+        flex:1,
+        marginHorizontal:5,
+        paddingVertical:10,
+    },
+    timeframeLabel: {
+        fontWeight: "500"
+    }
+});
 
 export default EnergyConsumptionStats;
