@@ -9,17 +9,19 @@ import { ModeFormProvider } from "../contexts/ModeFormContext";
 const Home = ({ name = "Nabil" }) => {
 
     return (
-        <ModeFormProvider>
-            <View style={styles.container}>
-                <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
-                    <Header name={name} />
-                    <EnergyConsumptionWidget />
-                    <MetricsDisplayWidget />
-                    <ModeDisplayWidget />
-                    <StatusBar style="auto" />
-                </ScrollView>
-            </View>
-        </ModeFormProvider>
+        <SafeAreaView style={{flex:1}}>
+            <ModeFormProvider>
+                <View style={styles.container}>
+                    <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false} contentContainerStyle={styles.innerContainer}>
+                        <Header name={name} />
+                        <EnergyConsumptionWidget />
+                        <MetricsDisplayWidget />
+                        <ModeDisplayWidget />
+                        <StatusBar style="auto" />
+                    </ScrollView>
+                </View>
+            </ModeFormProvider>
+        </SafeAreaView>
     );
 }
 
@@ -29,8 +31,6 @@ const styles = StyleSheet.create({
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
-        backgroundColor: "#f3f3f3",
-        paddingTop: 50,
         paddingHorizontal:20,
         width:"100%",
         height:"100"
