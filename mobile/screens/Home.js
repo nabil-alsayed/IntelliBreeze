@@ -1,9 +1,9 @@
-import { StyleSheet, View, ScrollView } from "react-native";
+import {StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
-import EnergyConsumptionWidget from "../components/EnergyConsumption/Home/EnergyConsumptionWidget";
+import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import { ModeFormProvider } from "../contexts/ModeFormContext";
 
 const Home = ({ name = "Nabil" }) => {
