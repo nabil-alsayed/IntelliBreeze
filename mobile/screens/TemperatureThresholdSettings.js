@@ -26,7 +26,8 @@ export default function TemperatureThresholdSettings() {
     const [showConfirmation, setShowConfirmation] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
-    const THRESHOLD_PUB_TOPIC = "/intellibreeze/app/temperatureThresholds"
+    const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
+    const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
 
 
     const newThresholds = { //variable to store data to firestore
@@ -82,8 +83,8 @@ export default function TemperatureThresholdSettings() {
 
             const client = connectToMqtt();
             client.onConnected = () => {
-                publishToTopic(client, THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "temperature thresholds");
-                publishToTopic(client, THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "temperature thresholds");
+                publishToTopic(client, HIGH_THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "high temperature threshold");
+                publishToTopic(client, MED_THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "medium temperature threshold");
 
             };
 
