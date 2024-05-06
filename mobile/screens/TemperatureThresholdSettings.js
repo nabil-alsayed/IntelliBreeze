@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, Button, Alert, Animated} from "react-native";
+import {View, Text, StyleSheet, Image} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -13,15 +13,13 @@ import "firebase/compat/app";
 import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
-import { Client } from "paho-mqtt";
-
 
 
 
 export default function TemperatureThresholdSettings() {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
-    const [preferredUnit, setPreferredUnit] = useState('C');
+    const [tempUnit, setTempUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
@@ -30,25 +28,26 @@ export default function TemperatureThresholdSettings() {
     const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
 
 
-    const newThresholds = { //variable to store data to firestore
+    //variable to store data to firestore
+    const newThresholds = {
         LowToMediumRange: lowToMediumRange,
         MediumToHighRange: mediumToHighRange
     }
 
 
-
-    const convertTemperature = (temp) => { //This function calculates the temperature if the preferredUnit is changed
-        if (preferredUnit === 'F') {
+    //This function calculates the temperature if the preferredUnit/tempUnit is changed
+    const convertTemperature = (temp) => {
+        if (tempUnit === 'F') {
             return Math.floor(Math.round((temp * 9 / 5) + 32)) + '°F';
-        } else if (preferredUnit === 'K') {
+        } else if (tempUnit === 'K') {
             return Math.floor((temp + 273.15).toFixed(2)) + 'K';
         }
         return Math.floor(temp) + '°C';
     }
-    
 
 
-    useEffect(() => { //This fetches the temperatureThresholds from the firebase and renders the latest updated value
+    //This fetches the temperatureThresholds from the firebase and renders the latest updated value
+    useEffect(() => {
         const fetchTemperatureThreshold = onSnapshot(collectionRef, (querySnapshot) => {
             try {
                 querySnapshot.forEach((doc) => {
@@ -67,8 +66,8 @@ export default function TemperatureThresholdSettings() {
 
 
 
-
-    async function updateThreshold () { //this method is repsonsible for adding the slider values to the firebase
+    //this method is responsible for updating the slider values to the firebase
+    async function updateThreshold () {
 
         try {
             const docRef = doc(collectionRef, documentID)
@@ -92,7 +91,8 @@ export default function TemperatureThresholdSettings() {
 
 
 
-    const checkThreshold = (lowToMediumRange, mediumToHighRange) => { //this is the core method which verifies the slider input
+    //this is the core method which verifies the slider input
+    const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
         if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
             setShowWarning(true);
             setShowConfirmation(false);
@@ -109,7 +109,7 @@ export default function TemperatureThresholdSettings() {
 
 
 
-
+    //UI for the sliders
     return (
         <View style={styles.container}>
             {/*LOW to MEDIUM Slider begins here*/}
@@ -144,7 +144,11 @@ export default function TemperatureThresholdSettings() {
             </View>
 
 
+
+
             <View style={styles.line}></View>
+
+
 
 
             {/*MEDIUM to HIGH Slider begins here*/}
@@ -208,8 +212,6 @@ export default function TemperatureThresholdSettings() {
                    />
 
 
-
-
             )}
         </View>
 
@@ -217,6 +219,8 @@ export default function TemperatureThresholdSettings() {
     );
 }
 
+
+//styling for individual components of the UI
 const styles = StyleSheet.create({
     container: {
         flex: 1,
