@@ -18,6 +18,9 @@
     "@react-native-firebase/firestore": "^19.2.2",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/stack": "^6.3.29",
+    "@expo/vector-icons": "^14.0.0",
+    "@ptomasroos/react-native-multi-slider": "^2.2.2",
+    "@rneui/themed": "^4.0.0-rc.8",
     "expo": "~50.0.14",
     "expo-status-bar": "~1.11.1",
     "firebase": "^10.11.1",
@@ -27,7 +30,8 @@
     "react-dom": "^18.2.0",
     "react-native": "0.73.6",
     "react-native-mqtt": "^0.1.0-beta4",
-    "react-native-web": "^0.19.11"
+    "react-native-web": "^0.19.11",
+    "react-native-vector-icons": "^10.0.3"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

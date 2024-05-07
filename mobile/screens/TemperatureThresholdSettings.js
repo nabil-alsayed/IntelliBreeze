@@ -15,8 +15,7 @@ import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 
 
-
-export default function TemperatureThresholdSettings() {
+const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [tempUnit, setTempUnit] = useState('C');
@@ -62,7 +61,6 @@ export default function TemperatureThresholdSettings() {
         });
         return () => fetchTemperatureThreshold();
     }, []);
-
 
 
 
@@ -144,11 +142,7 @@ export default function TemperatureThresholdSettings() {
             </View>
 
 
-
-
             <View style={styles.line}></View>
-
-
 
 
             {/*MEDIUM to HIGH Slider begins here*/}
@@ -297,3 +291,5 @@ const styles = StyleSheet.create({
     }
 
 });
+
+export default TemperatureThresholdSettings;
