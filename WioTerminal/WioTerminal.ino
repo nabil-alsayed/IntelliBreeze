@@ -1,4 +1,5 @@
 #include "MQTT_FanSpeed.h"
+#include "RPM_Sensor.h"
 #include <DHT.h>
 
 
@@ -15,9 +16,6 @@
 
   bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 
-  byte fanPin = 16; 
-
- 
 //SETTINGUP_TEMPERATURE_READING
   void setup_temperature(){
   
@@ -42,6 +40,7 @@
     client.setCallback(callback);
     dht.begin(); 
     digitalWrite(fanPin, LOW);
+    setupFanPin();
   }
 
 
@@ -54,15 +53,16 @@
     const char* temperatureChars = temperatureString.c_str();
     String tempName = "Temperature";
     const char* tempNameChar = tempName.c_str();
-
-
+    
+      // Gradually increase the fan speed
+      Serial.println("Increasing fan speed...");
+    
     //CODE FOR FAN SPEED MQTT
-    float fanSpeedValue = 38;
+    float fanSpeedValue = dutyCycle;
     String fanSpeedString = String(fanSpeedValue);
     const char* fanSpeedChars = fanSpeedString.c_str();
     String fanSpeedName = "Fan Speed";
-    const char* fanSpeedNameChar = tempName.c_str();
-
+    const char* fanSpeedNameChar = fanSpeedName.c_str();
 
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
@@ -97,8 +97,8 @@
     */
     
     publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
-    publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
-    publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    //publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    //publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
 
     // CODE FOR FAN SPEED MQTT
     /*
@@ -111,6 +111,53 @@
       Serial.print("Published fan speed: "); // printing the value is published on the serial moniter to keep track
         Serial.println(fanSpeedValue);
     */
+
+    /*
+      CODE FOR CONTROLLING THE FAN WITH DUTY CYCLES
+
+          // Define the pin for controlling the PWM fan
+    const int fanPin = 9;
+
+    void setup() {
+      // Initialize serial communication
+      Serial.begin(9600);
+
+      // Set the fan pin as an output
+      pinMode(fanPin, OUTPUT);
+    }
+
+    void loop() {
+      // Gradually increase the fan speed
+      Serial.println("Increasing fan speed...");
+      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle += 5) {
+        analogWrite(fanPin, dutyCycle);
+        Serial.print("Duty Cycle: ");
+        Serial.println(dutyCycle);
+        delay(100);
+      }
+
+      // Gradually decrease the fan speed
+      Serial.println("Decreasing fan speed...");
+      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle -= 5) {
+        analogWrite(fanPin, dutyCycle);
+        Serial.print("Duty Cycle: ");
+        Serial.println(dutyCycle);
+        delay(100);
+      }
+    }
+
+        
+
+
+        */
+
+
+
+
+
+
+
+
   }
 }
 
