@@ -14,6 +14,8 @@ const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
+
+
  
  
 // Update these with values suitable for your network.
@@ -28,6 +30,10 @@ char msg[50];
 int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
+
+String fanToggleValue = "";
+
 byte fanPin = 16; 
  
 void setup_wifi() {
@@ -63,6 +69,18 @@ void setup_temperature(){
  
 }
 void callback(char* topic, byte* payload, unsigned int length) {
+
+   if (strcmp(topic, FAN_TOGGLE_SUB_TOPIC) == 0) {
+    fanToggleValue = ""; 
+    
+    for (int i = 0; i < length; i++) {
+      fanToggleValue += (char)payload[i];
+    }
+    
+    Serial.print("Received fan toggle value: ");
+    Serial.println(fanToggleValue);
+  }
+
   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
@@ -94,6 +112,7 @@ void reconnect() {
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
+      client.subscribe(FAN_TOGGLE_SUB_TOPIC);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
