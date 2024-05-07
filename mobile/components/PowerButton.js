@@ -20,6 +20,17 @@ const PowerButton = () => {
         setImage(newState);
         const message = newState === 0 ? 'HIGH' : 'LOW';
 
+        try{
+            const client = connectToMqtt();
+
+            client.onConnected = () => {
+                console.log("Successfully connected to MQTT.");
+                publishToTopic(client, FAN_TOGGLE_PUB_TOPIC, message, "fan on/off toggle");
+            }
+            console.log("Successfully published toggle value!");
+        }catch(error){
+            console.error("Failed to publish toggle value", error);
+        }
 
     }
 
