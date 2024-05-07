@@ -1,6 +1,9 @@
 import React, { useState, useContext } from 'react'
 import {Text, StyleSheet, View, TouchableOpacity,Pressable} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import Chart from "./Chart";
+import ModeSettingsForm from "../ModeSettingsForm";
+import BlurryModal from "../BlurryModal";
 
 const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
     const [timeFrame, setTimeFrame] = useState("minute");
@@ -13,6 +16,13 @@ const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
         setCounter(newCounter); // Update the counter state
         setTimeFrame(frames[newCounter]); // Update the time frame based on new counter
     };
+
+    const handleToggleModal = () => {
+        setModalVisible( {
+            visible: true,
+            timeframe: timeFrame
+        })
+    }
 
     return (
         <View style={styles.container}>
@@ -30,6 +40,12 @@ const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
                     </Text>
                 </View>
             </View>
+            <BlurryModal
+                visible={modalVisible.visible}
+                onClose={() => setModalVisible({visible: false, timeframe: timeFrame})}
+            >
+                <Chart TimeFrame={modalVisible.timeframe}/>
+            </BlurryModal>
         </View>
     )
 }
