@@ -50,11 +50,9 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
 }
 
 //Method to publish payload topic
-export const publishToTopic = (client, topic, thresholdString, topicName) => {
-    topicName = new Message(thresholdString);
+export const publishToTopic = (client, topic, payload, topicName) => {
+    topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);
-
-
 
 }

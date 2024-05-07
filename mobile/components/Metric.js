@@ -1,6 +1,8 @@
 import React, { useEffect, useState, createContext} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
 
@@ -11,6 +13,8 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
 
     const [temperature, setTemp] = useState(0);
     const [unit, setUnit] = useState('°C'); //
+
+    const client = connectToMqtt();
 
     const convertTemperature = () => {
 
@@ -24,13 +28,19 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
             const newTemp = (((temperature - 32) * 5/9) + 273);
             setTemp(Math.round(newTemp));
             setUnit('K');
+
         }else {
             // Convert Fahrenheit to Kelvin
             const newTemp = temperature - 273 ;
             setTemp(Math.round(newTemp));
             setUnit('°C');
+
         }
-        return unit
+    };
+
+    client.onConnected = () => {
+        publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
+        console.log(unit);
     };
     return (
         <View style={styles.container}>

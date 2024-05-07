@@ -4,7 +4,7 @@ import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
-import {Client, Message} from "paho-mqtt";
+import {Client} from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
@@ -38,7 +38,7 @@ export default function App({ name = "Nabil" }) {
   return (
     <View style={styles.container}>
       <Header name={name} />
-      <MetricsDisplayWidget value={value} onSubmit={getData}/>
+      <MetricsDisplayWidget value={value}/>
       <ModeDisplayWidget />
       <StatusBar style="auto" />
     </View>

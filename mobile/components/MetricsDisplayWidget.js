@@ -5,7 +5,6 @@ import Metric from "./Metric";
 const MetricsDisplayWidget = (props) => {
   return (
     <View style={styles.container}>
-        <MetricsDisplayWidget onSubmit={sendUnitData}/>
       <Metric
         iconName="temperature-half"
         metricName="Temperature"
