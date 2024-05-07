@@ -48,10 +48,10 @@ const EnergyConsumptionStats = () => {
                         key={key}
                         title={key.charAt(0).toUpperCase() + key.slice(1)}
                         onPress={() => setTimeframe(key)}
-                        style={styles.timeframe}
+                        style={[styles.timeframe, {backgroundColor: timeframe === key ? "#2695e3" : "rgba(255,255,255,0)" }]}
                     >
-                                <Text style={styles.timeframeLabel}>{key}</Text>
-                    </Pressable>
+                                <Text style={[styles.timeframeLabel, {color: timeframe === key ? "#fff" : "#2695e3" }]}>{key.charAt(0).toUpperCase() + key.slice(1)}</Text>
+                    </TouchableOpacity>
                 ))}
             </View>
         </View>
@@ -60,25 +60,30 @@ const EnergyConsumptionStats = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flexGrow: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
     buttonContainer: {
         flexDirection: 'row',
         width: '100%',
-        padding: 10,
+        padding: 5,
     },
     timeframe: {
         alignItems:"center",
-        backgroundColor:"#fff",
+        justifyContent:"space-between",
         borderRadius:10,
-        flex:1,
+        flexGrow:1,
         marginHorizontal:5,
         paddingVertical:10,
+        shadowColor:"rgba(0,0,0,0.1)",
+        shadowOffset:1,
+        shadowRadius:3,
+        shadowOpacity:5,
     },
     timeframeLabel: {
-        fontWeight: "500"
+        fontWeight: "bold",
+        color:"#fff"
     }
 });
 
