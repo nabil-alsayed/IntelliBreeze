@@ -37,7 +37,6 @@ function Tabs() {
         <NavigationContainer>
             <Tab.Navigator screenOptions={screenOptions}>
                 <Tab.Screen name={"Home"} component={Home} options={handleButtonOption("home")} />
-                <Tab.Screen name={"Stats"} component={EnergyConsumptionStats} options={handleButtonOption("bar-chart")} />
             </Tab.Navigator>
         </NavigationContainer>
     )
