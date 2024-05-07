@@ -6,6 +6,10 @@ import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
 import ModeDisplayWidget from "./components/ModesDisplayWidget";
 import { Client } from "paho-mqtt";
 import { ModeFormProvider } from "./contexts/ModeFormContext";
+import FanSpeedScreen from "./screens/FanSpeedScreen";
+import FanSpeedDisplayWidget from "./components/FanSpeedDisplayWidget";
+import Tabs from './navigation/tabs'
+
 
 export default function App({ name = "Nabil" }) {
 
@@ -43,7 +47,9 @@ export default function App({ name = "Nabil" }) {
               <Header name={name} style={{position:"sticky"}}/>
               <MetricsDisplayWidget value={value} />
               <ModeDisplayWidget />
+              <FanSpeedDisplayWidget />
               <StatusBar style="auto" />
+              <Tabs/>
           </ScrollView>
         </View>
       </ModeFormProvider>

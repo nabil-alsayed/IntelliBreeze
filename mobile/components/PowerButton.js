@@ -5,11 +5,11 @@ import { Client } from 'paho-mqtt';
 const PowerButton = () => {
     const [image, setImage] = useState(0);
 
-    const TEMP_SUB_TOPIC = "/intellibreeze/app/manual/button";
+    const TEMP_PUB_TOPIC = "/intellibreeze/app/manual/button";
 
     const images = [
-        require("../assets/Power.png"),
-        require("../assets/power-off.png")
+        require("../assets/OtherIcons/power-on.png"),
+        require("../assets/OtherIcons/power-off.png")
     ];
 
     const client = new Client("broker.hivemq.com", 8000, `WioTerminal-${parseInt(Math.random() * 100)}`);
