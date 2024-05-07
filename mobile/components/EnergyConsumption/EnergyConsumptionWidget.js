@@ -3,9 +3,10 @@ import {Text, StyleSheet, View, TouchableOpacity} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
-    const [timeFrame, setTimeFrame] = useState("day");
+    const [timeFrame, setTimeFrame] = useState("minute");
     const [counter, setCounter] = useState(0);
-    const frames = ["day", "week", "month", "year"];
+    const [modalVisible, setModalVisible] = useState({visible: false, timeframe: timeFrame})
+    const frames = ["minute","hour","day", "week"];
 
     const handleToggleFrame = () => {
         const newCounter = (counter + 1) % frames.length; // Calculate next index
