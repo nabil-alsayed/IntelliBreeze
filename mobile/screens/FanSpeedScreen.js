@@ -1,37 +1,42 @@
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, ImageBackground} from 'react-native';
+import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
+import SaveButton from "../components/SaveButton";
 
 const FanSpeedScreen = () => {
 
   const[fanSpeedRange,setFanSpeedRange] = useState(0)
 
     return(
-      <View>
-        <View style = {styles.container}> 
-            <View style = {styles.valueDisplayImageContainer}>
-              <ImageBackground style={styles.valueDisplayImage} source={require("../assets/ValueDisplay.png")}>
-                <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
-                <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
-                <Text style = {{fontSize: 40, marginLeft: 127, marginTop: -48, fontWeight: "bold"}}> rpm </Text>
-                <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
-              </ImageBackground>
+      <SafeAreaView style={{flex:1}}>
+          <View  style={{justifyContent:"center", alignItems:"center", flexGrow:1, rowGap:30}}>
+            <View style = {styles.container}>
+                <View style = {styles.valueDisplayImageContainer}>
+                  <ImageBackground style={styles.valueDisplayImage} source={require("../assets/OtherIcons/ValueDisplay.png")}>
+                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
+                    <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
+                    <Text style = {{fontSize: 40, marginLeft: 110, marginTop: -48, fontWeight: "bold"}}> rpm </Text>
+                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
+                  </ImageBackground>
+                </View>
+                <View style = {styles.slideContainer}>
+                  <Slider style = {{width: 300, height: 50}}
+                  onValueChange={(value)=> setFanSpeedRange(value)}
+                  minimumValue={40}
+                  maximumValue={255}
+                  />
+                    <View>
+                        <SaveButton/>
+                    </View>
+                </View>
             </View>
-            <View style = {styles.slideContainer}>
-              <Slider style = {{width: 300, height: 50}}
-              onValueChange={(value)=> setFanSpeedRange(value)}
-              minimumValue={0}
-              maximumValue={255}
-              />
+
+            <View style = {styles.buttonContainer}>
+              <PowerButton style = {styles.button}/>
             </View>
-        </View>
-
-        <View style = {styles.buttonContainer}>
-          <PowerButton style = {styles.button}/>
-        </View>
-
-      </View>
+          </View>
+      </SafeAreaView>
     );
 }  
 
@@ -43,29 +48,17 @@ const styles = StyleSheet.create({
       width: 230,
       height: 230,
     },
-    button: {
-      backgroundColor: "#fff",
-    },  
     container: {
-      padding: 15,
       flexDirection: "column",
       borderRadius: 20,
       backgroundColor: "white",
       width: "82%",
       height: 440,
-      marginTop: 130,
       alignItems: "center",
       justifyContent: "center",
-      marginLeft: 39,
     },
     buttonContainer: {
-      flex: 1,
-      width: '100%',
       alignItems: 'center',
-      justifyContent: 'flex-end',
-      marginTop: 50,
-      paddingRight: 30,
-      marginLeft: 17
     },
     child: {
       margin: 3,

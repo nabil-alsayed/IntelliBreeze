@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Client } from 'paho-mqtt';
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 
 const PowerButton = () => {
     const [image, setImage] = useState(0);
 
-    const TEMP_PUB_TOPIC = "/intellibreeze/app/manual/button";
+    const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
 
     const images = [
         require("../assets/OtherIcons/power-on.png"),
@@ -18,15 +19,8 @@ const PowerButton = () => {
         const newState = image === 0 ? 1 : 0;
         setImage(newState);
         const message = newState === 0 ? 'HIGH' : 'LOW';
-        client.connect({
-            onSuccess: () => {
-                console.log("Connected Successfully");
-                client.publish("/intellibreeze/app/manual/button", message);
-            },
-            onFailure: () => {
-                console.log("Connection Failed!");
-            },
-        });
+
+
     }
 
     return(
