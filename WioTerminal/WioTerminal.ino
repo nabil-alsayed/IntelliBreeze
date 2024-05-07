@@ -3,6 +3,8 @@
 #include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <DHT.h>
+#include "FanSpeedAdjustment.h"
+
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
@@ -15,6 +17,7 @@ const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
  
+extern float tempValue = 0; //
  
 // Update these with values suitable for your network.
 const char* ssid = "Tele2_357564"; // WiFi Name
@@ -32,8 +35,8 @@ const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 
 //These variables hold the value of the temperature thresholds published by the GUI
-String highThresholdValue = "";
-String mediumThresholdValue = "";
+extern String highThresholdValue = "";
+extern String mediumThresholdValue = "";
 
  
 void setup_wifi() {
@@ -172,10 +175,11 @@ void setup() {
 
 void loop() {
  
-   float tempValue = dht.readTemperature();
+   tempValue = dht.readTemperature();
   
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
+    changeSpeed();
 
    
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
