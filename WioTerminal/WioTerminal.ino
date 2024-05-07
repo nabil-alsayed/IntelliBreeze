@@ -17,8 +17,6 @@ const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
-String subscribedPayload = "C";
-
  
  
 // Update these with values suitable for your network.
@@ -33,7 +31,6 @@ char msg[50];
 int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
-const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
  
 void setup_wifi() {
   delay(10);
@@ -78,8 +75,12 @@ void callback(char* topic, byte* payload, unsigned int length) {
   }
   Serial.println();
   buff_p[length] = '\0';
-  subscribedPayload = String(buff_p);
-
+  String msg_p = String(buff_p);
+  tft.fillScreen(TFT_BLACK);
+  tft.setCursor((320 - tft.textWidth("MQTT Message")) / 2, 90);
+  tft.print("MQTT Message: " );
+  tft.setCursor((320 - tft.textWidth(msg_p)) / 2, 120);
+  tft.print(msg_p); // Print receved payload
 }
 void reconnect() {
   // Loop until we're reconnected
@@ -113,23 +114,14 @@ void setup() {
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
-  client.setCallback(callback); 
+  client.setCallback(callback);
   dht.begin(); 
 }
 void loop() {
  
    float tempValue = dht.readTemperature();
-   String tempUnit;
   
-  if (subscribedPayload == "F"){
-    tempUnit = "F"
-    tempValue = (tempValue * 9/5) + 32
-  }else if (subscribedPayload == "K"){
-    tempUnit = "K"
-    tempValue = (tempValue  + 273)
-  }
-
-      String temperatureString = String(tempValue);
+    String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
 
    
@@ -139,7 +131,7 @@ void loop() {
     tft.setTextSize(5);               
     tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from (0, 0)
     tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
-    tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
+    tft.drawString("C", tempReadingX + 170, tempReadingY);
  
     Serial.print("temperature = ");
     Serial.println(tempValue);
@@ -158,7 +150,7 @@ void loop() {
     ++value;
     snprintf(msg, 50, "%.1f", temperatureChars); // Convert temperature to string
         client.publish(TEMP_PUB_TOPIC, temperatureChars); // Publish temperature value to MQTT broker
-        client.subscribe(TEMPUNIT_SUB_TOPIC);   
+        //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.print("Published temperature: ");
          Serial.println(tempValue);
   }
