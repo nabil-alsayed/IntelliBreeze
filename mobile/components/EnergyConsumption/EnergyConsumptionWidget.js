@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react'
 import {Text, StyleSheet, View, TouchableOpacity,Pressable} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import Chart from "./Chart";
-import ModeSettingsForm from "../ModeSettingsForm";
 import BlurryModal from "../BlurryModal";
 
 const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
