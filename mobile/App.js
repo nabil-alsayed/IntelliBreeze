@@ -8,11 +8,6 @@ import {Client, Message} from "paho-mqtt";
 
 export default function App({ name = "Nabil" }) {
   const [value, setValue] = useState(0);
-  const [tempUnit, setTempUnit] = useState('°C');
-
-  const getData = (data) => {
-    console.log(data)
-  }
 
   useEffect(() => {
     const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
@@ -31,23 +26,6 @@ export default function App({ name = "Nabil" }) {
       onSuccess: () => {
         console.log("Connected Successfully");
         client.subscribe("/intellibreeze/sensor/temperature");
-
-        //if statements for celsius, fahrenheit, kelvin
-        let tempUnitString;
-
-       if  (tempUnit === '°C'){
-         tempUnitString = '°C';
-         console.log("celsius");
-       } else if (tempUnit === '°F'){
-         tempUnitString = '°F';
-         console.log("fahr");
-       } else{
-         tempUnitString = 'K'
-         console.log("kelvin");
-       }
-        const tempUnitMessage = new Message(tempUnitString);
-       tempUnitMessage.destinationName = "/intellibreeze/app/tempUnit"
-        client.send(tempUnitMessage);
       },
       onFailure: () => {
         console.log("Failed to connect!");

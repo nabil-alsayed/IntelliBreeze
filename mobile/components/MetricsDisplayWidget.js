@@ -1,14 +1,8 @@
 import React, {useState} from "react";
 import { View, StyleSheet } from "react-native";
 import Metric from "./Metric";
-import {convertTemperature} from "./Metric";
 
 const MetricsDisplayWidget = (props) => {
-    const [metricUnit, setMetricUnit] = useState("C");
-    const sendUnitData = (e) => {
-        e.preventDefault();
-        props.onSubmit(convertTemperature())
-    }
   return (
     <View style={styles.container}>
         <MetricsDisplayWidget onSubmit={sendUnitData}/>
@@ -17,7 +11,6 @@ const MetricsDisplayWidget = (props) => {
         metricName="Temperature"
         metricValue={props.value}
         metricUnit="°C"
-        convertTemperature
       />
       <Metric iconName= "droplet" metricName="Humidity" metricValue="20" metricUnit="%" />
     </View>
