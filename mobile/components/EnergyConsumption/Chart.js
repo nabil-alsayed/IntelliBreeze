@@ -39,12 +39,16 @@ const EnergyConsumptionStats = ({TimeFrame}) => {
                     style={{
                         marginVertical: 8,
                         borderRadius: 16,
+                        shadowColor:"#867f7f",
+                        shadowOffset:5,
+                        shadowRadius:10,
+                        shadowOpacity:10
                     }}
                 />
             </View>
             <View style={styles.buttonContainer}>
                 {Object.keys(EnergyData).map((key) => (
-                    <Pressable
+                    <TouchableOpacity
                         key={key}
                         title={key.charAt(0).toUpperCase() + key.slice(1)}
                         onPress={() => setTimeframe(key)}
