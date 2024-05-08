@@ -16,8 +16,8 @@ export default function App({name = "Nabil"}) {
     return (
         <Stacks/>
     );
-
 }
 
 const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
+
 

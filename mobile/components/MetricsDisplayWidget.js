@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet } from "react-native";
 import Metric from "./Metric";
 
@@ -11,7 +11,7 @@ const MetricsDisplayWidget = (props) => {
         metricValue={props.value}
         metricUnit="°C"
       />
-      <Metric iconName= "droplet" metricName="Humidity" metricValue="20" metricUnit="%" />
+      <Metric iconName= "droplet" metricName="Humidity" metricValue="20"  />
     </View>
   );
 };

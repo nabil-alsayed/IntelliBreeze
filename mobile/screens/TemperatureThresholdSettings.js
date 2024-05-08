@@ -13,7 +13,7 @@ import "firebase/compat/app";
 import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
-
+import "../components/Metric";
 
 const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -27,6 +27,7 @@ const TemperatureThresholdSettings = () => {
     const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
 
 
+
     //variable to store data to firestore
     const newThresholds = {
         LowToMediumRange: lowToMediumRange,
@@ -35,7 +36,7 @@ const TemperatureThresholdSettings = () => {
 
 
     //This function calculates the temperature if the preferredUnit/tempUnit is changed
-    const convertTemperature = (temp) => {
+    const convertTemperature = () => {
         if (tempUnit === 'F') {
             return Math.floor(Math.round((temp * 9 / 5) + 32)) + '°F';
         } else if (tempUnit === 'K') {
