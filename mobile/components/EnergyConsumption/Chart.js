@@ -13,53 +13,52 @@ const timeFrameRanges = {
 const Chart = ({ selectedTimeFrame, energyData }) => {
     const [timeframe, setTimeframe] = useState(selectedTimeFrame);
 
+    const chartData = {
+        labels: energyData.labels.slice(timeFrameRanges[timeframe].start, timeFrameRanges[timeframe].end),
+        datasets: [{ data: energyData.datasets[0].data.slice(timeFrameRanges[timeframe].start, timeFrameRanges[timeframe].end) }]
+    };
+
     return (
         <View style={styles.container}>
-            <View>
-                <LineChart
-                    data={chartData}
-                    width={screenWidth - 32}
-                    height={220}
-                    chartConfig={{
-                        backgroundColor: '#1682d0',
-                        backgroundGradientFrom: '#2695e3',
-                        backgroundGradientTo: '#185191',
-                        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                        style: {
-                            borderRadius: 16,
-                        },
-                        propsForDots: {
-                            r: '3',
-                            strokeWidth: '2',
-                            stroke: '#ffffff',
-                        }
-                    }}
-                    bezier
-                    style={{
-                        marginVertical: 8,
-                        borderRadius: 16,
-                        shadowColor:"#867f7f",
-                        shadowOffset:5,
-                        shadowRadius:10,
-                        shadowOpacity:10
-                    }}
-                />
-            </View>
+            <LineChart
+                data={chartData}
+                width={screenWidth - 32}
+                height={220}
+                chartConfig={chartConfig}
+                bezier
+                style={styles.chart}
+            />
             <View style={styles.buttonContainer}>
-                {Object.keys(EnergyData).map((key) => (
+                {Object.keys(timeFrameRanges).map((key) => (
                     <TouchableOpacity
                         key={key}
-                        title={key.charAt(0).toUpperCase() + key.slice(1)}
                         onPress={() => setTimeframe(key)}
-                        style={[styles.timeframe, {backgroundColor: timeframe === key ? "#2695e3" : "rgba(255,255,255,0)" }]}
+                        style={[styles.timeframe, {backgroundColor: timeframe === key ? "#2695e3" : "#eee"}]}
                     >
-                                <Text style={[styles.timeframeLabel, {color: timeframe === key ? "#fff" : "#2695e3" }]}>{key.charAt(0).toUpperCase() + key.slice(1)}</Text>
+                        <Text style={{ color: timeframe === key ? '#fff' : '#000' }}>
+                            {key.charAt(0).toUpperCase() + key.slice(1)}
+                        </Text>
                     </TouchableOpacity>
                 ))}
             </View>
         </View>
     );
+};
+
+const chartConfig = {
+    backgroundColor: '#1682d0',
+    backgroundGradientFrom: '#2695e3',
+    backgroundGradientTo: '#185191',
+    color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+    style: {
+        borderRadius: 16,
+    },
+    propsForDots: {
+        r: '3',
+        strokeWidth: '2',
+        stroke: '#ffffff',
+    }
 };
 
 const styles = StyleSheet.create({
@@ -88,7 +87,15 @@ const styles = StyleSheet.create({
     timeframeLabel: {
         fontWeight: "bold",
         color:"#fff"
+    },
+    chart: {
+        marginVertical: 8,
+        borderRadius: 16,
+        shadowColor: "#867f7f",
+        shadowOffset: 5,
+        shadowRadius: 10,
+        shadowOpacity: 10
     }
 });
 
-export default EnergyConsumptionStats;
+export default Chart;
