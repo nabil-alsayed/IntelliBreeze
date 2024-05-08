@@ -11,6 +11,13 @@ import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 
+// retrieving
+// get the selected modeid from the firebase
+// input it for the default of the state selectedModeId
+
+// updating the selectedState
+//
+
 const ModesDisplayWidget = () => {
 
   const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
@@ -24,6 +31,23 @@ const ModesDisplayWidget = () => {
     setModeEditModalVisible
   } = useContext(ModeFormContext);
 
+  let selectedModeName = getSelectedModeName;
+  const getSelectedModeName = () => {
+    modes.forEach( mode => {
+      if (modes.id === selectedModeId){
+        console.log(mode.ModeName);
+        return mode.ModeName;
+      }else {
+        return null;
+      }
+    } )
+
+  };
+
+  const handlePress = (item) => {
+    setSelectedModeId(item.id);
+    getSelectedModeName();
+  };
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);
@@ -78,7 +102,7 @@ const ModesDisplayWidget = () => {
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
+                  <TouchableOpacity onPress={() => handlePress(item)} onLongPress={() => handleLongPress(item)}>
                     <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
                   </TouchableOpacity>
               )}
