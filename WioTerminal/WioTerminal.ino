@@ -3,9 +3,12 @@
 #include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <DHT.h>
+#include "FanSpeedAdjustment.h"
+
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
+#define Gate 2
 
 DHT dht(DHT_PIN, DHT_TYPE);
  
@@ -17,6 +20,7 @@ const int tempTitleY = 60;
 String subscribedPayload = "C";
 String tempUnit = "C";
  
+extern float tempValue = 0; //temperature sensor reading
  
 // Update these with values suitable for your network.
 const char* ssid = "Tele2_357564"; // WiFi Name
@@ -40,8 +44,9 @@ const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 
 //These variables hold the value of the temperature thresholds published by the GUI
-String highThresholdValue = "";
-String mediumThresholdValue = "";
+extern String highThresholdValue = "";
+extern String mediumThresholdValue = "";
+
 
 
  
@@ -164,18 +169,24 @@ void setup() {
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
   client.setCallback(callback);
   dht.begin(); 
+
+  pinMode(Gate, OUTPUT);
+  digitalWrite(Gate, LOW);
+  
 }
 
 void loop() {
  
+   tempValue = dht.readTemperature();
    float tempValue = dht.readTemperature();
 
-       Serial.println("preliminary tempValue = " );
-    Serial.print(tempValue);
+      Serial.println("preliminary tempValue = " );
+      Serial.print(tempValue);
 
-     Serial.println("subscribedPayload = " );
-    Serial.print(subscribedPayload);
-  
+      Serial.println("subscribedPayload = " );
+      Serial.print(subscribedPayload);
+
+
   if (subscribedPayload == "°F"){
     tempUnit = "F";
     tempValue = (tempValue * 9/5) + 32;
@@ -191,6 +202,7 @@ void loop() {
 
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
+    changeSpeed();
 
    
     tft.setTextColor(TFT_BLACK);         //sets the text colour to black

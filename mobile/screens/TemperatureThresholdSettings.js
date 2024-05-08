@@ -13,7 +13,7 @@ import "firebase/compat/app";
 import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
-
+import "../components/Metric";
 
 const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -25,6 +25,7 @@ const TemperatureThresholdSettings = () => {
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
     const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
     const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
+
 
 
     //variable to store data to firestore

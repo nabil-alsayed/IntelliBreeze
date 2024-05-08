@@ -6,14 +6,16 @@ const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
 const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
+    const [unit, setUnit] = useState('°C'); //
+    const [temperature, setTemp] = useState(0);
+
 
     useEffect(() => {
         setTemp(metricValue);
         setUnit(metricUnit);
     }, [metricValue, metricUnit]);
 
-    const [temperature, setTemp] = useState(0);
-    const [unit, setUnit] = useState('°C'); //
+
 
     const client = connectToMqtt();
 
