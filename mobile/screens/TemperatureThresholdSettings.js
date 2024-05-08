@@ -24,6 +24,7 @@ const TemperatureThresholdSettings = () => {
     const [tempUnit, setTempUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [slidersDisabled, setSlidersDisabled] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
     const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
@@ -109,6 +110,10 @@ const TemperatureThresholdSettings = () => {
         }
     }
 
+    const handleDefaultCheckboxToggle = (isChecked) => {
+        setSlidersDisabled(isChecked);
+    };
+
 
 
     //UI for the sliders
@@ -124,9 +129,14 @@ const TemperatureThresholdSettings = () => {
             <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change</Text>
 
             <View style={styles.container}>
-                <DefaultCheckBox />
+                <DefaultCheckBox
+                    onPress={() => {setLowToMediumRange(20); setMediumToHighRange(27); setSlidersDisabled(true)}}
+                    onToggle = {handleDefaultCheckboxToggle}
+                />
                 <StatusBar style="auto" />
             </View>
+
+
 
             <View style={styles.adjustmentContainerLM}>
                 <Image
@@ -142,6 +152,7 @@ const TemperatureThresholdSettings = () => {
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value={lowToMediumRange}
+                        disabled = {slidersDisabled}
                         onValueChange={(value) => setLowToMediumRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
@@ -173,6 +184,7 @@ const TemperatureThresholdSettings = () => {
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value = {mediumToHighRange}
+                        disabled = {slidersDisabled}
                         onValueChange={(value) => setMediumToHighRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
