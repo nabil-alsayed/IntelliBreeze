@@ -16,7 +16,7 @@ const FanSpeedScreen = () => {
                   <ImageBackground style={styles.valueDisplayImage} source={require("../assets/OtherIcons/ValueDisplay.png")}>
                     <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
                     <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
-                    <Text style = {{fontSize: 40, marginLeft: 110, marginTop: -48, fontWeight: "bold"}}> rpm </Text>
+                    <Text style = {{fontSize: 35, marginLeft: 110, marginTop: -100, fontWeight: "bold"}}> cycles </Text>
                     <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
                   </ImageBackground>
                 </View>

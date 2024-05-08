@@ -43,7 +43,7 @@ const FanSpeedDisplayWidget = ({navigation}) => {
         <FanSpeedButton
         buttonTitle = "Fan Speed"
         buttonValue = {fanSpeed}
-        buttonUnits = "rpm"
+        buttonUnits = "cycles"
         onPress= {handleButtonPress}
           />
     </View>
