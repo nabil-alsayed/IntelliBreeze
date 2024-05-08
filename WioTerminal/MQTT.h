@@ -1,5 +1,5 @@
-#ifndef MQTT_FANSPEED_H
-#define MQTT_FANSPEED_H
+#ifndef MQTT_H
+#define MQTT_H
 
 #include <Arduino.h>
 #include <WiFi.h>

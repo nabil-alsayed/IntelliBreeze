@@ -1,4 +1,5 @@
-#include "MQTT_FanSpeed.h"
+#include "MQTT.h"
+#include "fanbutton.h"
   
   
   const char* ssid = "Tele2_357564"; // WiFi Name
@@ -17,6 +18,9 @@
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
+  const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
+
+   String fanToggleValue = "";
 
 
   void setupClient(){
@@ -49,6 +53,17 @@
   }
 
   void callback(char* topic, byte* payload, unsigned int length) {
+   if (strcmp(topic, FAN_TOGGLE_SUB_TOPIC) == 0) {
+    fanToggleValue = ""; 
+    
+    for (int i = 0; i < length; i++) {
+      fanToggleValue += (char)payload[i];
+    }
+    
+    Serial.print("Received fan toggle value: ");
+    Serial.println(fanToggleValue);
+  }
+
     Serial.print("Message arrived [");
     Serial.print(topic);
     Serial.print("] ");
@@ -83,6 +98,7 @@
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
+      client.subscribe(FAN_TOGGLE_SUB_TOPIC);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());

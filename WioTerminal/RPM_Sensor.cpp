@@ -1,4 +1,4 @@
-#include "RPM_Sensor.h"
+/*#include "RPM_Sensor.h"
 #include "MQTT_FanSpeed.h"
 
     
@@ -31,4 +31,4 @@
         delay(2000);
       }
     }
-    
+    */
