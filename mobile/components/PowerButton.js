@@ -16,16 +16,16 @@ const PowerButton = () => {
     const client = new Client("broker.hivemq.com", 8000, `WioTerminal-${parseInt(Math.random() * 100)}`);
 
     const handlePress = () => {
-        const newState = image === 0 ? 1 : 0;
+        const newState = image === 0 ? 1 : 0; // if image at power on when on press do power off and vice versa
         setImage(newState);
-        const message = newState === 0 ? 'HIGH' : 'LOW';
+        const message = newState === 0 ? 'HIGH' : 'LOW'; // if the newState is on, let message be HIGH otherwise LOW
 
         try{
-            const client = connectToMqtt();
+            const client = connectToMqtt(); // connect to mqtt
 
-            client.onConnected = () => {
+            client.onConnected = () => { // on connection
                 console.log("Successfully connected to MQTT.");
-                publishToTopic(client, FAN_TOGGLE_PUB_TOPIC, message, "fan on/off toggle");
+                publishToTopic(client, FAN_TOGGLE_PUB_TOPIC, message, "fan on/off toggle"); // publish topic with client, message HIGH or LOW and topicName
             }
             console.log("Successfully published toggle value!");
         }catch(error){

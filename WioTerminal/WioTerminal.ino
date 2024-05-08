@@ -1,11 +1,13 @@
 #include <Arduino.h>
 #include <WiFi.h>
-#include"TFT_eSPI.h"
+#include "TFT_eSPI.h"
 #include <PubSubClient.h>
 #include <DHT.h>
+#include "fanbutton.h"
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
+#define fanPin 2
 
 DHT dht(DHT_PIN, DHT_TYPE);
  
@@ -14,6 +16,7 @@ const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
+
 
 
  
@@ -32,9 +35,8 @@ const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
 
-String fanToggleValue = "";
+extern String fanToggleValue = "";
 
-byte fanPin = 16; 
  
 void setup_wifi() {
   delay(10);
@@ -132,11 +134,13 @@ void setup() {
   setup_wifi();
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
   client.setCallback(callback);
-  dht.begin(); 
+  dht.begin();
+  pinMode(fanPin, OUTPUT);
   digitalWrite(fanPin, LOW);
 }
 void loop() {
-   digitalWrite(fanPin, HIGH); 
+
+  toggleFan();
    float tempValue = dht.readTemperature();
   
     String temperatureString = String(tempValue);
@@ -146,7 +150,7 @@ void loop() {
     tft.setTextColor(TFT_BLACK);          //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
     tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
-    tft.setTextSize(5);               
+    tft.setTextSize(5);               +
     tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from (0, 0)
     tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
     tft.drawString("C", tempReadingX + 170, tempReadingY);
