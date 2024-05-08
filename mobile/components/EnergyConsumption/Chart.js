@@ -10,10 +10,8 @@ const timeFrameRanges = {
     month: { start: 13, end: 25 }
 };
 
-    const chartData = {
-        labels: EnergyData[timeframe].labels,
-        datasets: EnergyData[timeframe].datasets,
-    };
+const Chart = ({ selectedTimeFrame, energyData }) => {
+    const [timeframe, setTimeframe] = useState(selectedTimeFrame);
 
     return (
         <View style={styles.container}>
