@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image} from "react-native";
+import {View, Text, StyleSheet, Image, StatusBar} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -14,6 +14,9 @@ import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
+import DefaultCheckBox from "../components/DefaultCheckBox";
+import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
+import {Header} from "@rneui/themed";
 
 const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -111,12 +114,20 @@ const TemperatureThresholdSettings = () => {
     //UI for the sliders
     return (
         <View style={styles.container}>
+
+
             {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.header}>
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
             <View style={styles.headerLine}></View>
             <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change</Text>
+
+            <View style={styles.container}>
+                <DefaultCheckBox />
+                <StatusBar style="auto" />
+            </View>
+
             <View style={styles.adjustmentContainerLM}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
