@@ -1,38 +1,56 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, createContext} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
+import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
-const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
-
-    const [temperature, setTemp] = useState(metricValue);
-    const [unit, setUnit] = useState(metricUnit); //
+const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
 
     useEffect(() => {
         setTemp(metricValue);
         setUnit(metricUnit);
     }, [metricValue, metricUnit]);
 
+    const [temperature, setTemp] = useState(0);
+    const [unit, setUnit] = useState('°C'); //
+
+    const client = connectToMqtt();
+
     const convertTemperature = () => {
+
         if (unit === '°C') {
             // Convert Celsius to Fahrenheit
             const newTemp = (temperature * 9/5) + 32;
             setTemp(Math.round(newTemp));
             setUnit('°F');
-        } else {
+        } else if (unit === '°F'){
             // Convert Fahrenheit to Celsius
-            const newTemp = (temperature - 32) * 5/9;
+            const newTemp = (((temperature - 32) * 5/9) + 273);
+            setTemp(Math.round(newTemp));
+            setUnit('K');
+
+        }else {
+            // Convert Fahrenheit to Kelvin
+            const newTemp = temperature - 273 ;
             setTemp(Math.round(newTemp));
             setUnit('°C');
+
         }
     };
 
-    const getOnPressHandler = () => {
-        if (metricName === "Temperature") {
-            return convertTemperature;
+    const onMessageArrived = (message) => {
+        console.log("temperature:", message.payloadString);
+        if (message.destinationName === TEMP_PUB_TOPIC) {
+            setTemp(parseInt(message.payloadString));
         }
-        return null;  // No handler if condition is not met
     };
 
+    client.onConnected = () => {
+        subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
+        publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
+        console.log(unit);
+    };
     return (
         <View style={styles.container}>
             <View style={styles.metricValueIcon}>
@@ -42,7 +60,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit }) => {
                     {temperature}
                 </Text>
                 {/*Unit*/}
-                <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={getOnPressHandler()}>
+                <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={convertTemperature}>
                     {unit}
                 </Text>
             </View>

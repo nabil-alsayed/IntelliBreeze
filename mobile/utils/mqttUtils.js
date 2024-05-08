@@ -23,7 +23,7 @@ export const connectToMqtt = () => {
     return client;
 };
 
-// Method to subscribe to temperature
+// Method to subscribe to a specific topic
 
 export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
     client.onMessageArrived = handleMessage;
@@ -37,6 +37,7 @@ export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
     });
 };
 
+//Method to unsubscribe to a specific topic
 export const unsubscribeFromTopic = (client, topic, topicName) => {
     client.unsubscribe(topic, {
         onSuccess: () => {
@@ -48,11 +49,10 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
     })
 }
 
-export const publishToTopic = (client, topic, thresholdString, topicName) => {
-    topicName = new Message(thresholdString);
+//Method to publish payload topic
+export const publishToTopic = (client, topic, payload, topicName) => {
+    topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);
-
-
 
 }
