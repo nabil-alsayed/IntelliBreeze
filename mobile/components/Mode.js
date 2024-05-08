@@ -1,12 +1,12 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import { FontAwesome6 } from '@expo/vector-icons';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-const MetricsDisplayWidget = ( props ) => {
+const Mode = ( props ) => {
   return (
       <View style={styles.mainContainer}>
-        <View style={styles.modeContainer}>
-          <FontAwesome6 name={props.iconName} size={25}/>
+        <View style={[styles.modeContainer, {backgroundColor : props.selected === true ? "#169EFFFF" : "#fff"}]}>
+          <Icon name={props.iconName} size={25} style={{color : props.selected === true ? "#fff" : "#000"}}/>
         </View>
         <Text style={styles.modeTitle}>{props.modeName}</Text>
       </View>
@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     padding: 10,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#fff",
     borderRadius: 20,
   },
   modeTitle:{
@@ -35,4 +34,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MetricsDisplayWidget;
+export default Mode;

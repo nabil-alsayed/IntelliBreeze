@@ -1,8 +1,9 @@
 import React, { useEffect, useState, createContext} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
-import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
 const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
 
@@ -38,7 +39,15 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
         }
     };
 
+    const onMessageArrived = (message) => {
+        console.log("temperature:", message.payloadString);
+        if (message.destinationName === TEMP_PUB_TOPIC) {
+            setTemp(parseInt(message.payloadString));
+        }
+    };
+
     client.onConnected = () => {
+        subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
         publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
         console.log(unit);
     };
@@ -63,15 +72,12 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
 const styles = StyleSheet.create({
     container: {
         display: "flex",
-        width: 170,
-        maxHeight: 170,
+        flex: 1,
         minHeight: 120,
         padding: 20,
         alignItems: "center",
         justifyContent: "center",
         gap: 10,
-        flexShrink: 0,
-        alignSelf: "stretch",
         backgroundColor: "#fff",
         borderRadius: 20,
     },
@@ -82,8 +88,6 @@ const styles = StyleSheet.create({
     name: {
         color: "#000",
         fontSize: 20,
-        fontStyle: "normal",
-        fontWeight: "normal",
     },
     metricValueIcon:{
       flexDirection:"row",

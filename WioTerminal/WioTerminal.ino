@@ -1,10 +1,7 @@
 #include <Arduino.h>
-#include <WiFi.h>
 #include <PubSubClient.h>
- 
 #include <WiFi.h>
 #include"TFT_eSPI.h"
-#include <PubSubClient.h>
 #include <DHT.h>
 
 #define DHT_PIN 0  
@@ -38,6 +35,15 @@ int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
+
+const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
+const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
+
+//These variables hold the value of the temperature thresholds published by the GUI
+String highThresholdValue = "";
+String mediumThresholdValue = "";
+
+
  
 void setup_wifi() {
   delay(10);
@@ -72,21 +78,50 @@ void setup_temperature(){
  
 }
 
+
+
 void callback(char* topic, byte* payload, unsigned int length) {
-    Serial.print("Message arrived [");
+
+   Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
 
-  char buff_p[length];
+    char buff_p[length];
   Serial.print("Payload:");
   for (int i = 0; i < length; i++) {
     Serial.print((char)payload[i]);
     buff_p[i] = (char)payload[i];
   }
   Serial.println();
-  subscribedPayload = String(buff_p);
+
+  //Conditional for storing HIGH temperature threshold payload into variable
+  if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
+    highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
+    
+    for (int i = 0; i < length; i++) {
+      highThresholdValue += (char)payload[i];
+    }
+    
+    Serial.print("Received high threshold value: ");
+    Serial.println(highThresholdValue);
+
+  //Conditional for storing MEDIUM temperature threshold payload into variable
+  } else if (strcmp(topic, MED_THRESHOLD_SUB_TOPIC) == 0) {
+    mediumThresholdValue = ""; 
+    
+    for (int i = 0; i < length; i++) {
+      mediumThresholdValue += (char)payload[i];
+    }
+
+    Serial.print("Received medium threshold value: ");
+    Serial.println(mediumThresholdValue);
+
+  } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
+
+    subscribedPayload = String(buff_p);
+  }
+
   buff_p[length] = '\0';
-  
 }
 
 void reconnect() {
@@ -103,6 +138,11 @@ void reconnect() {
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
+
+      //Subscribing to temperature threshold values
+      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+      
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -180,9 +220,11 @@ void loop() {
         client.publish(TEMP_PUB_TOPIC, temperatureChars); 
         Serial.println("Published temperature: ");
          Serial.println(tempValue);
-//llll
+
           //subscribe to incoming temperature units from phone app
           client.subscribe(TEMPUNIT_SUB_TOPIC);
   }
 }
+
+
 
