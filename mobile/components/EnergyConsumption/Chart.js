@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {View, StyleSheet, Dimensions, Text, TouchableOpacity} from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
-import { EnergyData } from '../../data/Data';
 
 const screenWidth = Dimensions.get('window').width;
 
