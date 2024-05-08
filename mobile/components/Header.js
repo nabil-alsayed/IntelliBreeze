@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
   headerText: {
     color: "#333",
     fontSize: 25,
-    // fontFamily: "Inter",
   },
   subHeaderText: {
     color: "#707070",

@@ -12,8 +12,6 @@ export const connectToMqtt = () => {
     client.connect({
         onSuccess: () => {
             console.log("Connected to MQTT broker successfully");
-
-
         },
         onFailure: (error) => {
             console.error("Failed to connect to MQTT broker:", error.errorMessage);
@@ -37,6 +35,7 @@ export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
     });
 };
 
+
 //Method to unsubscribe to a specific topic
 export const unsubscribeFromTopic = (client, topic, topicName) => {
     client.unsubscribe(topic, {
@@ -49,10 +48,11 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
     })
 }
 
+
 //Method to publish payload topic
 export const publishToTopic = (client, topic, payload, topicName) => {
     topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);
-
 }
+
