@@ -19,12 +19,7 @@ export const useTopicSubscription = (onTopicUpdate, topic, topicName) => {
             setClient(null);
         };
 
-        return () => {
-            if (clientRef.current) {
-                unsubscribeFromTopic(clientRef.current, topic, topicName);
-                clientRef.current.disconnect();
-            }
-        };
+        return () => {};
     }, [topic]);
 
     useEffect(() => {
