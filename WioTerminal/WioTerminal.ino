@@ -8,6 +8,7 @@
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
+#define Gate 2
 
 DHT dht(DHT_PIN, DHT_TYPE);
  
@@ -17,7 +18,7 @@ const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
  
-extern float tempValue = 0; //
+extern float tempValue = 0; //temperature sensor reading
  
 // Update these with values suitable for your network.
 const char* ssid = "Tele2_357564"; // WiFi Name
@@ -37,6 +38,7 @@ const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 //These variables hold the value of the temperature thresholds published by the GUI
 extern String highThresholdValue = "";
 extern String mediumThresholdValue = "";
+
 
  
 void setup_wifi() {
@@ -168,6 +170,10 @@ void setup() {
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
   client.setCallback(callback);
   dht.begin(); 
+
+  pinMode(Gate, OUTPUT);
+  digitalWrite(Gate, LOW);
+  
 }
 
 
