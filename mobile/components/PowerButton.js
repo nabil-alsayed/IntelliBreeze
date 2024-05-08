@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, TouchableOpacity, Image } from 'react-native';
-import { Client } from 'paho-mqtt';
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 
 const PowerButton = () => {
@@ -12,8 +11,6 @@ const PowerButton = () => {
         require("../assets/OtherIcons/power-on.png"),
         require("../assets/OtherIcons/power-off.png")
     ];
-
-    const client = new Client("broker.hivemq.com", 8000, `WioTerminal-${parseInt(Math.random() * 100)}`);
 
     const handlePress = () => {
         const newState = image === 0 ? 1 : 0; // if image at power on when on press do power off and vice versa

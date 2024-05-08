@@ -1,17 +1,22 @@
+/*
 #include <Arduino.h>
 #include <WiFi.h>
 #include "TFT_eSPI.h"
-#include <PubSubClient.h>
+// #include <PubSubClient.h>
+#include "MQTT.h"
+#include "RPM_Sensor.h"
 #include <DHT.h>
 #include "fanbutton.h"
+
 
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
 #define fanPin 2
 
-DHT dht(DHT_PIN, DHT_TYPE);
+  DHT dht(DHT_PIN, DHT_TYPE);
  
 //TEMPERATURE_READING_INITIALISATIONS
+
 const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
@@ -34,8 +39,6 @@ int value = 0;
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
-
-extern String fanToggleValue = "";
 
  
 void setup_wifi() {
@@ -175,6 +178,176 @@ void loop() {
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.print("Published temperature: ");
          Serial.println(tempValue);
+  }
+}
+*/
+
+// #include <Arduino.h>
+// #include <WiFi.h>
+// #include "TFT_eSPI.h"
+// #include <PubSubClient.h>
+#include "MQTT.h"
+// #include "RPM_Sensor.h"
+#include <DHT.h>
+#include "fanbutton.h"
+
+
+#define DHT_PIN 0  
+#define DHT_TYPE DHT11
+#define fanPin 2
+
+  DHT dht(DHT_PIN, DHT_TYPE);
+ 
+  const int tempReadingX = 80;
+  const int tempReadingY = 100;
+  const int tempTitleX = 40 ;
+  const int tempTitleY = 60;
+
+  bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
+
+//SETTINGUP_TEMPERATURE_READING
+  void setup_temperature(){
+  
+      Serial.begin(9600);
+        tft.begin();
+    tft.setRotation(3);
+  
+    tft.fillScreen(TFT_RED); //Red background
+  
+  }
+
+
+  void setup() {
+    tft.begin();
+    tft.fillScreen(TFT_BLACK);
+    tft.setRotation(3);
+  
+    Serial.println();
+    Serial.begin(115200);
+    setup_wifi();
+    client.setServer(mqtt_server, 1883); // Connect the MQTT Server
+    client.setCallback(callback);
+    dht.begin(); 
+    digitalWrite(fanPin, LOW);
+    pinMode(fanPin, OUTPUT);
+  }
+
+
+  void loop() {
+    
+
+    toggleFan();
+
+    float tempValue = dht.readTemperature();
+    String temperatureString = String(tempValue);
+    const char* temperatureChars = temperatureString.c_str();
+    String tempName = "Temperature";
+    const char* tempNameChar = tempName.c_str();
+    
+      // Gradually increase the fan speed
+      Serial.println("Increasing fan speed...");
+    
+    //CODE FOR FAN SPEED MQTT
+    float fanSpeedValue = dutyCycle;
+    String fanSpeedString = String(fanSpeedValue);
+    const char* fanSpeedChars = fanSpeedString.c_str();
+    String fanSpeedName = "Fan Speed";
+    const char* fanSpeedNameChar = fanSpeedName.c_str();
+
+    tft.setTextColor(TFT_BLACK);          //sets the text colour to black
+    tft.setTextSize(2); //sets the size of text
+    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
+    tft.setTextSize(5);               +
+    tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from (0, 0)
+    tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
+    tft.drawString("C", tempReadingX + 170, tempReadingY);
+ 
+    Serial.print("temperature = ");
+    Serial.println(tempValue);
+   
+ 
+    delay(5000);
+    tft.fillScreen(TFT_RED);
+ 
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+  long now = millis();
+  if (now - lastMsg > 2000) {
+    lastMsg = now;
+    ++value;
+    
+    /*
+    snprintf(msg, 50, "%.1f", temperatureChars); // Convert temperature to string
+        client.publish(TEMP_PUB_TOPIC, temperatureChars); // Publish temperature value to MQTT broker
+        //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
+        Serial.print("Published temperature: ");
+        Serial.println(tempValue);
+    */
+    
+    publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
+    publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+
+    // CODE FOR FAN SPEED MQTT
+    /*
+    snprintf(msg, 50, "", fanSpeedChars); //Fan speed value is converted to string
+      //if(manualMode){ // checks if the mode set by the user is manual or automatic, and based on that it publishes to the respective topic
+        client.publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars);
+      //}else{
+        client.publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars);
+      
+      Serial.print("Published fan speed: "); // printing the value is published on the serial moniter to keep track
+        Serial.println(fanSpeedValue);
+    */
+
+    /*
+      CODE FOR CONTROLLING THE FAN WITH DUTY CYCLES
+
+          // Define the pin for controlling the PWM fan
+    const int fanPin = 9;
+
+    void setup() {
+      // Initialize serial communication
+      Serial.begin(9600);
+
+      // Set the fan pin as an output
+      pinMode(fanPin, OUTPUT);
+    }
+
+    void loop() {
+      // Gradually increase the fan speed
+      Serial.println("Increasing fan speed...");
+      for (int dutyCycle = 0; dutyCycle <= 255; dutyCycle += 5) {
+        analogWrite(fanPin, dutyCycle);
+        Serial.print("Duty Cycle: ");
+        Serial.println(dutyCycle);
+        delay(100);
+      }
+
+      // Gradually decrease the fan speed
+      Serial.println("Decreasing fan speed...");
+      for (int dutyCycle = 255; dutyCycle >= 0; dutyCycle -= 5) {
+        analogWrite(fanPin, dutyCycle);
+        Serial.print("Duty Cycle: ");
+        Serial.println(dutyCycle);
+        delay(100);
+      }
+    }
+
+        
+
+
+        */
+
+
+
+
+
+
+
+
   }
 }
 

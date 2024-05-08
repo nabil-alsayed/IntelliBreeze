@@ -1,19 +1,48 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { View, StyleSheet } from "react-native";
 import FanSpeedButton from "./FanSpeedButton";
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
+import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-const FanSpeedDisplayWidget = ({ value, navigation }) => {
+
+const FanSpeedDisplayWidget = ({navigation}) => {
     const handleButtonPress = () => {
       navigation.navigate("FanSpeedScreen");
     };
+
+    const [fanSpeed, setFanSpeed] = useState(0);
+
+  useEffect(()=>{
+
+      const MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/app/manual/fanspeed";
+      const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
+
+      const handleMessage = (message) =>{
+          setFanSpeed(parseInt(message.payloadString));
+          console.log("fan speed (Auto Mode)", message.payloadString);
+      }
+
+      try{
+          const client = connectToMqtt(); // connect to mqtt
+
+          client.onConnected = () => { // on connection
+              console.log("Successfully connected to MQTT.");
+              subscribeToTopic(client, handleMessage, AUTO_FAN_SPEED_SUB_TOPIC, "Subscribing to auto fan Speed");
+          }
+          console.log("Successfully subscribed to auto fan speed");
+      }catch(error){
+          console.error("Failed to subscribed to auto fan speed", error);
+      }
+
+  })
+
+
   return (
     <View style={styles.container}>
         <FanSpeedButton
         buttonTitle = "Fan Speed"
-        buttonValue = {"23"}
+        buttonValue = {fanSpeed}
         buttonUnits = "rpm"
         onPress= {handleButtonPress}
           />

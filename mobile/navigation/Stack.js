@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { FanSpeedScreen, HomeScreen } from "../screens/index"
 
-const stack = (name = "Nabil") => {
+const Stack = (name = "Nabil") => {
     const Stack = createStackNavigator();
 
     const screenOptions = {
@@ -33,4 +33,4 @@ const stack = (name = "Nabil") => {
         </NavigationContainer>
     )
 }
-export default stack;
+export default Stack;

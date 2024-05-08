@@ -2,6 +2,7 @@
 #define FANBUTTON_H
 #include <Arduino.h>
 
+  extern int dutyCycle;
 
 #define fanPin 2
 
