@@ -1,58 +1,36 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, View } from "react-native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useState } from "react";
+import {StyleSheet, View, ScrollView} from "react-native";
 import { StatusBar } from "expo-status-bar";
 import Header from "./components/Header";
 import MetricsDisplayWidget from "./components/MetricsDisplayWidget";
-import { Client } from "paho-mqtt";
-import DefaultCheckBox from "./components/DefaultCheckBox";
+import ModesDisplayWidget from "./components/ModesDisplayWidget";
+import {connectToMqtt} from "./utils/mqttUtils";
+import {ModeFormProvider} from "./contexts/ModeFormContext";
+import Stacks from './navigations/Stacks'
 
-export default function App({ name = "Nabil" }) {
-  const [value, setValue] = useState(0);
 
-  useEffect(() => {
-    const clientId = `WioTerminal-${parseInt(Math.random() * 100)}`;
-    const client = new Client("broker.hivemq.com", 8000, clientId);
+const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
 
-    const onMessageArrived = (message) => {
-      console.log("temperature:", message.payloadString);
-      if (message.destinationName === "/intellibreeze/sensor/temperature") {
-        setValue(parseInt(message.payloadString));
-      }
-    };
+export default function App({name = "Nabil"}) {
 
-    client.onMessageArrived = onMessageArrived;
 
-    client.connect({
-      onSuccess: () => {
-        console.log("Connected Successfully");
-        client.subscribe("/intellibreeze/sensor/temperature");
-      },
-      onFailure: () => {
-        console.log("Failed to connect!");
-      },
-    });
 
-    return () => client.disconnect(); // to sclean up the connection when the component unmounts
-  }, []);
+  //return (
+  //  <View style={styles.container}>
+  //    <Header name={name} />
+  //    <MetricsDisplayWidget value={value} />
+  //    <DefaultCheckBox />
+  //    <StatusBar style="auto" />
+  //  </View>
+  //);
 
-  return (
-    <View style={styles.container}>
-      <Header name={name} />
-      <MetricsDisplayWidget value={value} />
-      <DefaultCheckBox />
-      <StatusBar style="auto" />
-    </View>
-  );
+    return (
+        <Stacks/>
+    );
+
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#f3f3f3",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    paddingTop: 50,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-});
+const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
+
+

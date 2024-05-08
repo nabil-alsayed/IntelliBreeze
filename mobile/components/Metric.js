@@ -1,39 +1,103 @@
-import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import React, { useEffect, useState, createContext} from "react";
+import {StyleSheet, Text, View} from "react-native";
+import {FontAwesome6} from '@expo/vector-icons';
+import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
-const Metric = ({ metricName, metricValue, metricUnit }) => {
-  return (
-    <View style={styles.container}>
-      <Text style={[styles.value, styles.child]}>
-        {metricValue} {metricUnit}
-      </Text>
-      <Text style={[styles.name, styles.child]}>{metricName}</Text>
-    </View>
-  );
+const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
+    const [unit, setUnit] = useState('°C'); //
+    const [temperature, setTemp] = useState(0);
+
+
+    useEffect(() => {
+        setTemp(metricValue);
+        setUnit(metricUnit);
+    }, [metricValue, metricUnit]);
+
+
+
+    const client = connectToMqtt();
+
+    const convertTemperature = () => {
+
+        if (unit === '°C') {
+            // Convert Celsius to Fahrenheit
+            const newTemp = (temperature * 9/5) + 32;
+            setTemp(Math.round(newTemp));
+            setUnit('°F');
+        } else if (unit === '°F'){
+            // Convert Fahrenheit to Celsius
+            const newTemp = (((temperature - 32) * 5/9) + 273);
+            setTemp(Math.round(newTemp));
+            setUnit('K');
+
+        }else {
+            // Convert Fahrenheit to Kelvin
+            const newTemp = temperature - 273 ;
+            setTemp(Math.round(newTemp));
+            setUnit('°C');
+
+        }
+    };
+
+    const onMessageArrived = (message) => {
+        console.log("temperature:", message.payloadString);
+        if (message.destinationName === TEMP_PUB_TOPIC) {
+            setTemp(parseInt(message.payloadString));
+        }
+    };
+
+    client.onConnected = () => {
+        subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
+        publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
+        console.log(unit);
+    };
+    return (
+        <View style={styles.container}>
+            <View style={styles.metricValueIcon}>
+                <FontAwesome6 name={ iconName } size={24} color={metricName === "Humidity" ? "skyblue" : "black"}/>
+                {/*Value*/}
+                <Text style={[styles.value, styles.child]}>
+                    {temperature}
+                </Text>
+                {/*Unit*/}
+                <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={convertTemperature}>
+                    {unit}
+                </Text>
+            </View>
+            <Text style={[styles.name, styles.child]}>{metricName}</Text>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 15,
-    flexDirection: "column",
-    borderRadius: 20,
-    backgroundColor: "white",
-    width: "45%",
-    height: 150,
-    margin: 5,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  child: {
-    margin: 3,
-  },
-  value: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-  name: {
-    fontSize: 15,
-  },
+    container: {
+        display: "flex",
+        flex: 1,
+        minHeight: 120,
+        padding: 20,
+        alignItems: "center",
+        justifyContent: "center",
+        gap: 10,
+        backgroundColor: "#fff",
+        borderRadius: 20,
+    },
+    value: {
+        fontWeight: "bold",
+        fontSize: 20,
+    },
+    name: {
+        color: "#000",
+        fontSize: 20,
+    },
+    metricValueIcon:{
+      flexDirection:"row",
+      columnGap: 10,
+    },
+    temperature:{
+        textDecorationLine: "underline",
+    }
 });
 
 export default Metric;
