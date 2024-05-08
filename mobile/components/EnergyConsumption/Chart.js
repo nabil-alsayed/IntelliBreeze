@@ -5,8 +5,11 @@ import { EnergyData } from '../../data/Data';
 
 const screenWidth = Dimensions.get('window').width;
 
-const EnergyConsumptionStats = ({TimeFrame}) => {
-    const [timeframe, setTimeframe] = useState(TimeFrame);
+const timeFrameRanges = {
+    day: { start: 0, end: 7 },
+    week: { start: 7, end: 13 },
+    month: { start: 13, end: 25 }
+};
 
     const chartData = {
         labels: EnergyData[timeframe].labels,
