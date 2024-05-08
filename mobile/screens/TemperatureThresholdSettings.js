@@ -15,8 +15,12 @@ import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
-import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
-import {Header} from "@rneui/themed";
+
+{/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
+ speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
+ the sliders allow them to set it freely. These values are saved to firebase and published to the MQTT broker when the save
+ is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher than the
+ temperature at which th fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -121,13 +125,13 @@ const TemperatureThresholdSettings = () => {
         <View style={styles.container}>
 
 
-            {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.header}>
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
             <View style={styles.headerLine}></View>
-            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change</Text>
+            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
 
+            {/*Default Checkbox begins here*/}
             <View style={styles.container}>
                 <DefaultCheckBox
                     onPress={() => {setLowToMediumRange(20); setMediumToHighRange(27); setSlidersDisabled(true)}}
@@ -137,7 +141,7 @@ const TemperatureThresholdSettings = () => {
             </View>
 
 
-
+            {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.adjustmentContainerLM}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
