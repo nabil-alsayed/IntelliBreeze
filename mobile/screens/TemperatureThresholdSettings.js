@@ -132,7 +132,7 @@ const TemperatureThresholdSettings = () => {
             <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
 
             {/*Default Checkbox begins here*/}
-            <View style={styles.container}>
+            <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
                     onPress={() => {setLowToMediumRange(20); setMediumToHighRange(27); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
@@ -267,7 +267,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
         width: "100%",
         marginTop: 20,
-        marginBottom: 1
+        marginBottom: 1,
     },
     headerLine: {
         borderBottomWidth: 1,
@@ -288,13 +288,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 220,
+        marginTop: 140,
     },
     adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 70,
+        marginTop: 15,
     },
     thresholdLabel: {
         fontSize: 18,
@@ -316,7 +316,13 @@ const styles = StyleSheet.create({
         color: "#666",
         textAlign: "center",
         marginBottom: 10,
-    }
+    },
+    checkBoxWrapper: {
+        alignItems: "center",
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
+        padding: 10,
+    },
 
 });
 
