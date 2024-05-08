@@ -8,6 +8,7 @@ import {ModeFormContext} from "../contexts/ModeFormContext";
 import { collection, onSnapshot } from "firebase/firestore";
 import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
+import AutoModeButton from "./AutoModeButton";
 
 const ModesDisplayWidget = () => {
 
@@ -51,12 +52,7 @@ const ModesDisplayWidget = () => {
       <View style={styles.subContainer}>
 
         {/*  Auto button */}
-        <View style={styles.smallContainer}>
-          <View style={styles.auto} >
-            <Icon name={"gear"} size={24} color={"black"} />
-          </View>
-          <Text style={styles.subTitle}>Auto</Text>
-        </View>
+        <AutoModeButton/>
 
         {/* Divider */}
         <Divider orientation="vertical" width={1} />

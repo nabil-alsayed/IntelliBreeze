@@ -19,8 +19,8 @@ If you have questions about IntelliBreeze, please check the existing [Issues](#)
 If you want to contribute to the codebase, please make sure to:
 - Check the documentation and existing issues for similar contributions.
 - Follow our coding and commit message standards.
--- Tracable
--- Consice 
+-- Traceable
+-- concise
 -- Meaningful
 
 ### Reporting Bugs

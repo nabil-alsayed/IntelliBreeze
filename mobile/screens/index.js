@@ -1,5 +1,5 @@
-import Home from './Home';
+import TemperatureThresholdSettings from "./TemperatureThresholdSettings";
+import HomeScreen from "./HomeScreen";
+import EnergyConsumptionWidget from "./../components/EnergyConsumption/EnergyConsumptionWidget"
 
-export {
-    Home,
-}
+export {TemperatureThresholdSettings, HomeScreen, EnergyConsumptionWidget}

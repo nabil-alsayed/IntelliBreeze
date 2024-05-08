@@ -4,7 +4,7 @@ import { ModeFormContext } from "../contexts/ModeFormContext";
 import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 
-const ConfirmationModal = ({ modeId, visibility, action, actionTitle }) => {
+const ConfirmationModal = ({ modeId, actionTitle }) => {
     const { setModeEditModalVisible } = useContext(ModeFormContext);
     const { modeConfirmationModalVisible, setModeConfirmationModalVisible } = useContext(ModeFormContext);
 
