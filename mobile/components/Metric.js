@@ -4,16 +4,17 @@ import {FontAwesome6} from '@expo/vector-icons';
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
 const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
 const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
-const [unit, setUnit] = useState('°C'); //
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
+    const [unit, setUnit] = useState('°C'); //
+    const [temperature, setTemp] = useState(0);
+
 
     useEffect(() => {
         setTemp(metricValue);
         setUnit(metricUnit);
     }, [metricValue, metricUnit]);
 
-    const [temperature, setTemp] = useState(0);
 
 
     const client = connectToMqtt();

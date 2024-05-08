@@ -36,7 +36,7 @@ const TemperatureThresholdSettings = () => {
 
 
     //This function calculates the temperature if the preferredUnit/tempUnit is changed
-    const convertTemperature = () => {
+    const convertTemperature = (temp) => {
         if (tempUnit === 'F') {
             return Math.floor(Math.round((temp * 9 / 5) + 32)) + '°F';
         } else if (tempUnit === 'K') {
