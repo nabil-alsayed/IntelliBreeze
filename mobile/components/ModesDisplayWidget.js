@@ -54,6 +54,23 @@ const ModesDisplayWidget = () => {
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
 
+  const deselectMode = async (modeRef) => {
+    try {
+      await updateDoc(modeRef, { Selected: false });
+      console.log("Old mode was successfully deselected.");
+    } catch (error) {
+      console.error("Error in deselecting mode:", error);
+    }
+  }
+  const selectMode = async (modeRef) => {
+    try {
+      await updateDoc(modeRef, { Selected: true });
+      console.log("New mode was successfully selected.");
+    } catch (error) {
+      console.error("Error in selecting mode:", error);
+    }
+  }
+
   return (
       <View style={styles.mainContainer}>
         <Text style={styles.sectionTitle}>General Modes</Text>
