@@ -24,37 +24,6 @@ const ModesDisplayWidget = () => {
     setSelectedModeId,
   } = useContext(ModeFormContext);
 
-
-  const handleLongPress = (mode) => {
-    setCurrentModeDetails(mode);
-    setModeEditModalVisible(true);
-  };
-
-  const handleOpenModal = () => setModalVisible(true);
-  const handleCloseModal = () => setModalVisible(false);
-  const handleModeSelection = (modeId) => {
-    const oldModeRef = doc(db, "modes", selectedModeId);
-    const newModeRef = doc(db, "modes", modeId);
-
-    try {
-      // Set newly selected mode's flag field to true
-       updateDoc(oldModeRef, {
-         Selected: false
-       }).then(r  => {})
-
-      // Set old selected mode's flag field to false
-       updateDoc(newModeRef, {
-        Selected: true
-      }).then(r  => {})
-
-      // after ensuring swap happened we setSelectedMode to newly selected one
-      setSelectedModeId(modeId)
-
-    } catch (error) {
-      console.error("Error in updating mode:" + error)
-    }
-  }
-
   // fetch created modes and set the local state to it
 
   useEffect(() => {
@@ -69,69 +38,85 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
+  // fetch selected mode and set the context state to it
+
+  useEffect(() => {
+    const selectedMode = modes.find(mode => mode.Selected === true);
+    if (selectedMode) {
+      setSelectedModeId(selectedMode.id);
+    }
+  }, [modes]); // I added modes as dependency to account for modes changes
   return (
-    <View style={styles.mainContainer}>
-      <Text style={styles.sectionTitle}>General Modes</Text>
+      <View style={styles.mainContainer}>
+        <Text style={styles.sectionTitle}>General Modes</Text>
 
-      {/* Auto + Modes Container */}
-      <View style={styles.subContainer}>
+        {/* Auto + Modes Container */}
+        <View style={styles.subContainer}>
 
-        {/*  Auto button */}
-        <AutoModeButton/>
+          {/*  Auto button */}
+          <AutoModeButton/>
 
-        {/* Divider */}
-        <Divider orientation="vertical" width={1} />
+          {/* Divider */}
+          <Divider orientation="vertical" width={1}/>
 
-        {/*  Add button */}
-        <View style={styles.smallContainer}>
-          <TouchableOpacity
-              style={[styles.plus,{borderWidth:1,padding:10,
-                borderRadius:20,borderColor:"lightgrey",
-                borderStyle:"dashed"}]}
-              onPress={handleOpenModal}
-          >
-            <Icon name={"plus"} size={24} color={"grey"} />
-          </TouchableOpacity>
-          <Text style={styles.subTitle}>Add Mode</Text>
-        </View>
-        <View style={{width:160}}>
-          <FlatList
-              data={modes}
-              keyExtractor={item => item.id}
-              horizontal={true}
-              contentContainerStyle={{ columnGap: 15 }}
-              showsHorizontalScrollIndicator={false}
-              renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handleModeSelection(item.id)} onLongPress={() => handleLongPress(item)}>
-                    <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
-                  </TouchableOpacity>
-              )}
-              showsVerticalScrollIndicator={false}
-          />
-          <Modal
-              animationType="slide"
-              transparent={true}
-              visible={modeEditModalVisible}
-              style={{width:"100%", height:"100%"}}
-              onRequestClose={() => setModalVisible(false)}
-          >
-            <ModeSettingsForm
-                modeId={currentModeDetails.id}
+          {/*  Add button */}
+          <View style={styles.smallContainer}>
+            <TouchableOpacity
+                style={[styles.plus, {
+                  borderWidth: 1, padding: 10,
+                  borderRadius: 20, borderColor: "lightgrey",
+                  borderStyle: "dashed"
+                }]}
+                onPress={handleOpenModal}
+            >
+              <Icon name={"plus"} size={24} color={"grey"}/>
+            </TouchableOpacity>
+            <Text style={styles.subTitle}>Add Mode</Text>
+          </View>
+          <View style={{width: 160}}>
+            <FlatList
+                data={modes}
+                keyExtractor={item => item.id}
+                horizontal={true}
+                contentContainerStyle={{columnGap: 15}}
+                showsHorizontalScrollIndicator={false}
+                renderItem={({item}) => (
+                    <TouchableOpacity onPress={() => handleModeSelection(item.id)}
+                                      onLongPress={() => handleLongPress(item)}>
+
+                      {/* the modes that will be shown in the list */}
+                      <Mode iconName={item.SelectedIcon}
+                            modeName={item.ModeName}
+                            selected={item.Selected}/>
+
+                    </TouchableOpacity>
+                )}
+                showsVerticalScrollIndicator={false}
             />
-          </Modal>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modeEditModalVisible}
+                style={{width: "100%", height: "100%"}}
+                onRequestClose={() => setModalVisible(false)}
+            >
+              <ModeSettingsForm
+                  modeId={currentModeDetails.id}
+              />
+            </Modal>
+          </View>
         </View>
+        <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={handleCloseModal}
+        >
+
+          <AddModeForm style={styles.modalView}/>
+
+        </Modal>
       </View>
-      <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={handleCloseModal}
-      >
-
-        <AddModeForm style={styles.modalView}/>
-
-      </Modal>
-    </View>
   );
 };
 
