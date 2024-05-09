@@ -54,6 +54,7 @@ const ModesDisplayWidget = () => {
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
 
+  // Update db to set the old selected Mode to Selected: false
   const deselectMode = async (modeRef) => {
     try {
       await updateDoc(modeRef, { Selected: false });
@@ -62,6 +63,9 @@ const ModesDisplayWidget = () => {
       console.error("Error in deselecting mode:", error);
     }
   }
+
+  // Update db to set the newly selected Mode to Selected: true
+
   const selectMode = async (modeRef) => {
     try {
       await updateDoc(modeRef, { Selected: true });
@@ -70,6 +74,8 @@ const ModesDisplayWidget = () => {
       console.error("Error in selecting mode:", error);
     }
   }
+
+  // Check if Mode Exist in Database to Use for Deciding to Update or Not
 
   const modeExistInDB = async (modeRef) => {
     const docSnap = await getDoc(modeRef);
