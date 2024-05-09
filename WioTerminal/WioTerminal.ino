@@ -143,10 +143,7 @@ void reconnect() {
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
-
-      //Subscribing to temperature threshold values
-      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+       
       
     } else {
       Serial.print("failed, rc=");
@@ -176,6 +173,10 @@ void setup() {
 }
 
 void loop() {
+
+  //Subscribing to temperature threshold values
+      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
  
    tempValue = dht.readTemperature();
    float tempValue = dht.readTemperature();

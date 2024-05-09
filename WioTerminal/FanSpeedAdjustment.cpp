@@ -13,15 +13,15 @@ void changeSpeed(){
   float mediumThreshold = mediumThresholdValue.toFloat();
   float highThreshold = highThresholdValue.toFloat();
 
-  
-   if(tempValue>=mediumThreshold && tempValue<highThreshold){
+
+  if(tempValue>=mediumThreshold && tempValue<highThreshold){
     dutyCycle = 180;
     analogWrite(Gate, dutyCycle);
     Serial.println("Changed speed to medium:");
   } else if (tempValue>=highThreshold){
     dutyCycle = 255;
     analogWrite(Gate, dutyCycle);
-    Serial.println("Changed speed to high.");
+    Serial.println("Changed speed to high:");
 
   }
 

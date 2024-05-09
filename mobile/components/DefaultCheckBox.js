@@ -20,7 +20,7 @@ const DefaultCheckBox = ({onPress, onToggle}) => {
             </Pressable>
 
 
-            <Text style={styles.subLabel}>LOW (&lt;20°C)</Text>
+            <Text style={styles.subLabel}>LOW (&lt;25°C)</Text>
         <Text style={styles.subLabel}>MEDIUM (&lt;27°C)</Text>
         <Text style={styles.subLabel}>HIGH (&gt;27°C)</Text>
     </View>

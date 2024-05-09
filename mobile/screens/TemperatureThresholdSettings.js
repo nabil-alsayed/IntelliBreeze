@@ -134,7 +134,7 @@ const TemperatureThresholdSettings = () => {
             {/*Default Checkbox begins here*/}
             <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(20); setMediumToHighRange(27); setSlidersDisabled(true)}}
+                    onPress={() => {setLowToMediumRange(25); setMediumToHighRange(27); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
                 <StatusBar style="auto" />
