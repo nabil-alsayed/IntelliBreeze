@@ -75,6 +75,33 @@ const ModesDisplayWidget = () => {
     const docSnap = await getDoc(modeRef);
     return docSnap.exists()
   }
+
+  // Handle Selection of New Mode and Deselection of Old Mode When a Mode is Pressed
+
+  const handleModeSelection = async (modeId) => {
+
+    // get the reference for old selected mode and the newly selected mode
+
+    const oldModeRef = doc(db, "modes", selectedModeId);
+    const newModeRef = doc(db, "modes", modeId);
+
+    try {
+
+      // Don't deselect if mode doesn't exist or same as old mode!
+      if (selectedModeId !== modeId && modeExistInDB ) {
+        deselectMode(oldModeRef);
+      }
+
+      // Don't select if mode is same as old mode!
+      if (selectedModeId !== modeId) {
+        selectMode(newModeRef);
+      }
+      setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
+    } catch (error) {
+      console.error("Error in handling mode selection:", error);
+    }
+  }
+
   return (
       <View style={styles.mainContainer}>
         <Text style={styles.sectionTitle}>General Modes</Text>
