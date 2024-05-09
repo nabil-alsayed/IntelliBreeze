@@ -10,6 +10,9 @@ import { collection, onSnapshot } from "firebase/firestore";
 import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
+import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+const MODEID_PUB_TOPIC =  "/intellibreeze/app/modeId"
+const client = connectToMqtt();
 
 // retrieving
 // get the selected modeid from the firebase
@@ -44,12 +47,17 @@ const ModesDisplayWidget = () => {
 
   };
 
+  client.onConnected = () => {
+    publishToTopic(client, MODEID_PUB_TOPIC, selectedModeId, "selectedModeId" );
+    console.log(selectedModeId);
+  };
   const handlePress = (item) => {
     setSelectedModeId(item.id);
-    getSelectedModeName();
+
   };
 
   const handleLongPress = (mode) => {
+    console.log(selectedModeId)
     setCurrentModeDetails(mode);
     setModeEditModalVisible(true);
   };
@@ -102,7 +110,7 @@ const ModesDisplayWidget = () => {
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => handlePress(item)} onLongPress={() => handleLongPress(item)}>
+                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
                     <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
                   </TouchableOpacity>
               )}
