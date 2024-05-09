@@ -24,7 +24,7 @@ const ModesDisplayWidget = () => {
     setSelectedModeId,
   } = useContext(ModeFormContext);
 
-  // fetch created modes and set the local state to it
+  // fetchs created modes and set the local state to it
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
@@ -38,7 +38,7 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
-  // fetch selected mode and set the context state to it
+  // fetchs selected mode and set the context state to it
 
   useEffect(() => {
     const selectedMode = modes.find(mode => mode.Selected === true);
@@ -54,7 +54,7 @@ const ModesDisplayWidget = () => {
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
 
-  // Update db to set the old selected Mode to Selected: false
+  // Updates db to set the old selected Mode to Selected: false
   const deselectMode = async (modeRef) => {
     try {
       await updateDoc(modeRef, { Selected: false });
@@ -64,7 +64,7 @@ const ModesDisplayWidget = () => {
     }
   }
 
-  // Update db to set the newly selected Mode to Selected: true
+  // Updates db to set the newly selected Mode to Selected: true
 
   const selectMode = async (modeRef) => {
     try {
@@ -75,7 +75,7 @@ const ModesDisplayWidget = () => {
     }
   }
 
-  // Check if Mode Exist in Database to Use for Deciding to Update or Not
+  // Checks if Mode Exist in Database to Use for Deciding to Update or Not
 
   const modeExistInDB = async (modeRef) => {
     const docSnap = await getDoc(modeRef);
@@ -86,7 +86,7 @@ const ModesDisplayWidget = () => {
 
   const handleModeSelection = async (modeId) => {
 
-    // get the reference for old selected mode and the newly selected mode
+    // gets the reference for old selected mode and the newly selected mode
 
     const oldModeRef = doc(db, "modes", selectedModeId);
     const newModeRef = doc(db, "modes", modeId);
