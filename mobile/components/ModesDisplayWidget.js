@@ -12,7 +12,6 @@ import AutoModeButton from "./AutoModeButton";
 
 const ModesDisplayWidget = () => {
 
-  // const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
     modes,
