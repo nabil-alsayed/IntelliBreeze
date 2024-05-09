@@ -33,6 +33,30 @@ const ModesDisplayWidget = () => {
 
   const handleOpenModal = () => setModalVisible(true);
   const handleCloseModal = () => setModalVisible(false);
+  const handleModeSelection = (modeId) => {
+    const oldModeRef = doc(db, "modes", selectedModeId);
+    const newModeRef = doc(db, "modes", modeId);
+
+    try {
+      // Set newly selected mode's flag field to true
+       updateDoc(oldModeRef, {
+         Selected: false
+       }).then(r  => {})
+
+      // Set old selected mode's flag field to false
+       updateDoc(newModeRef, {
+        Selected: true
+      }).then(r  => {})
+
+      // after ensuring swap happened we setSelectedMode to newly selected one
+      setSelectedModeId(modeId)
+
+    } catch (error) {
+      console.error("Error in updating mode:" + error)
+    }
+  }
+
+  // fetch created modes and set the local state to it
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
@@ -79,7 +103,7 @@ const ModesDisplayWidget = () => {
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
+                  <TouchableOpacity onPress={() => handleModeSelection(item.id)} onLongPress={() => handleLongPress(item)}>
                     <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
                   </TouchableOpacity>
               )}
