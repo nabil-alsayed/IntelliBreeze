@@ -94,7 +94,7 @@ const ModesDisplayWidget = () => {
     try {
 
       // Don't deselect if mode doesn't exist or same as old mode!
-      if (selectedModeId !== modeId && modeExistInDB ) {
+      if (selectedModeId !== modeId && await modeExistInDB(oldModeRef) ) {
         deselectMode(oldModeRef);
       }
 
