@@ -46,6 +46,14 @@ const ModesDisplayWidget = () => {
       setSelectedModeId(selectedMode.id);
     }
   }, [modes]); // I added modes as dependency to account for modes changes
+
+  const handleLongPress = (mode) => {
+    setCurrentModeDetails(mode);
+    setModeEditModalVisible(true);
+  };
+  const handleOpenModal = () => setModalVisible(true);
+  const handleCloseModal = () => setModalVisible(false);
+
   return (
       <View style={styles.mainContainer}>
         <Text style={styles.sectionTitle}>General Modes</Text>
