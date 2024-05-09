@@ -45,7 +45,7 @@ const ModesDisplayWidget = () => {
     if (selectedMode) {
       setSelectedModeId(selectedMode.id);
     }
-  }, [modes]); // I added modes as dependency to account for modes changes
+  }, [modes]); // modes added as dependency to account for modes changes
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);
@@ -93,12 +93,12 @@ const ModesDisplayWidget = () => {
 
     try {
 
-      // Don't deselect if mode doesn't exist or same as old mode!
+      // if mode doesn't exist or if it is same as old mode, it doesn't deselect
       if (selectedModeId !== modeId && await modeExistInDB(oldModeRef) ) {
         deselectMode(oldModeRef);
       }
 
-      // Don't select if mode is same as old mode!
+      // if mode is same as old mode, mode will not be selected/updated in db
       if (selectedModeId !== modeId) {
         selectMode(newModeRef);
       }
