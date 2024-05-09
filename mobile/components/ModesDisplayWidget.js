@@ -71,6 +71,10 @@ const ModesDisplayWidget = () => {
     }
   }
 
+  const modeExistInDB = async (modeRef) => {
+    const docSnap = await getDoc(modeRef);
+    return docSnap.exists()
+  }
   return (
       <View style={styles.mainContainer}>
         <Text style={styles.sectionTitle}>General Modes</Text>
