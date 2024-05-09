@@ -1,5 +1,5 @@
 import {useState} from "react";
-import {StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
+import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
