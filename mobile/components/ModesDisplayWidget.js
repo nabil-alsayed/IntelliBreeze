@@ -12,7 +12,7 @@ import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
 const MODEID_PUB_TOPIC =  "/intellibreeze/app/modeId"
-const client = connectToMqtt();
+
 
 // retrieving
 // get the selected modeid from the firebase
@@ -22,6 +22,8 @@ const client = connectToMqtt();
 //
 
 const ModesDisplayWidget = () => {
+
+
 
   const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
@@ -37,9 +39,20 @@ const ModesDisplayWidget = () => {
   let selectedModeName = getSelectedModeName;
   const getSelectedModeName = () => {
     modes.forEach( mode => {
-      if (modes.id === selectedModeId){
+      if (mode.id === selectedModeId){
         console.log(mode.ModeName);
+
+        const client = connectToMqtt();
+        try {
+          client.onConnected = () => {
+            publishToTopic(client, MODEID_PUB_TOPIC, mode.ModeName, "selectedModeId");
+          };
+        } catch (error) {
+          console.log("error publishing", error);
+        }
+
         return mode.ModeName;
+
       }else {
         return null;
       }
@@ -47,12 +60,17 @@ const ModesDisplayWidget = () => {
 
   };
 
+  /*
   client.onConnected = () => {
     publishToTopic(client, MODEID_PUB_TOPIC, selectedModeId, "selectedModeId" );
     console.log(selectedModeId);
   };
+
+   */
   const handlePress = (item) => {
     setSelectedModeId(item.id);
+    getSelectedModeName();
+    console.log(selectedModeId);
 
   };
 
@@ -110,7 +128,7 @@ const ModesDisplayWidget = () => {
               contentContainerStyle={{ columnGap: 15 }}
               showsHorizontalScrollIndicator={false}
               renderItem={({ item }) => (
-                  <TouchableOpacity onPress={() => setSelectedModeId(item.id)} onLongPress={() => handleLongPress(item)}>
+                  <TouchableOpacity onPress={() => handlePress(item)} onLongPress={() => handleLongPress(item)}>
                     <Mode iconName={item.SelectedIcon} modeName={item.ModeName} selected={item.id === selectedModeId} />
                   </TouchableOpacity>
               )}
