@@ -12,7 +12,7 @@ import AutoModeButton from "./AutoModeButton";
 
 const ModesDisplayWidget = () => {
 
-  const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
+  // const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
     modes,
@@ -20,7 +20,9 @@ const ModesDisplayWidget = () => {
     modalVisible,
     setModalVisible,
     modeEditModalVisible,
-    setModeEditModalVisible
+    setModeEditModalVisible,
+    selectedModeId,
+    setSelectedModeId,
   } = useContext(ModeFormContext);
 
 
