@@ -5,7 +5,7 @@ import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import {ModeFormProvider} from "../contexts/ModeFormContext";
-import {EnergyConsumptionWidget} from "./index";
+import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 
 
 const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
