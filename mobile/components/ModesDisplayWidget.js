@@ -1,15 +1,17 @@
-import React, {useContext, useEffect, useState} from "react";
-import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
-import { collection, onSnapshot, updateDoc, doc, getDoc} from "firebase/firestore";
-import {db} from "../firebaseConfig";
+import { collection, onSnapshot, updateDoc, doc, getDoc } from "firebase/firestore";
+import { db } from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
+import { useTopicPublish } from "../hooks/useTopicPublish";
+import { CUSTOM_FAN_SPEED } from "../constants/LogicConstants";
 
 const ModesDisplayWidget = () => {
   const navigation = useNavigation();
