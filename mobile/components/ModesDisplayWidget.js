@@ -118,7 +118,7 @@ const ModesDisplayWidget = () => {
 
 /* Changes context/global state of modeSelectedId to
 "auto" to select Auto and deselect previous mode */
-  
+
   const handleAutoModePress = () => {
     if(selectedModeId !== "auto"){
       const oldModeRef = doc(db, "modes", selectedModeId);
@@ -171,7 +171,8 @@ const ModesDisplayWidget = () => {
                       {/* the modes that will be shown in the list */}
                       <Mode iconName={item.SelectedIcon}
                             modeName={item.ModeName}
-                            selected={item.Selected}/>
+                            selectedModeId={item.id}
+                      />
 
                     </TouchableOpacity>
                 )}
