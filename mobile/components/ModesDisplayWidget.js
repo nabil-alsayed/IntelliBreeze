@@ -29,32 +29,26 @@ const ModesDisplayWidget = () => {
   } = useContext(ModeFormContext);
 
   let selectedModeName = getSelectedModeName;
-  const getSelectedModeName = () => {
-    modes.forEach( mode => {
-      if (mode.id === selectedModeId){
-        console.log(mode.ModeName);
+  const getSelectedModeName = ( modeNameId ) => {
+    const selectedMode = modes.find( mode => mode.id === modeNameId);
+    const selectedModeName = selectedMode.ModeName;
+
+    console.log(selectedModeName);
 
         const client = connectToMqtt();
         try {
           client.onConnected = () => {
-            publishToTopic(client, MODENAME_PUB_TOPIC, mode.ModeName, "selectedModeName");
+            publishToTopic(client, MODENAME_PUB_TOPIC, selectedModeName, "selectedModeName");
           };
         } catch (error) {
-          console.log("error publishing", error);
+          console.log("Publishing Error", error);
         }
-
-        return mode.ModeName;
-
-      }else {
-        return null;
-      }
-    } )
 
   };
 
   const handlePress = (item) => {
     setSelectedModeId(item.id);
-    getSelectedModeName();
+    getSelectedModeName(item.id);
     console.log(selectedModeId);
 
   };

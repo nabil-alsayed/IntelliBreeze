@@ -20,11 +20,16 @@ const int tempTitleY = 60;
 String subscribedTempUnit = "C";
 String tempUnit = "C";
 
-//SELECTED MODE_READING INITIALISATION
- String selectedMode = "";
- 
 extern float tempValue = 0; //temperature sensor reading
+
+//SELECTED MODE_READING INITIALISATION
+const int modeReadingX = 40;
+const int modeReadingY = 200;
+const int modeTitleX = 80 ;
+const int modeTitleY = 160;
+ String selectedMode = "AUTO";
  
+
 // Update these with values suitable for your network.
 const char* ssid = "Tele2_357564"; // WiFi Name
 const char* password = "vujjwagy";  // WiFi Password
@@ -39,13 +44,15 @@ char msg[50];
 int value = 0;
 
 //TOPICS for PUB/SUB :-
+
+//TEMP Related TOPICS
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
-//const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
 
 const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 
+//MODE Related TOPICS
 const char* MODENAME_SUB_TOPIC =  "/intellibreeze/app/modeName";
 
 //These variables hold the value of the temperature thresholds published by the GUI
@@ -155,12 +162,18 @@ void reconnect() {
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+
+      //subscribe to incoming temperature units from phone app
+      client.subscribe(TEMPUNIT_SUB_TOPIC);
+
+      //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);    
       
     } else {
-      Serial.print("failed, rc=");
+      Serial.print("failed connecting to WIFI, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
+
       // Wait 5 seconds before retrying
       delay(5000);
     }
@@ -200,13 +213,13 @@ void loop() {
     tempUnit = "F";
     tempValue = (tempValue * 9/5) + 32;
     Serial.println("FAHRENHEIT TEMP = " );
-    Serial.print(subscribedTempUnit);
+    Serial.print(tempValue);
 
   }else if (subscribedTempUnit == "K"){
     tempUnit = "K";
     tempValue = (tempValue  + 273);
     Serial.println("kelvin temp = " );
-    Serial.print(subscribedTempUnit);
+    Serial.print(tempValue);
   }
 
 
@@ -218,13 +231,22 @@ void loop() {
     tft.setTextColor(TFT_BLACK);         //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
 
-    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
-    tft.setTextSize(5); 
+    //prints strings from given coordinates
 
-    tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from given coordinates
+    //Label Strings 
+    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
+    tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
+    
+    //Temperature Strings
+    tft.setTextSize(5); 
+    tft.drawString(temperatureString, tempReadingX, tempReadingY); 
     tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
      tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
-   
+
+     //Selected fan mode Strings:
+    tft.setTextSize(4); 
+    tft.drawString(selectedMode, modeReadingX, modeReadingY);
+
     delay(5000);
     tft.fillScreen(TFT_RED);
  
@@ -243,12 +265,8 @@ void loop() {
         Serial.println("Published temperature: ");
          Serial.println(tempValue);
 
-         Serial.println("Subscribed Mode:");
-         Serial.println(selectedMode);
-         
-
-          //subscribe to incoming temperature units from phone app
-          client.subscribe(TEMPUNIT_SUB_TOPIC);
+         Serial.println("Selected Mode:");
+         Serial.println(selectedMode); 
   }
 }
 
