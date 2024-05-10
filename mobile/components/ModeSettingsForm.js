@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { ModeFormContext } from "../contexts/ModeFormContext";
 import { updateDoc, doc } from "firebase/firestore";
@@ -92,8 +92,8 @@ const ModeSettingsForm = ({modeId} ) => {
                     <MultiSlider
                         values={modeDetails.fanSpeed}
                         onValuesChange={handleValuesChange}
-                        min={1}
-                        max={100}
+                        min={FAN_SPEED.MIN_SPEED_LIMIT}
+                        max={FAN_SPEED.MAX_SPEED_LIMIT}
                         step={1}
                         selectedStyle={{ backgroundColor: 'blue' }}
                         unselectedStyle={{ backgroundColor: 'grey' }}
