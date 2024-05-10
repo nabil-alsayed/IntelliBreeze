@@ -11,15 +11,7 @@ import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
-const MODEID_PUB_TOPIC =  "/intellibreeze/app/modeId"
-
-
-// retrieving
-// get the selected modeid from the firebase
-// input it for the default of the state selectedModeId
-
-// updating the selectedState
-//
+const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
 
 const ModesDisplayWidget = () => {
 
@@ -45,7 +37,7 @@ const ModesDisplayWidget = () => {
         const client = connectToMqtt();
         try {
           client.onConnected = () => {
-            publishToTopic(client, MODEID_PUB_TOPIC, mode.ModeName, "selectedModeId");
+            publishToTopic(client, MODENAME_PUB_TOPIC, mode.ModeName, "selectedModeName");
           };
         } catch (error) {
           console.log("error publishing", error);
@@ -60,13 +52,6 @@ const ModesDisplayWidget = () => {
 
   };
 
-  /*
-  client.onConnected = () => {
-    publishToTopic(client, MODEID_PUB_TOPIC, selectedModeId, "selectedModeId" );
-    console.log(selectedModeId);
-  };
-
-   */
   const handlePress = (item) => {
     setSelectedModeId(item.id);
     getSelectedModeName();

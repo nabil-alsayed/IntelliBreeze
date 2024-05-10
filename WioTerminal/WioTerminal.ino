@@ -17,8 +17,11 @@ const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
-String subscribedPayload = "C";
+String subscribedTempUnit = "C";
 String tempUnit = "C";
+
+//SELECTED MODE_READING INITIALISATION
+ String selectedMode = "";
  
 extern float tempValue = 0; //temperature sensor reading
  
@@ -37,11 +40,13 @@ int value = 0;
 
 //TOPICS for PUB/SUB :-
 const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
-const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+//const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
 
 const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
+
+const char* MODENAME_SUB_TOPIC =  "/intellibreeze/app/modeName";
 
 //These variables hold the value of the temperature thresholds published by the GUI
 extern String highThresholdValue = "";
@@ -123,7 +128,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
-    subscribedPayload = String(buff_p);
+    subscribedTempUnit = String(buff_p);
+  } else if (strcmp(topic, MODENAME_SUB_TOPIC) == 0){
+
+    selectedMode = String(buff_p);
   }
 
   buff_p[length] = '\0';
@@ -146,7 +154,8 @@ void reconnect() {
 
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+      client.subscribe(MODENAME_SUB_TOPIC);    
       
     } else {
       Serial.print("failed, rc=");
@@ -181,24 +190,25 @@ void loop() {
    float tempValue = dht.readTemperature();
 
       Serial.println("preliminary tempValue = " );
-      Serial.print(tempValue);
+      Serial.println(tempValue);
 
-      Serial.println("subscribedPayload = " );
-      Serial.print(subscribedPayload);
+      Serial.println("subscribedTempUnit = " );
+      Serial.println(subscribedTempUnit);
 
 
-  if (subscribedPayload == "°F"){
+  if (subscribedTempUnit == "°F"){
     tempUnit = "F";
     tempValue = (tempValue * 9/5) + 32;
     Serial.println("FAHRENHEIT TEMP = " );
-    Serial.print(subscribedPayload);
+    Serial.print(subscribedTempUnit);
 
-  }else if (subscribedPayload == "K"){
+  }else if (subscribedTempUnit == "K"){
     tempUnit = "K";
     tempValue = (tempValue  + 273);
     Serial.println("kelvin temp = " );
-    Serial.print(subscribedPayload);
+    Serial.print(subscribedTempUnit);
   }
+
 
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
@@ -232,6 +242,10 @@ void loop() {
         client.publish(TEMP_PUB_TOPIC, temperatureChars); 
         Serial.println("Published temperature: ");
          Serial.println(tempValue);
+
+         Serial.println("Subscribed Mode:");
+         Serial.println(selectedMode);
+         
 
           //subscribe to incoming temperature units from phone app
           client.subscribe(TEMPUNIT_SUB_TOPIC);
