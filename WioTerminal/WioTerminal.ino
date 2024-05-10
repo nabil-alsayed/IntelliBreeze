@@ -1,90 +1,85 @@
+#include "MQTT.h"
+#include <DHT.h>
+#include "fanbutton.h"
+#include "FanSpeedAdjustment.h"
+#define DHT_PIN 0  
+#define DHT_TYPE DHT11
+
+/*
 #include <Arduino.h>
 #include <PubSubClient.h>
 #include <WiFi.h>
 #include"TFT_eSPI.h"
 #include <DHT.h>
-#include "FanSpeedAdjustment.h"
+*/
 
 
-#define DHT_PIN 0  
-#define DHT_TYPE DHT11
-#define Gate 2
+  //DHT dht(DHT_PIN, DHT_TYPE);
 
-DHT dht(DHT_PIN, DHT_TYPE);
+// #define Gate 2
+
+  DHT dht(DHT_PIN, DHT_TYPE);
  
 //TEMPERATURE_READING_INITIALISATIONS
 const int tempReadingX = 80;
 const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
-String subscribedPayload = "C";
 String tempUnit = "C";
+// String subscribedPayload = "";
  
-extern float tempValue = 0; //temperature sensor reading
+  extern float tempValue = 0; //temperature sensor reading
  
-// Update these with values suitable for your network.
-const char* ssid = "Tele2_357564"; // WiFi Name
-const char* password = "vujjwagy";  // WiFi Password
-const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
+  bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 
-//Initialization of MQTT client
-TFT_eSPI tft;
-WiFiClient wioClient;
-PubSubClient client(wioClient);
-long lastMsg = 0;
-char msg[50];
-int value = 0;
-
-//TOPICS for PUB/SUB :-
-const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
-const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
-const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
-
-const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
-const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
-
-//These variables hold the value of the temperature thresholds published by the GUI
-extern String highThresholdValue = "";
-extern String mediumThresholdValue = "";
-
-
-
- 
-void setup_wifi() {
-  delay(10);
-  tft.setTextSize(2);
-  tft.setCursor((320 - tft.textWidth("Connecting to Wi-Fi..")) / 2, 120);
-  tft.print("Connecting to Wi-Fi..");
-  Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
-  WiFi.begin(ssid, password); // Connecting WiFi
-  while (WiFi.status() != WL_CONNECTED) {
-    delay(500);
-    Serial.print(".");
-  }
-  Serial.println("");
-  Serial.println("WiFi connected");
-  tft.fillScreen(TFT_BLACK);
-  tft.setCursor((320 - tft.textWidth("Connected!")) / 2, 120);
-  tft.print("Connected!");
-  Serial.println("IP address: ");
-  Serial.println(WiFi.localIP()); // Display Local IP Address
-}
- 
 //SETTINGUP_TEMPERATURE_READING
-void setup_temperature(){
- 
-    Serial.begin(9600);
-      tft.begin();
-  tft.setRotation(3);
- 
-  tft.fillScreen(TFT_RED); //Red background
- 
-}
 
 
 
+  void setup() {
+    tft.begin();
+    tft.fillScreen(TFT_BLACK);
+    tft.setRotation(3);
+  
+    Serial.println();
+    Serial.begin(115200);
+    setup_wifi();
+    client.setServer(mqtt_server, 1883); // Connect the MQTT Server
+    client.setCallback(callback);
+    dht.begin();
+
+    digitalWrite(fanPin, LOW);
+    pinMode(fanPin, OUTPUT);
+  }
+
+
+  
+    // 
+
+
+    /*
+    float tempValue = dht.readTemperature();
+    String temperatureString = String(tempValue);
+    const char* temperatureChars = temperatureString.c_str();
+    String tempName = "Temperature";
+    const char* tempNameChar = tempName.c_str();
+    */
+    
+      // Gradually increase the fan speed
+    
+    //CODE FOR FAN SPEED MQTT
+    /*
+    float fanSpeedValue = dutyCycle;
+    String fanSpeedString = String(fanSpeedValue);
+    const char* fanSpeedChars = fanSpeedString.c_str();
+    String fanSpeedName = "Fan Speed";
+    const char* fanSpeedNameChar = fanSpeedName.c_str();
+    */
+
+
+
+
+/*
 void callback(char* topic, byte* payload, unsigned int length) {
 
    Serial.print("Message arrived [");
@@ -128,7 +123,10 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
   buff_p[length] = '\0';
 }
+*/
 
+
+/*
 void reconnect() {
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -144,9 +142,10 @@ void reconnect() {
       // ... and resubscribe
       client.subscribe("WTin");
 
-      //Subscribing to temperature threshold values
+      //Subscribing to temperature values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
+      client.subscribe(TEMPUNIT_SUB_TOPIC);   
       
     } else {
       Serial.print("failed, rc=");
@@ -157,28 +156,22 @@ void reconnect() {
     }
   }
 }
+*/
 
-void setup() {
-  tft.begin();
-  tft.fillScreen(TFT_BLACK);
-  tft.setRotation(3);
+
+  void loop() {
  
-  Serial.println();
-  Serial.begin(115200);
-  setup_wifi();
-  client.setServer(mqtt_server, 1883); // Connect the MQTT Server
-  client.setCallback(callback);
-  dht.begin(); 
+   //tempValue = dht.readTemperature();
+   //float tempValue = dht.readTemperature();
 
-  pinMode(Gate, OUTPUT);
-  digitalWrite(Gate, LOW);
-  
-}
+   //toggleFan();
 
-void loop() {
- 
-   tempValue = dht.readTemperature();
-   float tempValue = dht.readTemperature();
+    float tempValue = dht.readTemperature();
+    String temperatureString = String(tempValue);
+    const char* temperatureChars = temperatureString.c_str();
+    String tempName = "Temperature";
+    const char* tempNameChar = tempName.c_str();
+
 
       Serial.println("preliminary tempValue = " );
       Serial.print(tempValue);
@@ -199,22 +192,27 @@ void loop() {
     Serial.println("kelvin temp = " );
     Serial.print(subscribedPayload);
   }
+    
 
-    String temperatureString = String(tempValue);
-    const char* temperatureChars = temperatureString.c_str();
     changeSpeed();
 
+    float fanSpeedValue = dutyCycle;
+    String fanSpeedString = String(fanSpeedValue);
+    const char* fanSpeedChars = fanSpeedString.c_str();
+    String fanSpeedName = "Fan Speed";
+    const char* fanSpeedNameChar = fanSpeedName.c_str();
+
    
-    tft.setTextColor(TFT_BLACK);         //sets the text colour to black
+    tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
     tft.setTextSize(2); //sets the size of text
 
-    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
+    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);             
     tft.setTextSize(5); 
 
     tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from given coordinates
     tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
-     tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
-   
+    tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
+
     delay(5000);
     tft.fillScreen(TFT_RED);
  
@@ -223,18 +221,16 @@ void loop() {
   }
   client.loop();
   long now = millis();
+
   if (now - lastMsg > 2000) {
     lastMsg = now;
     ++value;
-    snprintf(msg, 50, "%.1f", temperatureChars); // Convert temperature to string
 
-        // Publish temperature value to MQTT broker
-        client.publish(TEMP_PUB_TOPIC, temperatureChars); 
-        Serial.println("Published temperature: ");
-         Serial.println(tempValue);
+    publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
+    publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
 
-          //subscribe to incoming temperature units from phone app
-          client.subscribe(TEMPUNIT_SUB_TOPIC);
+
   }
 }
 

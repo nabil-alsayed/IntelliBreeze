@@ -34,7 +34,7 @@ const ConfirmationModal = ({ modeId, actionTitle }) => {
     };
 
     return (
-            <Modal nimationType="fade"
+            <Modal animationType="fade"
                    transparent={true}
                    visible={modeConfirmationModalVisible}
             >
