@@ -11,7 +11,7 @@ import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTopicPublish } from "../hooks/useTopicPublish";
-import { CUSTOM_FAN_SPEED } from "../constants/LogicConstants";
+import { FAN_SPEED } from "../constants/LogicConstants";
 
 const ModesDisplayWidget = () => {
   const navigation = useNavigation();

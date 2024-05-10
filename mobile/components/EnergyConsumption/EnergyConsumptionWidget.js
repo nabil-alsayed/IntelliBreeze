@@ -7,7 +7,7 @@ import moment from 'moment';
 import { useTopicSubscription } from '../../hooks/useTopicSubscription';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
-import { FAN_SPEED } from '../../constants/MqttTopics'
+import { FAN_SPEED } from '../../constants/LogicConstants'
 
 const initialEnergyData = () => {
     let data = Array(31).fill(0);
@@ -129,7 +129,7 @@ const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
                 return newData;
             });
         }
-    }, FAN_SPEED.FAN_SPEED_TOPIC, FAN_SPEED.TOPIC_NAME);
+    }, FAN_SPEED.TOPIC, FAN_SPEED.TOPIC_NAME);
 
     useEffect(() => {
         const interval = setInterval(() => {
