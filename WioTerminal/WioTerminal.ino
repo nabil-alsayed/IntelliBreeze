@@ -44,11 +44,10 @@ const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
 const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 
-//These variables hold the value of the temperature thresholds published by the GUI
+//These variables hold the value of the temperature thresholds / fan speed values published by the GUI
 extern String highThresholdValue = "";
 extern String mediumThresholdValue = "";
-
-
+extern String fanSpeedValue = "";
 
  
 void setup_wifi() {
