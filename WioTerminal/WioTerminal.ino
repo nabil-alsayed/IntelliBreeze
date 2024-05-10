@@ -158,8 +158,7 @@ void reconnect() {
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
 
       //Subscribing to fan speeds values from GUI
-      client.subscribe(FAN_SPEED_SUB_TOPIC)
-      
+      client.subscribe(FAN_SPEED_SUB_TOPIC);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
