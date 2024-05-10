@@ -86,7 +86,7 @@ const ModesDisplayWidget = () => {
   /* Method to handle Selection of custom modes
   Selection of New Mode and Deselection of Old Mode When a Mode is Pressed */
 
-  const handleModeSelection = async (modeId) => {
+  const handleCustomModeSelection = async (modeId) => {
 
     // gets the reference for old selected mode and the newly selected mode
 
