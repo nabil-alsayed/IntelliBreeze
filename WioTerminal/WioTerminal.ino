@@ -214,9 +214,12 @@ void loop() {
 
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
-    changeSpeed();
+    if(FAN_SPEED_SUB_TOPIC == "auto"){
+        changeSpeed();
+    } else {
+    // implement the custom mode fan speed
+    }
 
-   
     tft.setTextColor(TFT_BLACK);         //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
 
