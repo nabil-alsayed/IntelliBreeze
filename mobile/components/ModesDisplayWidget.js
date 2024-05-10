@@ -9,9 +9,10 @@ import { collection, onSnapshot, updateDoc, doc, getDoc} from "firebase/firestor
 import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
+import { useNavigation } from "@react-navigation/native";
 
 const ModesDisplayWidget = () => {
-
+  const navigation = useNavigation();
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
     modes,
@@ -107,6 +108,12 @@ const ModesDisplayWidget = () => {
       console.error("Error in handling mode selection:", error);
     }
   }
+
+  // Navigates the user to the Temperature Threshold Screen by Long Pressing
+  const handleAutoModeLongPress = () => {
+    navigation.navigate("TemperatureThreshold");
+    console.log("Navigated");
+  };
 
   return (
       <View style={styles.mainContainer}>
