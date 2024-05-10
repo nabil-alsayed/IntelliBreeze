@@ -1,11 +1,11 @@
 import {useState} from "react";
-import {StyleSheet, View, ScrollView} from "react-native";
+import {StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import {ModeFormProvider} from "../contexts/ModeFormContext";
-import {TemperatureThresholdSettings} from "./index";
+import {EnergyConsumptionWidget} from "./index";
 
 
 const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
@@ -17,15 +17,16 @@ const HomeScreen = () => {
 
     return (
         <ModeFormProvider>
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.innerContainer}>
                     <Header name={"Manas"} style={{position: "sticky"}}/>
+                    <EnergyConsumptionWidget/>
                     <MetricsDisplayWidget value={value}/>
                     <ModeDisplayWidget/>
                     <StatusBar style="auto"/>
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         </ModeFormProvider>
     );
 
@@ -47,11 +48,13 @@ const styles = StyleSheet.create({
         right: 20,
     },
     logo: {
-        width: 70, // Adjust the width as needed
-        height: 70, // Adjust the height as needed
+        width: 70, 
+        height: 70,
     },
     innerContainer: {
-        flex:1
+        flex:1,
+        rowGap:15,
+        paddingHorizontal:20
     }
 });
 

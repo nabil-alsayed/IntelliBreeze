@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, StatusBar} from "react-native";
+import { StyleSheet } from 'react-native';
+import {View, Text, Image, StatusBar, SafeAreaView} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -125,6 +126,7 @@ const TemperatureThresholdSettings = () => {
         <View style={styles.container}>
 
 
+            {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.header}>
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
@@ -150,7 +152,7 @@ const TemperatureThresholdSettings = () => {
                 <View style={styles.sliderWrapper}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
                         <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
-                        <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
+                        <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
                     </View>
                     <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
                     <Slider

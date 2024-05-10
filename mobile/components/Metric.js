@@ -1,11 +1,12 @@
-import React, { useEffect, useState, createContext} from "react";
+import React, { useEffect, useState} from "react";
 import {StyleSheet, Text, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
-const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
-const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
-const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature" //TODO: Move To Constants
+
+const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: Enhance SOLID
     const [unit, setUnit] = useState('°C'); //
     const [temperature, setTemp] = useState(0);
 

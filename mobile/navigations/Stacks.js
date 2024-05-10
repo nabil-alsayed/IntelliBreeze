@@ -9,7 +9,7 @@ const Stacks = () => {
 
     return (
         <NavigationContainer>
-            <Stack.Navigator>
+            <Stack.Navigator screenOptions={{ headerShown: true }}>
                 <Stack.Screen name={"Home"} component={HomeScreen}/>
                 <Stack.Screen name={"TemperatureThreshold"} component={TemperatureThresholdSettings}/>
             </Stack.Navigator>
