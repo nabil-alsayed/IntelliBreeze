@@ -4,12 +4,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import {ModeFormContext} from "../contexts/ModeFormContext";
 
 const Mode = (props) => {
+  // tracks the selectedModeId to know when to change background and icon colors
   const { selectedModeId } = useContext(ModeFormContext)
-  //
-  // useEffect(() => {
-  //
-  // }, []);
-
   return (
       <View style={styles.mainContainer}>
         <View style={[styles.modeContainer, {backgroundColor : selectedModeId === props.selectedModeId ? "#169EFFFF" : "#fff"}]}>
