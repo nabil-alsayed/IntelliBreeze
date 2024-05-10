@@ -115,6 +115,18 @@ const ModesDisplayWidget = () => {
     console.log("Navigated");
   };
 
+/* Changes context/global state of modeSelectedId to
+"auto" to select Auto and deselect previous mode */
+  
+  const handleAutoModePress = () => {
+    if(selectedModeId !== "auto"){
+      const oldModeRef = doc(db, "modes", selectedModeId);
+      deselectMode(oldModeRef)
+      console.log("Switched to auto mode");
+      setSelectedModeId("auto");
+    }
+  }
+
   return (
       <View style={styles.mainContainer}>
         <Text style={styles.sectionTitle}>General Modes</Text>
@@ -123,7 +135,9 @@ const ModesDisplayWidget = () => {
         <View style={styles.subContainer}>
 
           {/*  Auto button */}
-          <AutoModeButton/>
+          <TouchableOpacity onPress={handleAutoModePress} onLongPress={handleAutoModeLongPress}>
+            <AutoModeButton />
+          </TouchableOpacity>
 
           {/* Divider */}
           <Divider orientation="vertical" width={1}/>
