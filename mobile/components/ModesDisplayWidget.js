@@ -157,7 +157,7 @@ const ModesDisplayWidget = () => {
             </TouchableOpacity>
             <Text style={styles.subTitle}>Add Mode</Text>
           </View>
-          <View style={{width: 160}}>
+          <View style={{flex:1}}>
             <FlatList
                 data={modes}
                 keyExtractor={item => item.id}
