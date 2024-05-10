@@ -2,14 +2,16 @@ import React, {useEffect, useState} from "react";
 import { View, StyleSheet } from "react-native";
 import FanSpeedButton from "./FanSpeedButton";
 import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
 
-const FanSpeedDisplayWidget = ({navigation}) => {
-    const handleButtonPress = () => {
-      navigation.navigate("FanSpeedScreen");
-    };
+const FanSpeedDisplayWidget = () => {
+  
+  const navigation = useNavigation();
+  
+  const handleButtonPress = () => {
+    navigation.navigate("FanSpeedScreen");};
 
     const [fanSpeed, setFanSpeed] = useState(0);
 

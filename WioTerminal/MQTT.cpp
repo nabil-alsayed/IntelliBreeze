@@ -1,5 +1,6 @@
 #include "MQTT.h"
 #include "fanbutton.h"
+#include "FanSpeedAdjustment.h"
   
   
   const char* ssid = "Tele2_357564"; // WiFi Name
@@ -13,14 +14,25 @@
   int value = 0;
   
   //MQTT Topics for Publish and Subscribe
+
+    //MQTT Temperature Related Topics
   const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
   const char* PREF_TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
+  const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
+  const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
+  const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
+
+    //MQTT Fan Speed Related Topics
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
 
-   String fanToggleValue = "";
+
+   // String fanToggleValue = "";
+   //String highThresholdValue = "";
+   //String mediumThresholdValue = "";
+   String subscribedPayload = "C";
 
 
   void setupClient(){
@@ -53,35 +65,47 @@
   }
 
   void callback(char* topic, byte* payload, unsigned int length) {
-   if (strcmp(topic, FAN_TOGGLE_SUB_TOPIC) == 0) {
-    fanToggleValue = ""; 
+
+   Serial.print("Message arrived [");
+  Serial.print(topic);
+  Serial.print("] ");
+
+    char buff_p[length];
+  Serial.print("Payload:");
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)payload[i]);
+    buff_p[i] = (char)payload[i];
+  }
+  Serial.println();
+
+  //Conditional for storing HIGH temperature threshold payload into variable
+  if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
+    highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
     
     for (int i = 0; i < length; i++) {
-      fanToggleValue += (char)payload[i];
+      highThresholdValue += (char)payload[i];
     }
     
-    Serial.print("Received fan toggle value: ");
-    Serial.println(fanToggleValue);
+    Serial.print("Received high threshold value: ");
+    Serial.println(highThresholdValue);
+
+  //Conditional for storing MEDIUM temperature threshold payload into variable
+  } else if (strcmp(topic, MED_THRESHOLD_SUB_TOPIC) == 0) {
+    mediumThresholdValue = ""; 
+    
+    for (int i = 0; i < length; i++) {
+      mediumThresholdValue += (char)payload[i];
+    }
+
+    Serial.print("Received medium threshold value: ");
+    Serial.println(mediumThresholdValue);
+
+  } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
+
+    subscribedPayload = String(buff_p);
   }
 
-    Serial.print("Message arrived [");
-    Serial.print(topic);
-    Serial.print("] ");
-    char buff_p[length];
-
-    for (int i = 0; i < length; i++) {
-      Serial.print((char)payload[i]);
-      buff_p[i] = (char)payload[i];
-    }
-    
-    Serial.println();
     buff_p[length] = '\0';
-    String msg_p = String(buff_p);
-    tft.fillScreen(TFT_BLACK);
-    tft.setCursor((320 - tft.textWidth("MQTT Message")) / 2, 90);
-    tft.print("MQTT Message: " );
-    tft.setCursor((320 - tft.textWidth(msg_p)) / 2, 120);
-    tft.print(msg_p); // Print receved payload
   }
 
   void reconnect() {
@@ -98,16 +122,21 @@
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
-      client.subscribe(FAN_TOGGLE_SUB_TOPIC);
+
+      //Subscribing to temperature threshold values
+      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
+      client.subscribe(TEMPUNIT_SUB_TOPIC);   
+      
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
       // Wait 5 seconds before retrying
       delay(5000);
-      }
     }
   }
+}
 
   void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName){
 

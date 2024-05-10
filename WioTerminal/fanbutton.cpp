@@ -1,7 +1,7 @@
 #include "fanbutton.h"
 #define fanPin 2
 
-  int dutyCycle = 0;
+  extern String fanToggleValue = "";
 
 void toggleFan(){
    fanToggleValue.toUpperCase(); // Uppercase the recieved values
