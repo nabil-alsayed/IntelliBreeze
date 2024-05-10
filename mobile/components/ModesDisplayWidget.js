@@ -25,7 +25,7 @@ const ModesDisplayWidget = () => {
     setSelectedModeId,
   } = useContext(ModeFormContext);
 
-  // fetchs created modes and set the local state to it
+  // fetches created modes and set the local state to it
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
@@ -39,7 +39,7 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
-  // fetchs selected mode and set the context state to it
+  // fetches selected mode and set the context state to it
 
   useEffect(() => {
     const selectedMode = modes.find(mode => mode.Selected === true);
@@ -83,7 +83,8 @@ const ModesDisplayWidget = () => {
     return docSnap.exists()
   }
 
-  // Handle Selection of New Mode and Deselection of Old Mode When a Mode is Pressed
+  /* Method to handle Selection of custom modes
+  Selection of New Mode and Deselection of Old Mode When a Mode is Pressed */
 
   const handleModeSelection = async (modeId) => {
 
