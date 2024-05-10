@@ -1,23 +1,18 @@
-import React from "react";
-import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import React, { useContext } from "react";
+import {StyleSheet, Text, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { useNavigation } from "@react-navigation/native";
+import {ModeFormContext} from "../contexts/ModeFormContext";
 
 const AutoModeButton = () => {
-    const navigation = useNavigation();
-
-    const handleAutoButtonClick = () => {
-        navigation.navigate("TemperatureThreshold");
-        console.log("Navigated");
-    };
+const { selectedModeId } = useContext(ModeFormContext)
 
     return (
-        <TouchableOpacity style={styles.smallContainer} onPress={handleAutoButtonClick}>
-            <View style={styles.auto} >
-                <Icon name={"gear"} size={24} color={"black"} />
+        <View style={styles.smallContainer}>
+            <View style={[styles.modeContainer, {backgroundColor : selectedModeId === "auto" ? "#169EFFFF" : "#fff"}]}>
+                <Icon name={"gear"} size={25} style={{color : selectedModeId === "auto" ? "#fff" : "#000"}}/>
             </View>
             <Text style={styles.subTitle}>Auto</Text>
-        </TouchableOpacity>
+        </View>
     );
 };
 
@@ -28,7 +23,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         rowGap:5,
     },
-    auto: {
+    modeContainer: {
         display: "flex",
         width: 70,
         height: 70,
@@ -36,8 +31,10 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         borderRadius: 20,
-        backgroundColor: "#fff",
-    }
+    },
+    subTitle:{
+        color:"#868585",
+    },
 });
 
 export default AutoModeButton;
