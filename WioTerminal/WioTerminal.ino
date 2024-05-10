@@ -216,9 +216,8 @@ void loop() {
     const char* temperatureChars = temperatureString.c_str();
     if(FAN_SPEED_SUB_TOPIC == "auto"){
         changeSpeed();
-    } else {
-    // implement the custom mode fan speed
     }
+    // implement the custom mode fan speed via another else to the last if
 
     tft.setTextColor(TFT_BLACK);         //sets the text colour to black
     tft.setTextSize(2); //sets the size of text
