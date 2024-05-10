@@ -14,6 +14,7 @@ import { useTopicPublish } from "../hooks/useTopicPublish";
 import { FAN_SPEED } from "../constants/LogicConstants";
 
 const ModesDisplayWidget = () => {
+  const publishMessage = useTopicPublish();
   const navigation = useNavigation();
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
@@ -129,6 +130,25 @@ const ModesDisplayWidget = () => {
       setSelectedModeId("auto");
     }
   }
+
+  // Hook to continuously check for Mode and Speed changes to communicate it with MQTT
+
+  useEffect(() => {
+    // Checks if the mode is not null and is not Auto Mode
+    const topic = FAN_SPEED.TOPIC;
+    const topicName = FAN_SPEED.TOPIC_NAME;
+    if (selectedModeId && selectedModeId !== 'auto') {
+      const selectedMode = modes.find(mode => mode.id === selectedModeId);
+      if (selectedMode) {
+        const selectedFanSpeed = selectedMode.FanSpeed;
+        publishMessage(topic, `${selectedFanSpeed}`, topicName);
+        console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
+      }
+    } else {
+      publishMessage(topic,`auto`, topicName);
+      console.log(`Publishing fan speed for mode AUTO`);
+    }
+  }, [selectedModeId, modes, publishMessage]);
 
   return (
       <View style={styles.mainContainer}>
