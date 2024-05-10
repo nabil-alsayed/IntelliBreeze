@@ -124,6 +124,15 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
     subscribedPayload = String(buff_p);
+  } else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
+    fanSpeedValue = "";
+
+        for (int i = 0; i < length; i++) {
+          fanSpeedValue += (char)payload[i];
+        }
+
+        Serial.print("Received fanSpeedValue value: ");
+        Serial.println(fanSpeedValue);
   }
 
   buff_p[length] = '\0';
