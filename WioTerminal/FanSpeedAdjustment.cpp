@@ -6,14 +6,20 @@
 
   String highThresholdValue = "";
   String mediumThresholdValue = "";
+  String startingThreshold = "";
 
 //function that changes speed of the fan to MEDIUM and HIGH
   void changeSpeed(){
+    float startingThreshold = startingThreshold.toFloat();
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 
     
-    if(tempValue>=mediumThreshold && tempValue<highThreshold){
+
+    if(tempValue >= startingThreshold){
+      dutyCycle = 100;
+      Serial.println("Turning on Fan");
+    } else if(tempValue>=mediumThreshold && tempValue<highThreshold){
       dutyCycle = 180;
       analogWrite(fanPin, dutyCycle);
       Serial.println("Changed speed to medium:");
@@ -21,7 +27,10 @@
       dutyCycle = 255;
       analogWrite(fanPin, dutyCycle);
       Serial.println("Changed speed to high.");
-
+    }else {
+      dutyCycle = 0;
+      Serial.println("Turning off fan");
     }
+    
 
   }

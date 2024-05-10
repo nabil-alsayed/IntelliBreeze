@@ -5,19 +5,6 @@
 #define DHT_PIN 0  
 #define DHT_TYPE DHT11
 
-/*
-#include <Arduino.h>
-#include <PubSubClient.h>
-#include <WiFi.h>
-#include"TFT_eSPI.h"
-#include <DHT.h>
-*/
-
-
-  //DHT dht(DHT_PIN, DHT_TYPE);
-
-// #define Gate 2
-
   DHT dht(DHT_PIN, DHT_TYPE);
  
 //TEMPERATURE_READING_INITIALISATIONS
@@ -52,125 +39,17 @@ String tempUnit = "C";
     pinMode(fanPin, OUTPUT);
   }
 
-
-  
-    // 
-
-
-    /*
-    float tempValue = dht.readTemperature();
-    String temperatureString = String(tempValue);
-    const char* temperatureChars = temperatureString.c_str();
-    String tempName = "Temperature";
-    const char* tempNameChar = tempName.c_str();
-    */
-    
-      // Gradually increase the fan speed
-    
-    //CODE FOR FAN SPEED MQTT
-    /*
-    float fanSpeedValue = dutyCycle;
-    String fanSpeedString = String(fanSpeedValue);
-    const char* fanSpeedChars = fanSpeedString.c_str();
-    String fanSpeedName = "Fan Speed";
-    const char* fanSpeedNameChar = fanSpeedName.c_str();
-    */
-
-
-
-
-/*
-void callback(char* topic, byte* payload, unsigned int length) {
-
-   Serial.print("Message arrived [");
-  Serial.print(topic);
-  Serial.print("] ");
-
-    char buff_p[length];
-  Serial.print("Payload:");
-  for (int i = 0; i < length; i++) {
-    Serial.print((char)payload[i]);
-    buff_p[i] = (char)payload[i];
-  }
-  Serial.println();
-
-  //Conditional for storing HIGH temperature threshold payload into variable
-  if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
-    highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
-    
-    for (int i = 0; i < length; i++) {
-      highThresholdValue += (char)payload[i];
-    }
-    
-    Serial.print("Received high threshold value: ");
-    Serial.println(highThresholdValue);
-
-  //Conditional for storing MEDIUM temperature threshold payload into variable
-  } else if (strcmp(topic, MED_THRESHOLD_SUB_TOPIC) == 0) {
-    mediumThresholdValue = ""; 
-    
-    for (int i = 0; i < length; i++) {
-      mediumThresholdValue += (char)payload[i];
-    }
-
-    Serial.print("Received medium threshold value: ");
-    Serial.println(mediumThresholdValue);
-
-  } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
-
-    subscribedPayload = String(buff_p);
-  }
-
-  buff_p[length] = '\0';
-}
-*/
-
-
-/*
-void reconnect() {
-  // Loop until we're reconnected
-  while (!client.connected()) {
-    Serial.print("Attempting MQTT connection...");
-    // Create a random client ID
-    String clientId = "WioTerminal-";
-    clientId += String(random(0xffff), HEX);
-    // Attempt to connect
-    if (client.connect(clientId.c_str())) {
-      Serial.println("connected");
-      // Once connected, publish an announcement...
-      client.publish("WTout", "hello world");
-      // ... and resubscribe
-      client.subscribe("WTin");
-
-      //Subscribing to temperature values
-      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
-      client.subscribe(TEMPUNIT_SUB_TOPIC);   
-      
-    } else {
-      Serial.print("failed, rc=");
-      Serial.print(client.state());
-      Serial.println(" try again in 5 seconds");
-      // Wait 5 seconds before retrying
-      delay(5000);
-    }
-  }
-}
-*/
-
-
-  void loop() {
  
-   //tempValue = dht.readTemperature();
-   //float tempValue = dht.readTemperature();
-
-   //toggleFan();
+  void loop() {
 
     float tempValue = dht.readTemperature();
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
     String tempName = "Temperature";
     const char* tempNameChar = tempName.c_str();
+    String testTempValue = "25";
+
+    startingThreshold = testTempValue;
 
 
       Serial.println("preliminary tempValue = " );

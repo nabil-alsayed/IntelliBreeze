@@ -78,6 +78,17 @@
   }
   Serial.println();
 
+  
+  if(strcmp(topic, PREF_TEMP_SUB_TOPIC) == 0){
+    startingThreshold = "";
+
+    for(int i = 0; i <length; i++){
+      startingThreshold += (char)payload[i];  
+    }
+    Serial.println("Received Preferred value: ");
+    Serial.println(startingThreshold);
+  }
+  
   //Conditional for storing HIGH temperature threshold payload into variable
   if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
     highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
@@ -86,7 +97,7 @@
       highThresholdValue += (char)payload[i];
     }
     
-    Serial.print("Received high threshold value: ");
+    Serial.println("Received high threshold value: ");
     Serial.println(highThresholdValue);
 
   //Conditional for storing MEDIUM temperature threshold payload into variable
@@ -97,7 +108,7 @@
       mediumThresholdValue += (char)payload[i];
     }
 
-    Serial.print("Received medium threshold value: ");
+    Serial.println("Received medium threshold value: ");
     Serial.println(mediumThresholdValue);
 
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
