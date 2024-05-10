@@ -165,7 +165,7 @@ const ModesDisplayWidget = () => {
                 contentContainerStyle={{columnGap: 15}}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                    <TouchableOpacity onPress={() => handleModeSelection(item.id)}
+                    <TouchableOpacity onPress={() => handleCustomModeSelection(item.id)}
                                       onLongPress={() => handleLongPress(item)}>
 
                       {/* the modes that will be shown in the list */}
