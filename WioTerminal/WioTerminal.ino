@@ -155,7 +155,10 @@ void reconnect() {
 
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+
+      //Subscribing to fan speeds values from GUI
+      client.subscribe(FAN_SPEED_SUB_TOPIC)
       
     } else {
       Serial.print("failed, rc=");
