@@ -18,7 +18,6 @@ void changeSpeed(){
     dutyCycle = 180;
     analogWrite(Gate, dutyCycle);
     Serial.println("Changed speed to medium:");
-
   } else if (tempValue>=highThreshold){
     dutyCycle = 255;
     analogWrite(Gate, dutyCycle);

@@ -138,6 +138,9 @@ void reconnect() {
     clientId += String(random(0xffff), HEX);
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
+      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
+      
       Serial.println("connected");
       // Once connected, publish an announcement...
       client.publish("WTout", "hello world");
@@ -155,7 +158,10 @@ void reconnect() {
   }
 }
 
-void setup() {
+void setup() {  
+  //Subscribing to temperature threshold values
+  
+      
   tft.begin();
   tft.fillScreen(TFT_BLACK);
   tft.setRotation(3);
@@ -170,14 +176,12 @@ void setup() {
   pinMode(Gate, OUTPUT);
   digitalWrite(Gate, LOW);
 
-  //Subscribing to temperature threshold values
-  client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-  client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
+  
   
 }
 
 void loop() {
-
+   changeSpeed();
      
  
    tempValue = dht.readTemperature();
@@ -205,7 +209,7 @@ void loop() {
 
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
-    changeSpeed();
+    
 
    
     tft.setTextColor(TFT_BLACK);         //sets the text colour to black
