@@ -87,7 +87,7 @@ void setup_temperature(){
 
 void callback(char* topic, byte* payload, unsigned int length) {
 
-   Serial.print("Message arrived [");
+  Serial.print("Message arrived [");
   Serial.print(topic);
   Serial.print("] ");
 
@@ -169,14 +169,16 @@ void setup() {
 
   pinMode(Gate, OUTPUT);
   digitalWrite(Gate, LOW);
+
+  //Subscribing to temperature threshold values
+  client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
+  client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
   
 }
 
 void loop() {
 
-  //Subscribing to temperature threshold values
-      client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC);    
+     
  
    tempValue = dht.readTemperature();
    float tempValue = dht.readTemperature();
