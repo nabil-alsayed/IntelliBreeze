@@ -293,12 +293,18 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: 140,
+        backgroundColor: "#f0f0f0", // Added background color
+        borderRadius: 10, // Added border radius
+        padding: 10, // Added padding
     },
     adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
         marginTop: 15,
+        backgroundColor: "#f0f0f0", 
+        borderRadius: 10,
+        padding: 10,
     },
     thresholdLabel: {
         fontSize: 18,
