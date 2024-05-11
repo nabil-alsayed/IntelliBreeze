@@ -26,3 +26,8 @@ void changeSpeed(){
   }
 
 }
+
+//function to convert the fan speed from slider value to duty cycle
+void convertSliderToDutyCycle(sliderValue) {
+  return ((sliderValue - 1) / 99 * 195) + 60;
+}
