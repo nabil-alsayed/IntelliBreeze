@@ -12,7 +12,6 @@
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 
-    
     if(tempValue>=mediumThreshold && tempValue<highThreshold){
       dutyCycle = 180;
       analogWrite(fanPin, dutyCycle);
@@ -21,6 +20,7 @@
       dutyCycle = 255;
       analogWrite(fanPin, dutyCycle);
       Serial.println("Changed speed to high.");
+
 
     }
 

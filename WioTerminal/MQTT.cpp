@@ -125,7 +125,8 @@
 
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(MED_THRESHOLD_SUB_TOPIC); 
+      client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+
       client.subscribe(TEMPUNIT_SUB_TOPIC);   
       
     } else {
