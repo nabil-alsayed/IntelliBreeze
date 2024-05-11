@@ -40,6 +40,7 @@ const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
 const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
+const char* CUSTOM_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/custom/fanspeed";
 
 const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
@@ -124,14 +125,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
     subscribedPayload = String(buff_p);
-  } else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
+  } else if (strcmp(topic, CUSTOM_FAN_SPEED_SUB_TOPIC) == 0){
     customFanSpeedValue = "";
 
         for (int i = 0; i < length; i++) {
           customFanSpeedValue += (char)payload[i];
         }
 
-        Serial.print("Received Custom Fan Speed value: ");
+        Serial.println("Received Custom Fan Speed value: ");
         Serial.println(customFanSpeedValue);
   }
 
@@ -158,7 +159,7 @@ void reconnect() {
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
 
       //Subscribing to fan speeds values from GUI
-      client.subscribe(FAN_SPEED_SUB_TOPIC);
+      client.subscribe(CUSTOM_FAN_SPEED_SUB_TOPIC);
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
@@ -192,7 +193,7 @@ void loop() {
    float tempValue = dht.readTemperature();
 
       Serial.println("preliminary tempValue = " );
-      Serial.print(tempValue);
+      Serial.println(tempValue);
 
       Serial.println("subscribedPayload = " );
       Serial.print(subscribedPayload);
@@ -213,10 +214,11 @@ void loop() {
 
     String temperatureString = String(tempValue);
     const char* temperatureChars = temperatureString.c_str();
-    if(FAN_SPEED_SUB_TOPIC == "auto"){
-        changeSpeed();
+
+    if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
+      changeSpeed();
     } else {
-        changeSpeedToCustomMode();
+      changeSpeedToCustomMode();
     }
     // implement the custom mode fan speed via another else to the last if
 
