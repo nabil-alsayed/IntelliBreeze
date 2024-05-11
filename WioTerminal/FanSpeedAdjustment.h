@@ -13,7 +13,7 @@ extern float tempValue;              //used to compare user thresholds to contro
 
 //function changes speed of fan using thresholds
 extern void changeSpeed();
-
+extern void changeSpeedToCustomMode();
 
 
 #endif                               // end header guard
