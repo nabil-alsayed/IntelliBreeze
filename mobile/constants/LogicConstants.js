@@ -4,3 +4,9 @@ export const FAN_SPEED = {
     MIN_SPEED_LIMIT: 10,
     MAX_SPEED_LIMIT: 256
 }
+
+export const MODES = {
+    AUTO_MODE: {
+        ID: "auto"
+    },
+}
