@@ -1,9 +1,18 @@
 image: ubuntu:latest
 
+variables:
+  NODE_VERSION: "14.x"
+
 before_script:
   # run shell script for installing arduino-cli, Wio Terminal core, and project libraries
   - chmod +x setup-build-env.sh               # change permissions to execute bash shell script
   - ./setup-build-env.sh                      # execute bash shell script
+  - apt-get update && apt-get install -y curl # Ensure curl is available to install nvm
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+  - source ~/.bashrc
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - npm install -g npm@latest                # Ensure the latest npm is installed
 
 stages:
   - build
@@ -29,6 +38,25 @@ compile:
     - arduino-cli board list                  # Check if device is connected
   except:
     - tags
+
+build-react-native:
+  stage: build
+  script:
+    - cd ReactNativeApp                       # Navigate to the React Native directory
+    - npm install                             # Install dependencies
+    - npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+  artifacts:
+    paths:
+      - android/app/build/outputs/
+  only:
+    - master
+    - merge_requests
+
+test-react-native:
+  stage: test
+  script:
+    - cd ReactNativeApp
+    - npm run test                             # Run tests defined in the React Native project
 
 release:
   stage: deploy
