@@ -6,7 +6,7 @@
 
   String highThresholdValue = "";
   String mediumThresholdValue = "";
-  String startingThreshold = "";
+  String startingThresholdValue = "";
 
 //function that changes speed of the fan to MEDIUM and HIGH
   void changeSpeed(){
