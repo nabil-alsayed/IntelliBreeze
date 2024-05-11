@@ -13,20 +13,20 @@
 DHT dht(DHT_PIN, DHT_TYPE);
  
 //TEMPERATURE_READING_INITIALISATIONS
-const int tempReadingX = 80;
-const int tempReadingY = 100;
+const int tempReadingX = 40;
+const int tempReadingY = 80;
 const int tempTitleX = 40 ;
-const int tempTitleY = 60;
+const int tempTitleY = 40;
 String subscribedTempUnit = "C";
 String tempUnit = "C";
 
 extern float tempValue = 0; //temperature sensor reading
 
 //SELECTED MODE_READING INITIALISATION
-const int modeReadingX = 40;
-const int modeReadingY = 200;
+const int modeReadingX = 80;
+const int modeReadingY = 180;
 const int modeTitleX = 80 ;
-const int modeTitleY = 160;
+const int modeTitleY = 140;
  String selectedMode = "AUTO";
  
 
@@ -240,8 +240,8 @@ void loop() {
     //Temperature Strings
     tft.setTextSize(5); 
     tft.drawString(temperatureString, tempReadingX, tempReadingY); 
-    tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
-     tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
+    tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
+     tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
      //Selected fan mode Strings:
     tft.setTextSize(4); 
