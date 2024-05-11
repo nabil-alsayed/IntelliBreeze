@@ -17,6 +17,7 @@ import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
 
+
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
  speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
  the sliders allow them to set it freely. These values are saved to firebase and published to the MQTT broker when the save
@@ -136,7 +137,7 @@ const TemperatureThresholdSettings = () => {
             {/*Default Checkbox begins here*/}
             <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(25); setMediumToHighRange(27); setSlidersDisabled(true)}}
+                    onPress={() => {setLowToMediumRange(mediumDefaultThreshold); setMediumToHighRange(highDefaultThreshold); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
                 <StatusBar style="auto" />
