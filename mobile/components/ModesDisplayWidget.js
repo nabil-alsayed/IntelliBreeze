@@ -139,16 +139,14 @@ const ModesDisplayWidget = () => {
     const topicName = FAN_SPEED.TOPIC_NAME;
     if (selectedModeId && selectedModeId !== MODES.AUTO_MODE.ID) {
       const selectedMode = modes.find(mode => mode.id === selectedModeId);
-      if (selectedMode) {
-        const selectedFanSpeed = selectedMode.FanSpeed;
-        publishMessage(topic, `${selectedFanSpeed}`, topicName);
-        console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
-      }
+      const selectedFanSpeed = selectedMode.FanSpeed;
+      publishMessage(topic, `${selectedFanSpeed}`, topicName);
+      console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
     } else {
       publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
       console.log(`Publishing fan speed for mode AUTO`);
     }
-  }, [selectedModeId, modes, publishMessage]);
+  }, [modes,selectedModeId]);
 
   return (
       <View style={styles.mainContainer}>
