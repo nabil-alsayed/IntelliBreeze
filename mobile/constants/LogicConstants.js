@@ -1,6 +1,6 @@
 export const FAN_SPEED = {
     TOPIC: "/intellibreeze/sensor/fanspeed",
-    TOPIC_NAME: "CUSTOM FAN SPEED",
+    TOPIC_NAME: "FAN SPEED",
     MIN_SPEED_LIMIT: 10,
     MAX_SPEED_LIMIT: 256
 }
