@@ -2,14 +2,15 @@ import React, { useContext } from "react";
 import {StyleSheet, Text, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {ModeFormContext} from "../contexts/ModeFormContext";
+import {MODES} from "../constants/LogicConstants";
 
 const AutoModeButton = () => {
 const { selectedModeId } = useContext(ModeFormContext)
 
     return (
         <View style={styles.smallContainer}>
-            <View style={[styles.modeContainer, {backgroundColor : selectedModeId === "auto" ? "#169EFFFF" : "#fff"}]}>
-                <Icon name={"gear"} size={25} style={{color : selectedModeId === "auto" ? "#fff" : "#000"}}/>
+            <View style={[styles.modeContainer, {backgroundColor : selectedModeId === MODES.AUTO_MODE.ID ? "#169EFFFF" : "#fff"}]}>
+                <Icon name={"gear"} size={25} style={{color : selectedModeId === MODES.AUTO_MODE.ID ? "#fff" : "#000"}}/>
             </View>
             <Text style={styles.subTitle}>Auto</Text>
         </View>
