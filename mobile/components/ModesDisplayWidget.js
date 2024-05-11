@@ -11,7 +11,7 @@ import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTopicPublish } from "../hooks/useTopicPublish";
-import { FAN_SPEED } from "../constants/LogicConstants";
+import {FAN_SPEED, MODES} from "../constants/LogicConstants";
 
 const ModesDisplayWidget = () => {
   const publishMessage = useTopicPublish();
@@ -123,11 +123,11 @@ const ModesDisplayWidget = () => {
 "auto" to select Auto and deselect previous mode */
 
   const handleAutoModePress = () => {
-    if(selectedModeId !== "auto"){
+    if(selectedModeId !== MODES.AUTO_MODE.ID){
       const oldModeRef = doc(db, "modes", selectedModeId);
       deselectMode(oldModeRef)
       console.log("Switched to auto mode");
-      setSelectedModeId("auto");
+      setSelectedModeId(MODES.AUTO_MODE.ID);
     }
   }
 
@@ -137,7 +137,7 @@ const ModesDisplayWidget = () => {
     // Checks if the mode is not null and is not Auto Mode
     const topic = FAN_SPEED.TOPIC;
     const topicName = FAN_SPEED.TOPIC_NAME;
-    if (selectedModeId && selectedModeId !== 'auto') {
+    if (selectedModeId && selectedModeId !== MODES.AUTO_MODE.ID) {
       const selectedMode = modes.find(mode => mode.id === selectedModeId);
       if (selectedMode) {
         const selectedFanSpeed = selectedMode.FanSpeed;
@@ -145,7 +145,7 @@ const ModesDisplayWidget = () => {
         console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
       }
     } else {
-      publishMessage(topic,`auto`, topicName);
+      publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
       console.log(`Publishing fan speed for mode AUTO`);
     }
   }, [selectedModeId, modes, publishMessage]);
