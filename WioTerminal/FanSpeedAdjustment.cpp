@@ -13,7 +13,7 @@ void changeSpeed(){
   float mediumThreshold = mediumThresholdValue.toFloat();
   float highThreshold = highThresholdValue.toFloat();
 
-  
+
    if(tempValue>=mediumThreshold && tempValue<highThreshold){
     dutyCycle = 180;
     analogWrite(Gate, dutyCycle);
@@ -37,5 +37,5 @@ void changeSpeedToCustomMode(){
   float customFanSpeedValue = customFanSpeedValue.toFloat();
     dutyCycle = convertSliderToDutyCycle(customFanSpeedValue);
     analogWrite(Gate, dutyCycle);
-    Serial.println("Changed speed to Custom Mode's speed");
+    Serial.println("Changed speed to Custom Mode's speed: " + customFanSpeedValue + ". Duty Cycle: " + dutyCycle);
 }
