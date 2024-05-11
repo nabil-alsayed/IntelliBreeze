@@ -28,8 +28,8 @@ void changeSpeed(){
 }
 
 //function to convert the fan speed from slider value to duty cycle
-void convertSliderToDutyCycle(sliderValue) {
-  return ((sliderValue - 1) / 99 * 195) + 60;
+float convertSliderToDutyCycle(float sliderValue) {
+    return ((sliderValue - 1) / 99.0 * 195) + 60;
 }
 
 //function that changes fan speed to the selected speed in custom mode
