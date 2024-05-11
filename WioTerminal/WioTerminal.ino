@@ -215,6 +215,8 @@ void loop() {
     const char* temperatureChars = temperatureString.c_str();
     if(FAN_SPEED_SUB_TOPIC == "auto"){
         changeSpeed();
+    } else {
+        changeSpeedToCustomMode();
     }
     // implement the custom mode fan speed via another else to the last if
 
