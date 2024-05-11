@@ -36,7 +36,9 @@ export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
 };
 
 
+
 //Method to unsubscribe to a specific topic
+/*
 export const unsubscribeFromTopic = (client, topic, topicName) => {
     client.unsubscribe(topic, {
         onSuccess: () => {
@@ -47,6 +49,21 @@ export const unsubscribeFromTopic = (client, topic, topicName) => {
         },
     })
 }
+*/
+
+
+/*
+<<<<<<< HEAD
+export const publishToTopic = (client, topic, thresholdString, topicName) => {
+    topicName = new Message(thresholdString);
+    topicName.destinationName = topic;
+    client.send(topicName);
+
+
+
+}
+=======
+*/
 
 
 //Method to publish payload topic
@@ -55,4 +72,5 @@ export const publishToTopic = (client, topic, payload, topicName) => {
     topicName.destinationName = topic;
     client.send(topicName);
 }
+
 
