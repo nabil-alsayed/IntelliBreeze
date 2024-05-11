@@ -16,6 +16,7 @@ import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
+import {SLIDER_VALUES} from "../constants/LogicConstants"
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
@@ -137,7 +138,7 @@ const TemperatureThresholdSettings = () => {
             {/*Default Checkbox begins here*/}
             <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(mediumDefaultThreshold); setMediumToHighRange(highDefaultThreshold); setSlidersDisabled(true)}}
+                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
                 <StatusBar style="auto" />
