@@ -125,121 +125,122 @@ const TemperatureThresholdSettings = () => {
 
     //UI for the sliders
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <View style={styles.subContainer}>
+
+                {/*LOW to MEDIUM Slider begins here*/}
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Temperature Threshold Settings</Text>
+                </View>
+                <View style={styles.headerLine}></View>
+                <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
+
+                {/*Default Checkbox begins here*/}
+                <View style={styles.checkBoxWrapper}>
+                    <DefaultCheckBox
+                        onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                        onToggle = {handleDefaultCheckboxToggle}
+                    />
+                    <StatusBar style="auto" />
+                </View>
 
 
-            {/*LOW to MEDIUM Slider begins here*/}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Temperature Threshold Settings</Text>
-            </View>
-            <View style={styles.headerLine}></View>
-            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
-
-            {/*Default Checkbox begins here*/}
-            <View style={styles.checkBoxWrapper}>
-                <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
-                    onToggle = {handleDefaultCheckboxToggle}
-                />
-                <StatusBar style="auto" />
-            </View>
-
-
-            {/*LOW to MEDIUM Slider begins here*/}
-            <View style={styles.adjustmentContainerLM}>
-                <Image
-                    source={require('../assets/OtherIcons/coldlogo.png')}
-                    style={styles.coldLogo}
-                />
-                <View style={styles.sliderWrapper}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
-                        <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
+                {/*LOW to MEDIUM Slider begins here*/}
+                <View style={styles.adjustmentContainer}>
+                    <Image
+                        source={require('../assets/OtherIcons/coldlogo.png')}
+                        style={styles.coldLogo}
+                    />
+                    <View style={styles.sliderWrapper}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
+                            <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
+                        </View>
+                        <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
+                        <Slider
+                            style={{ width: 300, height: 50 }}
+                            value={lowToMediumRange}
+                            disabled = {slidersDisabled}
+                            onValueChange={(value) => setLowToMediumRange(value)}
+                            minimumValue={-50}
+                            maximumValue={100}
+                        />
                     </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
-                    <Slider
-                        style={{ width: 300, height: 50 }}
-                        value={lowToMediumRange}
-                        disabled = {slidersDisabled}
-                        onValueChange={(value) => setLowToMediumRange(value)}
-                        minimumValue={-50}
-                        maximumValue={100}
+                    <Image
+                        source={require('../assets/OtherIcons/hotlogo.png')}
+                        style={styles.hotLogo}
                     />
                 </View>
-                <Image
-                    source={require('../assets/OtherIcons/hotlogo.png')}
-                    style={styles.hotLogo}
-                />
-            </View>
 
 
-            <View style={styles.line}></View>
+                <View style={styles.line}></View>
 
 
-            {/*MEDIUM to HIGH Slider begins here*/}
-            <View style={styles.adjustmentContainerMH}>
-                <Image
-                    source={require('../assets/OtherIcons/coldlogo.png')}
-                    style={styles.coldLogo}
-                />
-                <View style={styles.sliderWrapper}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
-                        <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
+                {/*MEDIUM to HIGH Slider begins here*/}
+                <View style={styles.adjustmentContainer}>
+                    <Image
+                        source={require('../assets/OtherIcons/coldlogo.png')}
+                        style={styles.coldLogo}
+                    />
+                    <View style={styles.sliderWrapper}>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                            <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
+                            <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
+                        </View>
+
+                        <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(mediumToHighRange)}</Text>
+                        <Slider
+                            style={{ width: 300, height: 50 }}
+                            value = {mediumToHighRange}
+                            disabled = {slidersDisabled}
+                            onValueChange={(value) => setMediumToHighRange(value)}
+                            minimumValue={-50}
+                            maximumValue={100}
+                        />
                     </View>
-
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(mediumToHighRange)}</Text>
-                    <Slider
-                        style={{ width: 300, height: 50 }}
-                        value = {mediumToHighRange}
-                        disabled = {slidersDisabled}
-                        onValueChange={(value) => setMediumToHighRange(value)}
-                        minimumValue={-50}
-                        maximumValue={100}
+                    <Image
+                        source={require('../assets/OtherIcons/hotlogo.png')}
+                        style={styles.hotLogo}
                     />
                 </View>
-                <Image
-                    source={require('../assets/OtherIcons/hotlogo.png')}
-                    style={styles.hotLogo}
-                />
+                <View style={styles.btnContainer}>
+                    <SaveButton onPress={() => {
+                        checkThreshold(lowToMediumRange, mediumToHighRange);
+                    }} />
+                </View>
+
+
+                {/*condition and execution to show the warning message*/}
+                {showWarning && (
+
+                    <WarningMessage
+                        message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
+                        This means that the fan will run faster at a lower temperature.
+                        Are you sure you want this?"
+                        onPressCancel={() => setShowWarning(false)}
+                        onPressSave={()=> {
+                            updateThreshold() //function to store values to firebase is called
+                                .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
+                                .then(setShowConfirmation(true))
+
+
+                        }}
+                    />
+
+                )}
+
+                {/*condition and execution to show the confirmation message*/}
+                {showConfirmation && (
+
+                       <ConfirmationMessage
+                          message="Settings Saved!"
+                          onPress={() => setShowConfirmation(false)}
+                       />
+
+
+                )}
             </View>
-            <View style={styles.container}>
-                <SaveButton onPress={() => {
-                    checkThreshold(lowToMediumRange, mediumToHighRange);
-                }} />
-            </View>
-
-
-            {/*condition and execution to show the warning message*/}
-            {showWarning && (
-
-                <WarningMessage
-                    message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
-                    This means that the fan will run faster at a lower temperature.
-                    Are you sure you want this?"
-                    onPressCancel={() => setShowWarning(false)}
-                    onPressSave={()=> {
-                        updateThreshold() //function to store values to firebase is called
-                            .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
-                            .then(setShowConfirmation(true))
-
-
-                    }}
-                />
-
-            )}
-
-            {/*condition and execution to show the confirmation message*/}
-            {showConfirmation && (
-
-                   <ConfirmationMessage
-                      message="Settings Saved!"
-                      onPress={() => setShowConfirmation(false)}
-                   />
-
-
-            )}
-        </View>
+        </SafeAreaView>
 
 
     );
@@ -251,10 +252,13 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+    },
+    subContainer:{
+        margin:20,
+        rowGap:15,
+        flexDirection:"column",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingHorizontal: 10,
-        paddingTop: 20,
     },
     header: {
         flexDirection: "row",
@@ -288,33 +292,23 @@ const styles = StyleSheet.create({
         width: 50,
         height: 50,
     },
-    adjustmentContainerLM: {   /*adjustment container for the low to medium slider*/
+    adjustmentContainer: { /*adjustment container for the medium to high slider*/
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 140,
-        backgroundColor: "#f0f0f0", // Added background color
-        borderRadius: 10, // Added border radius
-        padding: 10, // Added padding
-    },
-    adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 15,
-        backgroundColor: "#f0f0f0", 
+        justifyContent: "center",
+        backgroundColor: "#f0f0f0",
         borderRadius: 10,
-        padding: 10,
+        padding: 15,
     },
     thresholdLabel: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 10,
         marginLeft: 12,
 
     },
     sliderWrapper: {
         alignItems: "center",
+        width:200,
     },
     warningMessage: {
         flex: 1,
@@ -328,11 +322,12 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     checkBoxWrapper: {
-        alignItems: "center",
-        backgroundColor: '#f0f0f0',
-        borderRadius: 10,
-        padding: 10,
+        flexGrow:1,
+        width:"100%",
     },
+    btnContainer:{
+        flexShrink:1
+    }
 
 });
 

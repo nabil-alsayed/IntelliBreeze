@@ -19,21 +19,23 @@ const DefaultCheckBox = ({onPress, onToggle}) => {
                 <Text style={[styles.label, { fontWeight: 'bold' }]}>Default</Text>
             </Pressable>
 
-
             <Text style={styles.subLabel}>LOW (&lt;25°C)</Text>
-        <Text style={styles.subLabel}>MEDIUM (&lt;27°C)</Text>
-        <Text style={styles.subLabel}>HIGH (&gt;27°C)</Text>
+            <Text style={styles.subLabel}>MEDIUM (&lt;27°C)</Text>
+            <Text style={styles.subLabel}>HIGH (&gt;27°C)</Text>
     </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        marginRight: 140,
+        backgroundColor:"#f0f0f0",
+        padding:15,
+        borderRadius:10,
     },
     checkboxContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        columnGap:10
     },
     checkbox: {
         width: 30,
@@ -42,7 +44,6 @@ const styles = StyleSheet.create({
         borderColor: '#01162d',
         justifyContent: 'center',
         alignItems: 'center',
-        marginRight: 8,
     },
     checked: {
         backgroundColor: '#01162d',
