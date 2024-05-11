@@ -80,13 +80,13 @@
 
   
   if(strcmp(topic, PREF_TEMP_SUB_TOPIC) == 0){
-    startingThreshold = "";
+    startingThresholdValue = "";
 
     for(int i = 0; i <length; i++){
-      startingThreshold += (char)payload[i];  
+      startingThresholdValue += (char)payload[i];  
     }
     Serial.println("Received Preferred value: ");
-    Serial.println(startingThreshold);
+    Serial.println(startingThresholdValue);
   }
   
   //Conditional for storing HIGH temperature threshold payload into variable

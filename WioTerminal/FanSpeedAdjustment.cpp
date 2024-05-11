@@ -10,7 +10,7 @@
 
 //function that changes speed of the fan to MEDIUM and HIGH
   void changeSpeed(){
-    float startingThreshold = startingThreshold.toFloat();
+    float startingThreshold = startingThresholdValue.toFloat();
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 

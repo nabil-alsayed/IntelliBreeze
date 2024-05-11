@@ -49,7 +49,7 @@ String tempUnit = "C";
     const char* tempNameChar = tempName.c_str();
     String testTempValue = "25";
 
-    startingThreshold = testTempValue;
+    startingThresholdValue = testTempValue;
 
 
       Serial.println("preliminary tempValue = " );
