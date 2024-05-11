@@ -47,7 +47,7 @@ const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 //These variables hold the value of the temperature thresholds / fan speed values published by the GUI
 extern String highThresholdValue = "";
 extern String mediumThresholdValue = "";
-extern String fanSpeedValue = "";
+extern String customFanSpeedValue = "";
 
  
 void setup_wifi() {
@@ -125,14 +125,14 @@ void callback(char* topic, byte* payload, unsigned int length) {
 
     subscribedPayload = String(buff_p);
   } else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
-    fanSpeedValue = "";
+    customFanSpeedValue = "";
 
         for (int i = 0; i < length; i++) {
-          fanSpeedValue += (char)payload[i];
+          customFanSpeedValue += (char)payload[i];
         }
 
-        Serial.print("Received fanSpeedValue value: ");
-        Serial.println(fanSpeedValue);
+        Serial.print("Received Custom Fan Speed value: ");
+        Serial.println(customFanSpeedValue);
   }
 
   buff_p[length] = '\0';
