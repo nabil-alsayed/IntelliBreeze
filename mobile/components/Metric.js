@@ -13,6 +13,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
     useEffect(() => {
         setTemp(metricValue);
         setUnit(metricUnit);
+        console.log("USE EFFECT DONE");
     }, [metricValue, metricUnit]);
 
 
