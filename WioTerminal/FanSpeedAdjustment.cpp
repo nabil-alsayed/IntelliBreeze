@@ -31,3 +31,11 @@ void changeSpeed(){
 void convertSliderToDutyCycle(sliderValue) {
   return ((sliderValue - 1) / 99 * 195) + 60;
 }
+
+//function that changes fan speed to the selected speed in custom mode
+void changeSpeedToCustomMode(){
+  float customFanSpeedValue = customFanSpeedValue.toFloat();
+    dutyCycle = convertSliderToDutyCycle(customFanSpeedValue);
+    analogWrite(Gate, dutyCycle);
+    Serial.println("Changed speed to Custom Mode's speed");
+}
