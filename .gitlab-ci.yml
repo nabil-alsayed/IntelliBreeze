@@ -1,32 +1,43 @@
 image: ubuntu:latest
 
 before_script:
-  # run shell script for installing arduino-cli, Wio Terminal core, and project libraries
-  - chmod +x setup-build-env.sh               # change permissions to execute bash shell script
-  - ./setup-build-env.sh                      # execute bash shell script
+  # Install general dependencies
+  - apt-get update && apt-get install -y curl build-essential
+  # Install Node.js for React Native
+  - curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+  - apt-get install -y nodejs
+  # Run shell script for installing arduino-cli, Wio Terminal core, and project libraries
+  - chmod +x setup-build-env.sh
+  - ./setup-build-env.sh
 
 stages:
-  - build
+  - build_cpp
+  - build_js
   - deploy
 
-compile:
-  stage: build
+compile_cpp:
+  stage: build_cpp
   tags:
     - docker
   script:
-    - export PATH=$PATH:/root/bin             # set the path to arduino-cli installation folder
-    - pwd                                     # print the current working directory
-    - cd WioTerminal                       # change the directory to arduino folder
-    - echo "$SECRETS_H" > Secrets.h           # import secrets from GitLAB CI/CD Settings -> Variables
-    #- echo "$NETWORK_INFO_H" > NetworkInfo.h  # import secrets for WiFi from Gitlab CI/CD Settings -> Variables
-    #- echo "$BROKER_INFO_H" > BrokerInfo.h    # import secrets for MQTT from Gitlab CI/CD Settings -> Variables
-    - arduino-cli lib list                    # check that libraries are installed
-    
-    # Compile
+    - export PATH=$PATH:/root/bin
+    - pwd
+    - cd WioTerminal
+    - echo "$SECRETS_H" > Secrets.h
+    - arduino-cli lib list
     - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
+    - arduino-cli board list
+  except:
+    - tags
 
-    # Upload
-    - arduino-cli board list                  # Check if device is connected
+compile_js:
+  stage: build_js
+  script:
+    - cd mobile
+    - npm install
+    - npm run lint
+  tags:
+    - docker
   except:
     - tags
 
@@ -35,19 +46,21 @@ release:
   tags:
     - upload
   script:
-    - export PATH=$PATH:/root/bin             # set the path to arduino-cli installation folder
-    - pwd                                     # print the current working directory
-    - cd WioTerminal                         # change the directory to arduino folder
-    - echo "$SECRETS_H" > Secrets.h           # import secrets from GitLAB CI/CD Settings -> Variables
-    #- echo "$NETWORK_INFO_H" > NetworkInfo.h  # import secrets for WiFi from Gitlab CI/CD Settings -> Variables
-    #- echo "$BROKER_INFO_H" > BrokerInfo.h    # import secrets for MQTT from Gitlab CI/CD Settings -> Variables
-    - arduino-cli lib list                    # check that libraries are installed
-    
-    # Compile
-    - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
-
-    # Upload
-    - arduino-cli board list                  # Check if device is connected
-    - arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal           # if runnner is on local machine
+    - export PATH=$PATH:/root/bin
+    - pwd
+    - if [ -d "WioTerminal" ]; then
+      cd WioTerminal
+      echo "$SECRETS_H" > Secrets.h
+      arduino-cli lib list
+      arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
+      arduino-cli board list
+      arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal
+      cd ..
+      fi
+    - if [ -d "mobile" ]; then
+      cd mobile
+      npm install
+      npm run build
+      fi
   only:
     - tags
