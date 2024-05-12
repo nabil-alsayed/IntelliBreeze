@@ -4,9 +4,12 @@ before_script:
   # General setup
   - apt-get update && apt-get install -y curl build-essential
 
-  # Install Node.js for React Native
+  # Install Node.js for React Native with Expo
   - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
   - apt-get install -y nodejs
+
+  # Install Expo CLI
+  - npm install -g expo-cli
 
   # Install dependencies for Arduino
   - chmod +x setup-build-env.sh
@@ -29,9 +32,9 @@ compile:
     - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
 
     # Change to React Native project directory
-    - cd ../mobile
-    - npm install
-    - npm run build # or the appropriate build command for your React Native project
+    - cd ../mobile # navigate to directory
+    - npm install # install dependencies
+    - expo build:ios # build with ios using expo
 
 release:
   stage: deploy
@@ -49,6 +52,6 @@ release:
 
     # Deploy React Native app
     - cd ../mobile
-    - npm run deploy # Update with your deploy command or script
+    - expo publish # Deploying the changes to your Expo project
   only:
     - tags
