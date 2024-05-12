@@ -25,7 +25,8 @@ const TemperatureThresholdSettings = () => {
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
     const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
     const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
-
+    const PREF_TEMP_PUB_TOPIC = "/intellibreeze/app/temperature";
+    
 
 
     //variable to store data to firestore

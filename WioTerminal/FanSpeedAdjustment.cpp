@@ -38,7 +38,7 @@
 
     }else{
       
-      fanIsOff = false;
+      fanIsOn = false;
       dutyCycle = 0;
       Serial.println("Fan is off");
 
