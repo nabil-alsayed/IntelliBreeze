@@ -35,7 +35,7 @@
    // String fanToggleValue = "";
    //String highThresholdValue = "";
    //String mediumThresholdValue = "";
-   String subscribedTempUnit = "C";
+   
 
 
   void setupClient(){
