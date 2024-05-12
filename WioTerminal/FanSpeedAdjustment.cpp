@@ -17,10 +17,12 @@
    if(tempValue>=mediumThreshold && tempValue<highThreshold){
     dutyCycle = 180;
     analogWrite(fanPin, dutyCycle);
-    Serial.println("Changed speed to medium:");
+    Serial.println("Temperature is above " + mediumThreshold);
+    Serial.println("Changed speed to medium.");
   } else if (tempValue>=highThreshold){
     dutyCycle = 255;
     analogWrite(fanPin, dutyCycle);
+    Serial.println("Temperature is above " + highThreshold);
     Serial.println("Changed speed to high.");
   }
 
