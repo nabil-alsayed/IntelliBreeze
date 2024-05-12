@@ -18,14 +18,14 @@
 
     if(tempValue >= startingThreshold && (tempValue < mediumThreshold || tempValue < highThreshold) && fanIsOn = false){
       
-      fanisOn = true;
+      fanIsOn = true;
       dutyCycle = 255;
       delay(1500);
       Serial.println("Fan is on");
       dutyCycle = 60;
 
     }else if(tempValue>=mediumThreshold && tempValue<highThreshold){
-                                          
+
       dutyCycle = 180;
       analogWrite(fanPin, dutyCycle);
       Serial.println("Changed speed to medium:");
@@ -37,7 +37,8 @@
       Serial.println("Changed speed to high.");
 
     }else{
-
+      
+      fanIsOff = false;
       dutyCycle = 0;
       Serial.println("Fan is off");
 

@@ -81,6 +81,12 @@ String tempUnit = "C";
     String fanSpeedName = "Fan Speed";
     const char* fanSpeedNameChar = fanSpeedName.c_str();
 
+    String fanStateString = String(fanIsOn);
+    const char* fanStateChars = fanStateString.c_str();
+    String fanStateName = "Fan State";
+    const char* fanStateChar = fanStateName.c_str();
+    
+
    
     tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
     tft.setTextSize(2); //sets the size of text
@@ -108,8 +114,7 @@ String tempUnit = "C";
     publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
     publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
-    publish()
-
+    publish(FAN_STATE_PUB_TOPIC, fanStateChars, fanStateChar);
 
   }
 }
