@@ -9,7 +9,7 @@ export const ModeFormProvider = ({ children }) => {
     const [modes, setModes] = useState([]);
     const [formValid, setFormValid] = useState(false);
     const [modeConfirmationModalVisible, setModeConfirmationModalVisible] = useState(false);
-    const [selectedModeId, setSelectedModeId] = useState(null)
+    const [selectedModeId, setSelectedModeId] = useState("auto")
     const value = {
         modalVisible,
         setModalVisible,

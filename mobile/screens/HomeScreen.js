@@ -1,6 +1,6 @@
 
 import {useState} from "react";
-import {StyleSheet, View, ScrollView, SafeAreaView} from "react-native";
+import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
@@ -9,10 +9,6 @@ import {ModeFormProvider} from "../contexts/ModeFormContext";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
 
-
-
-const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
-const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
 
 const HomeScreen = () => {
 
