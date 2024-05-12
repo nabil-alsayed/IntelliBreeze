@@ -35,43 +35,13 @@ export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
     });
 };
 
-
-
-//Method to unsubscribe to a specific topic
-/*
-export const unsubscribeFromTopic = (client, topic, topicName) => {
-    client.unsubscribe(topic, {
-        onSuccess: () => {
-            console.log("unsubscribed to " + topicName + " topic successfully");
-        },
-        onFailure: (error) => {
-            console.error("Failed to unsubscribe to " + topicName + " topic:", error.errorMessage);
-        },
-    })
-}
-*/
-
-
-/*
-<<<<<<< HEAD
-export const publishToTopic = (client, topic, thresholdString, topicName) => {
-    topicName = new Message(thresholdString);
-    topicName.destinationName = topic;
-    client.send(topicName);
-
-
-
-}
-=======
-*/
-
-
-//Method to publish payload topic
+//Method to publish to any topic
 export const publishToTopic = (client, topic, payload, topicName) => {
+    const topicDescription = topicName;
     topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);
-    console.log("Sent " + topicName + "successfully!")
+    console.log("Sent " + topicDescription + "successfully!")
 }
 
 

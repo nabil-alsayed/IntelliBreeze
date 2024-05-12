@@ -12,6 +12,8 @@ import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
+import {TemperatureThresholdsProvider} from "../contexts/TemperatureThresholdsContext";
+
 
 const ModesDisplayWidget = () => {
   const publishMessage = useTopicPublish();
@@ -27,6 +29,18 @@ const ModesDisplayWidget = () => {
     selectedModeId,
     setSelectedModeId,
   } = useContext(ModeFormContext);
+  const {
+    lowToMediumRange,
+    mediumToHighRange,
+    tempUnit,
+    showWarning,
+    setShowWarning,
+    showConfirmation,
+    setShowConfirmation,
+    slidersDisabled,
+    setSlidersDisabled,
+    loading
+  } = useContext(TemperatureThresholdsContext);
 
   // fetches created modes and set the local state to it
 

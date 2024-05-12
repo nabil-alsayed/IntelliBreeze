@@ -59,9 +59,9 @@ const TemperatureThresholdSettings = () => {
 
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
-    useEffect(() => {
+
         useFetchTemperatureThreshold(collectionRef, HIGH_THRESHOLD_PUB_TOPIC, MED_THRESHOLD_PUB_TOPIC, lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
-    }, []);
+
 
 
 
