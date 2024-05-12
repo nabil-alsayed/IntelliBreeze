@@ -1,3 +1,4 @@
+
 export const FAN_SPEED = {
     TOPIC: "/intellibreeze/sensor/fanspeed",
     TOPIC_NAME: "FAN SPEED",
@@ -10,3 +11,9 @@ export const MODES = {
         ID: "auto"
     },
 }
+
+export const SLIDER_VALUES = {
+    mediumDefaultThreshold: 25,
+    highDefaultThreshold: 27
+}
+

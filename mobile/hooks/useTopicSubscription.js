@@ -32,7 +32,7 @@ export const useTopicSubscription = (onTopicUpdate, topic, topicName) => {
             };
 
             subscribeToTopic(client, handleMessage, topic, topicName);
-            return () => unsubscribeFromTopic(client, topic, topicName);
+            return () => {};
         }
     }, [client, onTopicUpdate]);
 

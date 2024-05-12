@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import {View, Text, StyleSheet, Image, SafeAreaView} from "react-native";
+import { StyleSheet } from 'react-native';
+import {View, Text, Image, StatusBar, SafeAreaView} from "react-native";
 import Slider from "@react-native-community/slider";
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { library } from "@fortawesome/fontawesome-svg-core";
@@ -14,6 +15,15 @@ import { db } from "../firebaseConfig";
 import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
+import DefaultCheckBox from "../components/DefaultCheckBox";
+import {SLIDER_VALUES} from "../constants/LogicConstants"
+
+
+{/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
+ speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
+ the sliders allow them to set it freely. These values are saved to firebase and published to the MQTT broker when the save
+ is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher than the
+ temperature at which th fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
@@ -21,6 +31,7 @@ const TemperatureThresholdSettings = () => {
     const [tempUnit, setTempUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [slidersDisabled, setSlidersDisabled] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
     const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
@@ -106,17 +117,35 @@ const TemperatureThresholdSettings = () => {
         }
     }
 
+    const handleDefaultCheckboxToggle = (isChecked) => {
+        setSlidersDisabled(isChecked);
+    };
+
 
 
     //UI for the sliders
     return (
-        <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+
+
             {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.header}>
                 <Text style={styles.headerText}>Temperature Threshold Settings</Text>
             </View>
             <View style={styles.headerLine}></View>
-            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change</Text>
+            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
+
+            {/*Default Checkbox begins here*/}
+            <View style={styles.checkBoxWrapper}>
+                <DefaultCheckBox
+                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                    onToggle = {handleDefaultCheckboxToggle}
+                />
+                <StatusBar style="auto" />
+            </View>
+
+
+            {/*LOW to MEDIUM Slider begins here*/}
             <View style={styles.adjustmentContainerLM}>
                 <Image
                     source={require('../assets/OtherIcons/coldlogo.png')}
@@ -131,6 +160,7 @@ const TemperatureThresholdSettings = () => {
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value={lowToMediumRange}
+                        disabled = {slidersDisabled}
                         onValueChange={(value) => setLowToMediumRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
@@ -162,6 +192,7 @@ const TemperatureThresholdSettings = () => {
                     <Slider
                         style={{ width: 300, height: 50 }}
                         value = {mediumToHighRange}
+                        disabled = {slidersDisabled}
                         onValueChange={(value) => setMediumToHighRange(value)}
                         minimumValue={-50}
                         maximumValue={100}
@@ -208,7 +239,7 @@ const TemperatureThresholdSettings = () => {
 
 
             )}
-        </SafeAreaView>
+        </View>
 
 
     );
@@ -240,7 +271,7 @@ const styles = StyleSheet.create({
         borderBottomColor: "#ccc",
         width: "100%",
         marginTop: 20,
-        marginBottom: 1
+        marginBottom: 1,
     },
     headerLine: {
         borderBottomWidth: 1,
@@ -261,13 +292,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 220,
+        marginTop: 140,
     },
     adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 70,
+        marginTop: 15,
     },
     thresholdLabel: {
         fontSize: 18,
@@ -289,7 +320,13 @@ const styles = StyleSheet.create({
         color: "#666",
         textAlign: "center",
         marginBottom: 10,
-    }
+    },
+    checkBoxWrapper: {
+        alignItems: "center",
+        backgroundColor: '#f0f0f0',
+        borderRadius: 10,
+        padding: 10,
+    },
 
 });
 

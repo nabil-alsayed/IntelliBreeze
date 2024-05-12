@@ -1,3 +1,4 @@
+
 import {useState} from "react";
 import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
@@ -6,10 +7,8 @@ import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import {ModeFormProvider} from "../contexts/ModeFormContext";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
+import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
 
-
-const LM_PUB_TOPIC = "/intellibreeze/slider/lowToMediumThreshold"
-const MH_PUB_TOPIC = "/intellibreeze/slider/mediumToHighThreshold"
 
 const HomeScreen = () => {
 
@@ -21,15 +20,15 @@ const HomeScreen = () => {
                 <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
                             contentContainerStyle={styles.innerContainer}>
                     <Header name={"Manas"} style={{position: "sticky"}}/>
-                    <EnergyConsumptionWidget/>
-                    <MetricsDisplayWidget value={value}/>
+                    <EnergyConsumptionWidget/>           
+                    <MetricsDisplayWidget value = {value}/>
+                    <FanSpeedDisplayWidget/>
                     <ModeDisplayWidget/>
                     <StatusBar style="auto"/>
                 </ScrollView>
             </SafeAreaView>
         </ModeFormProvider>
     );
-
 }
 
 const styles = StyleSheet.create({
@@ -59,3 +58,4 @@ const styles = StyleSheet.create({
 });
 
 export default HomeScreen;
+

@@ -22,7 +22,9 @@ const initialEnergyData = () => {
 };
 
 
-const EnergyConsumptionWidget = ( { value = 20, unit = "kWh" }  ) => {
+const EnergyConsumptionWidget = () => {
+    const value = 20;
+    const unit = "kWh";
     const [timeFrame, setTimeFrame] = useState("day");
     const [counter, setCounter] = useState(0);
     const [modalVisible, setModalVisible] = useState({visible: false, timeframe: timeFrame})
