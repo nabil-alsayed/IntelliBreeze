@@ -1,6 +1,6 @@
 const styles = {
     colors: {
-        primary: "#0056b3",
+        primary: "#169eff",
         secondary: "#6c757d",
         success: "#28a745",
         danger: "#dc3545",
