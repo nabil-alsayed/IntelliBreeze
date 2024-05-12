@@ -71,6 +71,7 @@ export const publishToTopic = (client, topic, payload, topicName) => {
     topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);
+    console.log("Sent " + topicName + "successfully!")
 }
 
 
