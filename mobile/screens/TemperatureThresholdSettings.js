@@ -1,23 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from 'react-native';
-import {View, Text, Image, StatusBar, SafeAreaView} from "react-native";
-import Slider from "@react-native-community/slider";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faFan } from "@fortawesome/free-solid-svg-icons";
-import SaveButton from "../components/SaveButton";
-import WarningMessage from "../components/WarningMessage";
-import ConfirmationMessage from "../components/ConfirmationMessage";
-library.add(faFan);
-import 'firebase/database';
-import "firebase/compat/app";
-import { db } from "../firebaseConfig";
-import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
-import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
-import "../components/Metric";
-import DefaultCheckBox from "../components/DefaultCheckBox";
-import {SLIDER_VALUES} from "../constants/LogicConstants"
-
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
+import { faFan } from '@fortawesome/free-solid-svg-icons';
+import SaveButton from '../components/TemperatureThresholds/SaveButton';
+import WarningMessage from '../components/TemperatureThresholds/WarningMessage';
+import ConfirmationMessage from '../components/TemperatureThresholds/ConfirmationMessage';
+import DefaultCheckBox from '../components/TemperatureThresholds/DefaultCheckBox';
+import TemperatureSlider from '../components/TemperatureThresholds/TemperatureSlider';
+import { db } from '../firebaseConfig';
+import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
+import { connectToMqtt, publishToTopic } from '../utils/mqttUtils';
+import {SLIDER_VALUES} from "../constants/LogicConstants";
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
  speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
