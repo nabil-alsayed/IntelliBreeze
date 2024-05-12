@@ -18,7 +18,7 @@ const ModeSettingsForm = ({modeId} ) => {
     const [modeDetails, setModeDetails] = useState({
         modeName: '',
         selectedIcon: '',
-        fanSpeed: [0] // Initialize with an array containing the default fan speed
+        fanSpeed: [0]
     });
 
     const handleModalClose = () => {
@@ -32,7 +32,7 @@ const ModeSettingsForm = ({modeId} ) => {
             setModeDetails({
                 modeName: currentMode.ModeName,
                 selectedIcon: currentMode.SelectedIcon,
-                fanSpeed: [currentMode.FanSpeed] // Ensure this is an array
+                fanSpeed: [currentMode.FanSpeed]
             });
         }
     }, [modes, modeId]);
@@ -51,7 +51,7 @@ const ModeSettingsForm = ({modeId} ) => {
             await updateDoc(modeDoc, {
                 ModeName: modeDetails.modeName,
                 SelectedIcon: modeDetails.selectedIcon,
-                FanSpeed: modeDetails.fanSpeed[0] // Since fanSpeed is an array, take the first element
+                FanSpeed: modeDetails.fanSpeed[0]
             });
             alert('Mode updated successfully!');
             handleModalClose();
