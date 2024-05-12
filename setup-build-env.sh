@@ -1,6 +1,3 @@
-# Credits to Pasha Klimenkov for writing esp32 CI guide: https://codeblog.dotsandbrackets.com/gitlab-ci-esp32-arduino/
-# I have modified his code to work with Wio Terminal, which is not the esp32, but still uses arduino-cli and GitLab.
-
 #!/bin/bash
 
 apt-get update
@@ -23,13 +20,13 @@ arduino-cli lib install "PubSubClient@2.8"
 arduino-cli lib install "TFT_eSPI@2.5.43"
 arduino-cli lib install "DHT sensor library@1.4.6"
 
+#Install Node.js
 
-cd -
+apt-get install curl -y
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+# Download and install nvm
+export PATH="$NVM_DIR/bin:$PATH" # Add nvm executable to PATH
 
-# Install 'third-party' packages / libraries: find proper location and 'git clone'
-#apt-get install git -y
-#cd `arduino-cli config dump | grep sketchbook | sed 's/.*\ //'`/libraries
-#git clone https://github.com/ThingPulse/esp8266-oled-ssd1306.git
-#git clone https://github.com/Seeed-Studio/Seeed_Arduino_RTC.git
 
-#cd -
