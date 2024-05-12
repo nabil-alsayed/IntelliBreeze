@@ -18,16 +18,15 @@ import {SLIDER_VALUES} from "../constants/LogicConstants";
  temperature at which th fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
-    const [lowToMediumRange, setLowToMediumRange] = useState(0);
-    const [mediumToHighRange, setMediumToHighRange] = useState(0);
-    const [tempUnit, setTempUnit] = useState('C');
-    const [showWarning, setShowWarning] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [slidersDisabled, setSlidersDisabled] = useState(false);
-    const collectionRef = collection(db, 'temperatureThresholds');
-    const documentID = 'aIPlgZv2kTA4axiMAnw5';
-    const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
-    const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
+        const [lowToMediumRange, setLowToMediumRange] = useState(0);
+        const [mediumToHighRange, setMediumToHighRange] = useState(0);
+        const [showWarning, setShowWarning] = useState(false);
+        const [showConfirmation, setShowConfirmation] = useState(false);
+        const [slidersDisabled, setSlidersDisabled] = useState(false);
+        const collectionRef = collection(db, 'temperatureThresholds');
+        const documentID = 'aIPlgZv2kTA4axiMAnw5';
+        const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
+        const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
 
 
 
