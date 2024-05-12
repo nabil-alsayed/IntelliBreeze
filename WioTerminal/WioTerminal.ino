@@ -40,7 +40,6 @@ const char* TEMP_PUB_TOPIC = "/intellibreeze/sensor/temperature" ;
 const char* TEMP_SUB_TOPIC = "/intellibreeze/app/temperature" ;
 const char* TEMPUNIT_SUB_TOPIC = "/intellibreeze/app/tempUnit" ;
 const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
-const char* CUSTOM_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/custom/fanspeed";
 
 const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
 const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
