@@ -37,16 +37,6 @@ const TemperatureThresholdSettings = () => {
     }
 
 
-    //This function calculates the temperature if the preferredUnit/tempUnit is changed
-    const convertTemperature = (temp) => {
-        if (tempUnit === 'F') {
-            return Math.floor(Math.round((temp * 9 / 5) + 32)) + '°F';
-        } else if (tempUnit === 'K') {
-            return Math.floor((temp + 273.15).toFixed(2)) + 'K';
-        }
-        return Math.floor(temp) + '°C';
-    }
-
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
