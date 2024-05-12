@@ -107,104 +107,48 @@ const TemperatureThresholdSettings = () => {
     //UI for the sliders
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.subContainer}>
-
-                {/*LOW to MEDIUM Slider begins here*/}
+            <View style={[{padding:20, rowGap:20}]}>
+                <StatusBar style="auto" />
                 <View style={styles.header}>
                     <Text style={styles.headerText}>Temperature Threshold Settings</Text>
-                </View>
-                <View style={styles.headerLine}></View>
-                <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
-
-                {/*Default Checkbox begins here*/}
-                <View style={styles.checkBoxWrapper}>
-                    <DefaultCheckBox
-                        onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
-                        onToggle = {handleDefaultCheckboxToggle}
-                    />
-                    <StatusBar style="auto" />
+                    <Text style={styles.description}>
+                        Set the temperatures at which the fan speeds change, or select defaults.
+                    </Text>
                 </View>
 
+                <DefaultCheckBox
+                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                    onToggle = {handleDefaultCheckboxToggle}
+                />
 
-                {/*LOW to MEDIUM Slider begins here*/}
-                <View style={styles.adjustmentContainer}>
-                    <Image
-                        source={require('../assets/OtherIcons/coldlogo.png')}
-                        style={styles.coldLogo}
-                    />
-                    <View style={styles.sliderWrapper}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
-                            <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
-                        </View>
-                        <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
-                        <Slider
-                            style={{ width: 300, height: 50 }}
-                            value={lowToMediumRange}
-                            disabled = {slidersDisabled}
-                            onValueChange={(value) => setLowToMediumRange(value)}
-                            minimumValue={-50}
-                            maximumValue={100}
-                        />
-                    </View>
-                    <Image
-                        source={require('../assets/OtherIcons/hotlogo.png')}
-                        style={styles.hotLogo}
-                    />
-                </View>
+                <TemperatureSlider
+                    label="LOW to MEDIUM"
+                    icon={faFan}
+                    value={lowToMediumRange}
+                    onValueChange={setLowToMediumRange}
+                    disabled={slidersDisabled}
+                />
 
+                <TemperatureSlider
+                    label="MEDIUM to HIGH"
+                    icon={faFan}
+                    value={mediumToHighRange}
+                    onValueChange={setMediumToHighRange}
+                    disabled={slidersDisabled}
+                />
 
-                <View style={styles.line}></View>
-
-
-                {/*MEDIUM to HIGH Slider begins here*/}
-                <View style={styles.adjustmentContainer}>
-                    <Image
-                        source={require('../assets/OtherIcons/coldlogo.png')}
-                        style={styles.coldLogo}
-                    />
-                    <View style={styles.sliderWrapper}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                            <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
-                            <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
-                        </View>
-
-                        <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(mediumToHighRange)}</Text>
-                        <Slider
-                            style={{ width: 300, height: 50 }}
-                            value = {mediumToHighRange}
-                            disabled = {slidersDisabled}
-                            onValueChange={(value) => setMediumToHighRange(value)}
-                            minimumValue={-50}
-                            maximumValue={100}
-                        />
-                    </View>
-                    <Image
-                        source={require('../assets/OtherIcons/hotlogo.png')}
-                        style={styles.hotLogo}
-                    />
-                </View>
-                <View style={styles.btnContainer}>
-                    <SaveButton onPress={() => {
-                        checkThreshold(lowToMediumRange, mediumToHighRange);
-                    }} />
-                </View>
-
+                <SaveButton onPress={checkThreshold} />
 
                 {/*condition and execution to show the warning message*/}
                 {showWarning && (
 
                     <WarningMessage
-                        message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
-                        This means that the fan will run faster at a lower temperature.
-                        Are you sure you want this?"
+                        message="LOW to MEDIUM threshold is higher than MEDIUM to HIGH!"
                         onPressCancel={() => setShowWarning(false)}
-                        onPressSave={()=> {
-                            updateThreshold() //function to store values to firebase is called
-                                .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
+                        onPressSave={() => {  //function to store values to firebase is called
+                            updateThreshold() //user accepts the unusual select so warning is removed
+                                .then(setShowWarning(false))
                                 .then(setShowConfirmation(true))
-
-
                         }}
                     />
 
@@ -212,104 +156,37 @@ const TemperatureThresholdSettings = () => {
 
                 {/*condition and execution to show the confirmation message*/}
                 {showConfirmation && (
-
-                       <ConfirmationMessage
-                          message="Settings Saved!"
-                          onPress={() => setShowConfirmation(false)}
-                       />
-
-
+                    <ConfirmationMessage
+                        message="Settings Saved!"
+                        onPress={() => setShowConfirmation(false)}
+                    />
                 )}
             </View>
         </SafeAreaView>
-
-
     );
-}
-
+};
 
 //styling for individual components of the UI
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
-    },
-    subContainer:{
-        margin:20,
-        rowGap:15,
-        flexDirection:"column",
-        alignItems: "center",
-        justifyContent: "flex-start",
+        flexShrink: 1,
+        backgroundColor: '#f0f0f0',
     },
     header: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 20,
+        justifyContent:"center",
+        alignItems:"center",
+        rowGap:10
     },
     headerText: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#333",
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#333',
     },
-    line: {
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        width: "100%",
-        marginTop: 20,
-        marginBottom: 1,
-    },
-    headerLine: {
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        width: "110%",
-        marginTop: 1,
-        marginBottom: 5,
-    },
-    hotLogo: {
-        width: 40,
-        height: 40,
-    },
-    coldLogo: {
-        width: 50,
-        height: 50,
-    },
-    adjustmentContainer: { /*adjustment container for the medium to high slider*/
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "center",
-        backgroundColor: "#f0f0f0",
-        borderRadius: 10,
-        padding: 15,
-    },
-    thresholdLabel: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginLeft: 12,
-
-    },
-    sliderWrapper: {
-        alignItems: "center",
-        width:200,
-    },
-    warningMessage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    infoText: {
+    description: {
         fontSize: 16,
-        color: "#666",
-        textAlign: "center",
-        marginBottom: 10,
+        color: '#666',
+        marginBottom: 20,
     },
-    checkBoxWrapper: {
-        flexGrow:1,
-        width:"100%",
-    },
-    btnContainer:{
-        flexShrink:1
-    }
-
 });
 
 export default TemperatureThresholdSettings;
