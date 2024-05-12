@@ -5,6 +5,7 @@ import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
 import {collection, addDoc, onSnapshot} from "firebase/firestore";
 import { ModeFormContext } from "../contexts/ModeFormContext";
+import {FAN_SPEED} from "../constants/LogicConstants";
 
 const AddModeForm = () => {
 
@@ -87,8 +88,8 @@ const AddModeForm = () => {
                         <MultiSlider
                             values={[0]}
                             onValuesChange={handleValuesChange}
-                            min={1}
-                            max={100}
+                            min={FAN_SPEED.MIN_SPEED_LIMIT}
+                            max={FAN_SPEED.MAX_SPEED_LIMIT}
                             step={1}
                             selectedStyle={{
                                 backgroundColor: '#169EFFFF',

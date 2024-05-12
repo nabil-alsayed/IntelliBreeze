@@ -12,16 +12,30 @@
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 
-    if(tempValue>=mediumThreshold && tempValue<highThreshold){
-      dutyCycle = 180;
-      analogWrite(fanPin, dutyCycle);
-      Serial.println("Changed speed to medium:");
-    } else if (tempValue>=highThreshold){
-      dutyCycle = 255;
-      analogWrite(fanPin, dutyCycle);
-      Serial.println("Changed speed to high.");
 
 
-    }
-
+   if(tempValue>=mediumThreshold && tempValue<highThreshold){
+    dutyCycle = 180;
+    analogWrite(fanPin, dutyCycle);
+    Serial.println("Changed speed to medium:");
+  } else if (tempValue>=highThreshold){
+    dutyCycle = 255;
+    analogWrite(fanPin, dutyCycle);
+    Serial.println("Changed speed to high.");
   }
+
+}
+//function to convert the fan speed from slider value to duty cycle
+float convertSliderToDutyCycle(float sliderValue) {
+    return ((sliderValue - 1) / 99.0 * 195) + 60;
+}
+
+//function that changes fan speed to the selected speed in custom mode
+void changeSpeedToCustomMode(){
+  float customFanSpeed = customFanSpeedValue.toFloat();
+    dutyCycle = convertSliderToDutyCycle(customFanSpeed);
+    analogWrite(fanPin, dutyCycle);
+    Serial.println("Changed speed to Custom Mode's speed: " + customFanSpeedValue + ". Duty Cycle: " + dutyCycle);
+}
+
+
