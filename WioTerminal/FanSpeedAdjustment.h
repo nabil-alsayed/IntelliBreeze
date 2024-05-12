@@ -6,9 +6,10 @@
 
 extern String mediumThresholdValue;  //value set by user in the application where the fan switches speed to MEDIUM
 extern String highThresholdValue;    //value set by user in the application where the fan switches speed to HIGH
-extern String startingThresholdValue;
+extern String startingThresholdValue; //value set by user on the apllication for when fan turns on and off in automatic mode
 extern int dutyCycle;                //used to control the pulse width modulation of the fan
 extern float tempValue;              //used to compare user thresholds to control fan speed
+extern boolean fanIsOn;
 
 
 

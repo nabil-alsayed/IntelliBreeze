@@ -27,11 +27,10 @@
   const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
+  const char* FAN_STATE_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanstate";
 
 
-   // String fanToggleValue = "";
-   //String highThresholdValue = "";
-   //String mediumThresholdValue = "";
+   
    String subscribedPayload = "C";
 
 
@@ -85,7 +84,7 @@
     for(int i = 0; i <length; i++){
       startingThresholdValue += (char)payload[i];  
     }
-    Serial.println("Received Preferred value: ");
+    Serial.println("Received Preferred Temperature value: ");
     Serial.println(startingThresholdValue);
   }
   

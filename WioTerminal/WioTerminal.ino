@@ -108,6 +108,7 @@ String tempUnit = "C";
     publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
     publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
+    publish()
 
 
   }
