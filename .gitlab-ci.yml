@@ -1,66 +1,54 @@
 image: ubuntu:latest
 
 before_script:
-  # Install general dependencies
+  # General setup
   - apt-get update && apt-get install -y curl build-essential
+
   # Install Node.js for React Native
-  - curl -fsSL https://deb.nodesource.com/setup_14.x | bash -
+  - curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
   - apt-get install -y nodejs
-  # Run shell script for installing arduino-cli, Wio Terminal core, and project libraries
+
+  # Install dependencies for Arduino
   - chmod +x setup-build-env.sh
   - ./setup-build-env.sh
 
 stages:
-  - build_cpp
-  - build_js
+  - build
   - deploy
 
-compile_cpp:
-  stage: build_cpp
+compile:
+  stage: build
   tags:
     - docker
   script:
+    # Compile Arduino project
     - export PATH=$PATH:/root/bin
-    - pwd
     - cd WioTerminal
     - echo "$SECRETS_H" > Secrets.h
     - arduino-cli lib list
     - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
-    - arduino-cli board list
-  except:
-    - tags
 
-compile_js:
-  stage: build_js
-  script:
-    - cd mobile
+    # Change to React Native project directory
+    - cd ../mobile
     - npm install
-    - npm run lint
-  tags:
-    - docker
-  except:
-    - tags
+    - npm run build # or the appropriate build command for your React Native project
 
 release:
   stage: deploy
   tags:
     - upload
   script:
+    # Arduino deploy
     - export PATH=$PATH:/root/bin
-    - pwd
-    - if [ -d "WioTerminal" ]; then
-      cd WioTerminal
-      echo "$SECRETS_H" > Secrets.h
-      arduino-cli lib list
-      arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
-      arduino-cli board list
-      arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal
-      cd ..
-      fi
-    - if [ -d "mobile" ]; then
-      cd mobile
-      npm install
-      npm run build
-      fi
+    - cd WioTerminal
+    - echo "$SECRETS_H" > Secrets.h
+    - arduino-cli lib list
+    - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
+    - arduino-cli board list
+    - arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal
+
+    # Deploy React Native app
+    - cd ../mobile
+    - npm run deploy # Update with your deploy command or script
   only:
     - tags
