@@ -124,7 +124,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
     subscribedPayload = String(buff_p);
-  } else if (strcmp(topic, CUSTOM_FAN_SPEED_SUB_TOPIC) == 0){
+  } else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
     customFanSpeedValue = "";
 
         for (int i = 0; i < length; i++) {
