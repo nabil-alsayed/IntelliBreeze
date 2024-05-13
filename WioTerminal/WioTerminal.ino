@@ -2,11 +2,11 @@
 #include <DHT.h>
 #include "fanbutton.h"
 #include "FanSpeedAdjustment.h"
-#define DHT_PIN 0  
+#define DHT_PIN 0
 #define DHT_TYPE DHT11
 
 DHT dht(DHT_PIN, DHT_TYPE);
- 
+
 //TEMPERATURE_READING_INITIALISATIONS
 const int tempReadingX = 40;
 const int tempReadingY = 80;
@@ -23,7 +23,7 @@ const int modeTitleX = 80 ;
 const int modeTitleY = 140;
 
  String subscribedTempUnit = "C";
- 
+
   bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 
 
@@ -31,7 +31,7 @@ void setup() {
   tft.begin();
   tft.fillScreen(TFT_BLACK);
   tft.setRotation(3);
- 
+
   Serial.println();
   Serial.begin(115200);
   setup_wifi();
@@ -93,20 +93,20 @@ void loop() {
     //Label Strings
     tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
     tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
-    
+
     //Temperature Strings
-    tft.setTextSize(5); 
-    tft.drawString(temperatureString, tempReadingX, tempReadingY); 
+    tft.setTextSize(5);
+    tft.drawString(temperatureString, tempReadingX, tempReadingY);
     tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
      tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
      //Selected fan mode Strings:
-    tft.setTextSize(4); 
+    tft.setTextSize(4);
     tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
     delay(5000);
     tft.fillScreen(TFT_RED);
- 
+
     if (!client.connected()) {
       reconnect();
     }

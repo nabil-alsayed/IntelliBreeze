@@ -1,8 +1,8 @@
 #include "MQTT.h"
 #include "fanbutton.h"
 #include "FanSpeedAdjustment.h"
-  
-  
+
+
   const char* ssid = "Tele2_357564"; // WiFi Name
   const char* password = "vujjwagy";  // WiFi Password
   const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
@@ -12,7 +12,7 @@
   long lastMsg = 0;
   char msg[50];
   int value = 0;
-  
+
   //MQTT Topics for Publish and Subscribe
 
     //MQTT Temperature Related Topics
@@ -37,7 +37,7 @@
    //String mediumThresholdValue = "";
 
    String selectedMode;
-   
+
 
 
   void setupClient(){
@@ -54,7 +54,7 @@
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password); // Connecting WiFi
-  
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -86,18 +86,18 @@
   //Conditional for storing HIGH temperature threshold payload into variable
   if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
     highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
-    
+
     for (int i = 0; i < length; i++) {
       highThresholdValue += (char)payload[i];
     }
-    
+
     Serial.print("Received high threshold value: ");
     Serial.println(highThresholdValue);
 
   //Conditional for storing MEDIUM temperature threshold payload into variable
   } else if (strcmp(topic, MED_THRESHOLD_SUB_TOPIC) == 0) {
-    mediumThresholdValue = ""; 
-    
+    mediumThresholdValue = "";
+
     for (int i = 0; i < length; i++) {
       mediumThresholdValue += (char)payload[i];
     }
@@ -138,7 +138,7 @@
 
       //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);
-      
+
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());

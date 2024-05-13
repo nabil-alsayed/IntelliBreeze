@@ -36,14 +36,14 @@ const ModesDisplayWidget = () => {
 
     console.log(selectedModeName);
 
-        const client = connectToMqtt();
-        try {
-          client.onConnected = () => {
-            publishToTopic(client, MODENAME_PUB_TOPIC, selectedModeName, "selectedModeName");
-          };
-        } catch (error) {
-          console.log("Publishing Error", error);
-        }
+    const client = connectToMqtt();
+    try {
+      client.onConnected = () => {
+        publishToTopic(client, MODENAME_PUB_TOPIC, selectedModeName, "selectedModeName");
+      };
+    } catch (error) {
+      console.log("Publishing Error", error);
+    }
 
   };
 
@@ -256,23 +256,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
   },
-modalView: {
-  backgroundColor: '#fff',
-  borderRadius: 20,
-  paddingHorizontal: 20,
-  paddingTop:90,
-  rowGap:20,
-  alignItems: 'center',
-  width:"100%",
-  height:"100%",
-},
-buttonClose: {
-  backgroundColor: "#2196F3",
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginTop: 15,
-},button:{
+  modalView: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingTop:90,
+    rowGap:20,
+    alignItems: 'center',
+    width:"100%",
+    height:"100%",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+  },button:{
     borderRadius:15,
     width: "100%",
     height: 50,

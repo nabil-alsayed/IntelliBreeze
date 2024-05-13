@@ -1,5 +1,4 @@
 
-
 import TemperatureThresholdSettings from "./TemperatureThresholdSettings";
 import FanSpeedScreen from "./FanSpeedScreen";
 import HomeScreen from "./HomeScreen";

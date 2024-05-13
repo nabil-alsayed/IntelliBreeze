@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { connectToMqtt, subscribeToTopic, unsubscribeFromTopic } from '../utils/mqttUtils';
+import {connectToMqtt, subscribeToTopic, unsubscribeFromTopic} from '../utils/mqttUtils';
 
 export const useTopicSubscription = (onTopicUpdate, topic, topicName) => {
     const [client, setClient] = useState(null);
@@ -27,11 +27,7 @@ export const useTopicSubscription = (onTopicUpdate, topic, topicName) => {
             const handleMessage = (message) => {
                 if (message.destinationName === topic) {
                     const temperature = parseInt(message.payloadString, 10);
-                    if (!isNaN(temperature)) {
-                        onTopicUpdate(temperature);
-                    } else {
-                        console.error("Received non-integer " + topicName);
-                    }
+                    onTopicUpdate(temperature);
                 }
             };
 

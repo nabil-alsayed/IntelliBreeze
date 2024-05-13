@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
 import { ModeFormContext } from "../contexts/ModeFormContext";
 import { updateDoc, doc } from "firebase/firestore";
@@ -7,6 +7,7 @@ import IconPicker from "./IconPicker";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import ConfirmationModal from "./ConfirmationModal";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { FAN_SPEED } from "../constants/LogicConstants";
 
 const ModeSettingsForm = ({modeId} ) => {
     const {
@@ -91,8 +92,8 @@ const ModeSettingsForm = ({modeId} ) => {
                     <MultiSlider
                         values={modeDetails.fanSpeed}
                         onValuesChange={handleValuesChange}
-                        min={1}
-                        max={100}
+                        min={FAN_SPEED.MIN_SPEED_LIMIT}
+                        max={FAN_SPEED.MAX_SPEED_LIMIT}
                         step={1}
                         selectedStyle={{ backgroundColor: 'blue' }}
                         unselectedStyle={{ backgroundColor: 'grey' }}
