@@ -30,7 +30,7 @@ const ModesDisplayWidget = () => {
   } = useContext(ModeFormContext);
 
 
-  const getSelectedModeName = ( modeNameId ) => {
+  const publishSelectedModeName = ( modeNameId ) => {
     const selectedMode = modes.find( mode => mode.id === modeNameId);
     const selectedModeName = selectedMode.ModeName;
 
@@ -42,14 +42,14 @@ const ModesDisplayWidget = () => {
         publishToTopic(client, MODENAME_PUB_TOPIC, selectedModeName, "selectedModeName");
       };
     } catch (error) {
-      console.log("Publishing Error", error);
+      console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
     }
 
   };
 
   const handlePress = (item) => {
     setSelectedModeId(item.id);
-    getSelectedModeName(item.id);
+    publishSelectedModeName(item.id);
     handleModeSelection(item.id);
     console.log(selectedModeId);
 
