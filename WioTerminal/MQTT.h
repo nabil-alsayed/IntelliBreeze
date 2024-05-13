@@ -30,7 +30,7 @@
   extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   
   extern String subscribedTempUnit;
-  extern String selectedMode = "Auto";
+  extern String selectedMode;
 
   void setupClient();
 

@@ -35,6 +35,8 @@
    // String fanToggleValue = "";
    //String highThresholdValue = "";
    //String mediumThresholdValue = "";
+
+   String selectedMode;
    
 
 
