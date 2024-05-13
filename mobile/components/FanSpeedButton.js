@@ -1,10 +1,12 @@
 import React from "react";
 import { Text, StyleSheet, TouchableOpacity} from "react-native";
+import {FontAwesome6} from '@expo/vector-icons';
 
 
 const FanSpeedButton = ({buttonTitle, buttonValue, buttonUnits, onPress}) =>{
     return(
     <TouchableOpacity onPress = {onPress} style={styles.fanButtonContainer}>
+      <FontAwesome6 name={ 'fan' } size={24} color = {"white"}/>
         <Text style={[styles.speedValue, styles.fanChild, {color: "white"}]}>
           {buttonValue} {buttonUnits}
         </Text>
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
       fontSize: 20,
     },
     title: {
-      fontSize: 15,
+      fontSize: 20,
     }
   });
 

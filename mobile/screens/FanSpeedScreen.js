@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-nativ
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
 import SaveButton from "../components/SaveButton";
+import FanSpeedDisplayWidget from '../components/FanSpeedDisplayWidget';
 
 const FanSpeedScreen = () => {
 
@@ -14,10 +15,10 @@ const FanSpeedScreen = () => {
             <View style = {styles.container}>
                 <View style = {styles.valueDisplayImageContainer}>
                   <ImageBackground style={styles.valueDisplayImage} source={require("../assets/OtherIcons/ValueDisplay.png")}>
-                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
-                    <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
-                    <Text style = {{fontSize: 35, marginLeft: 110, marginTop: -100, fontWeight: "bold"}}> cycles </Text>
-                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
+                    <Text style = {{fontSize: 15, marginLeft: 90, marginTop: 30}}> Cooler </Text>
+                    <Text style = {{fontSize: 15, marginLeft: 90, marginTop: 10}}> Speed </Text>
+                    <Text style = {{fontSize: 35, marginTop: 25, marginRight: 10, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)} cycles</Text>
+                    <Text style = {{fontSize: 30, marginLeft: 110, marginTop: -100, fontWeight: "bold"}}> </Text> 
                   </ImageBackground>
                 </View>
                 <View style = {styles.slideContainer}>
