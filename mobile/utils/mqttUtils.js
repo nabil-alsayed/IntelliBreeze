@@ -68,6 +68,7 @@ export const publishToTopic = (client, topic, thresholdString, topicName) => {
 
 //Method to publish payload topic
 export const publishToTopic = (client, topic, payload, topicName) => {
+    payload = (String (payload));
     topicName = new Message(payload);
     topicName.destinationName = topic;
     client.send(topicName);

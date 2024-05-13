@@ -16,7 +16,7 @@ const FanSpeedScreen = () => {
 
             client.onConnected = () => { // on connection
                 console.log("Successfully connected to MQTT of slider.");
-                publishToTopic(client, FAN_SLIDER_MANUAL.TOPIC, fanSpeedRange, FAN_SLIDER_MANUAL.TOPIC_NAME); // publish topic with client, message HIGH or LOW and topicName
+                publishToTopic(client, FAN_SLIDER_MANUAL.TOPIC, fanSpeedRange, FAN_SLIDER_MANUAL.TOPIC_NAME); // publish topic with client, Fanspeedrange of 0 to 255 and topicName
             }
             console.log("Successfully published slider value!");
         }catch(error){
