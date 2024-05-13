@@ -14,6 +14,7 @@ import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
 import {TemperatureContext} from "../contexts/TemperatureContext";
 import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
+import {TEMPERATURE} from "../constants/LogicConstants"
 
 
 const ModesDisplayWidget = () => {
@@ -33,6 +34,8 @@ const ModesDisplayWidget = () => {
   const {
     lowToMediumRange,
     mediumToHighRange,
+    setLowToMediumRange,
+    setMediumToHighRange,
     tempUnit,
     showWarning,
     setShowWarning,
@@ -61,9 +64,9 @@ const ModesDisplayWidget = () => {
     }
   }, [modes]); // modes added as dependency to account for modes changes
 
-  useEffect(() => {
-    useTemperatureThreshold(low)
-  }, []);
+
+    useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
+
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);
