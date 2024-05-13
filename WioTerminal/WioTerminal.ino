@@ -74,7 +74,7 @@ void loop() {
       Serial.print(subscribedPayload);
     }
 
-    changeSpeed();
+    changeSpeed(tempValue);
     /*
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
       changeSpeed();
