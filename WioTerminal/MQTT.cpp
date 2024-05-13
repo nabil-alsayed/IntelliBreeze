@@ -28,10 +28,10 @@
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
   const char* FAN_STATE_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanstate";
+  const char* FAN_MODE_SUB_TOPIC = "/intellibreeze/sensor/fanspeed";
 
-
-   
    String subscribedPayload = "C";
+   String customFanSpeedValue = "";
 
 
   void setupClient(){
@@ -113,7 +113,16 @@
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
     subscribedPayload = String(buff_p);
-  }
+  }  else if (strcmp(topic, FAN_MODE_SUB_TOPIC) == 0){
+       customFanSpeedValue = "";
+
+          for (int i = 0; i < length; i++) {
+            customFanSpeedValue += (char)payload[i];
+          }
+
+          Serial.println("Received Custom Fan Speed value: ");
+          Serial.println(customFanSpeedValue);
+   }
 
     buff_p[length] = '\0';
   }
@@ -137,6 +146,9 @@
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
       client.subscribe(PREF_TEMP_SUB_TOPIC); 
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+
+      //Subscribing to fan speeds values from GUI
+      client.subscribe(FAN_MODE_SUB_TOPIC);
       client.subscribe(TEMPUNIT_SUB_TOPIC);   
       
     } else {

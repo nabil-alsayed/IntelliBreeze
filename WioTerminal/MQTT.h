@@ -26,6 +26,7 @@
   extern const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* FAN_STATE_PUB_TOPIC;
+  extern const char* FAN_SPEED_SUB_TOPIC;
   
   extern String subscribedPayload;
 

@@ -13,40 +13,39 @@ const int tempReadingY = 100;
 const int tempTitleX = 40 ;
 const int tempTitleY = 60;
 String tempUnit = "C";
+extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode
 
- 
+
   extern float tempValue = 0; //temperature sensor reading
- 
+
   bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 
 
 
+void setup() {
+  tft.begin();
+  tft.fillScreen(TFT_BLACK);
+  tft.setRotation(3);
+ 
+  Serial.println();
+  Serial.begin(115200);
+  setup_wifi();
+  client.setServer(mqtt_server, 1883); // Connect the MQTT Server
+  client.setCallback(callback);
+  dht.begin(); 
 
-  void setup() {
-    tft.begin();
-    tft.fillScreen(TFT_BLACK);
-    tft.setRotation(3);
-  
-    Serial.println();
-    Serial.begin(115200);
-    setup_wifi();
-    client.setServer(mqtt_server, 1883); // Connect the MQTT Server
-    client.setCallback(callback);
-    dht.begin();
+  pinMode(fanPin, OUTPUT);
+  digitalWrite(fanPin, LOW);
 
-    digitalWrite(fanPin, LOW);
-    pinMode(fanPin, OUTPUT);
-  }
+}
+
 
 
   
 
 
 void loop() {
-  //tempValue = dht.readTemperature();
-     //float tempValue = dht.readTemperature();
 
-     //toggleFan();
 
       float tempValue = dht.readTemperature();
       String temperatureString = String(tempValue);
@@ -75,7 +74,15 @@ void loop() {
       Serial.print(subscribedPayload);
     }
 
+    changeSpeed();
+    /*
+    if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
       changeSpeed();
+    } else {
+      changeSpeedToCustomMode();
+    }
+    */
+    // implement the custom mode fan speed via another else to the last if
 
       float fanSpeedValue = dutyCycle;
       String fanSpeedString = String(fanSpeedValue);
@@ -117,6 +124,7 @@ void loop() {
     publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(FAN_STATE_PUB_TOPIC, fanStateChars, fanStateChar);
+
   }
 }
 
