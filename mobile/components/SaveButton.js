@@ -1,10 +1,10 @@
 import React from 'react';
 import {TouchableOpacity, Text, StyleSheet} from 'react-native';
 
-const SaveButton = ({ onPress, title }) => {
+const SaveButton =({ onPress }) => {
     return (
         <TouchableOpacity
-            style={styles.button} onPress={onPress}>
+            style={styles.button} onPress={onPrress}>
             <Text style={styles.buttonText}>{"Save"}</Text>
         </TouchableOpacity>
     );

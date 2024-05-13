@@ -3,10 +3,27 @@ import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-nativ
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
 import SaveButton from "../components/SaveButton";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+import {FAN_SLIDER_MANUAL} from "../constants/LogicConstants";
 
 const FanSpeedScreen = () => {
 
-  const[fanSpeedRange,setFanSpeedRange] = useState(0)
+    const[fanSpeedRange,setFanSpeedRange] = useState(0)
+
+    const handlePress = () => {
+        try{
+            const client = connectToMqtt(); // connect to mqtt
+
+            client.onConnected = () => { // on connection
+                console.log("Successfully connected to MQTT of slider.");
+                publishToTopic(client, FAN_SLIDER_MANUAL.TOPIC, fanSpeedRange, FAN_SLIDER_MANUAL.TOPIC_NAME); // publish topic with client, message HIGH or LOW and topicName
+            }
+            console.log("Successfully published slider value!");
+        }catch(error){
+            console.error("Failed to publish slider value", error);
+        }
+
+    }
 
     return(
       <SafeAreaView style={{flex:1}}>
@@ -23,11 +40,11 @@ const FanSpeedScreen = () => {
                 <View style = {styles.slideContainer}>
                   <Slider style = {{width: 300, height: 50}}
                   onValueChange={(value)=> setFanSpeedRange(value)}
-                  minimumValue={40}
+                  minimumValue={0}
                   maximumValue={255}
                   />
                     <View>
-                        <SaveButton/>
+                        <SaveButton onPress = {handlePress}/>
                     </View>
                 </View>
             </View>
