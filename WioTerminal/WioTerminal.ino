@@ -49,7 +49,7 @@ void setup() {
 void loop() {
 
 
-      float tempValue = dht.readTemperature();
+      tempValue = dht.readTemperature();
       String temperatureString = String(tempValue);
       const char* temperatureChars = temperatureString.c_str();
       String tempName = "Temperature";
@@ -77,6 +77,7 @@ void loop() {
     }
 
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
+      Serial.println("ENTERING CHANGE SPEED!");
       changeSpeed();
     } else {
       changeSpeedToCustomMode();

@@ -9,10 +9,16 @@
 
 //function that changes speed of the fan to MEDIUM and HIGH
   void changeSpeed(){
+    
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 
-
+   Serial.println("YEAHHHH MEDIUM THRESHOLD IS: ");
+   Serial.print(mediumThreshold);
+   Serial.println("YEAHHHH HIGH THRESHOLD IS: ");
+   Serial.print(highThreshold);
+   Serial.println("YEAHHHH THE TEMPERATURE IS");
+   Serial.print(tempValue);
 
    if(tempValue>=mediumThreshold && tempValue<highThreshold){
     dutyCycle = 180;

@@ -33,8 +33,8 @@ const useTemperatureThreshold = () => {
                     client.onConnected = () => {
                         publishToTopic(client, TEMPERATURE.thresholds.HIGH_THRESHOLD_PUB_TOPIC, String((data.MediumToHighRange)), "high temperature threshold");
                         publishToTopic(client, TEMPERATURE.thresholds.MED_THRESHOLD_PUB_TOPIC, String((data.LowToMediumRange)), "medium temperature threshold");
-                        console.log("Low to medium range that was sent is: " + lowToMediumRange)
-                        console.log("Medium to high range that was sent is: " + mediumToHighRange)
+                        console.log("Low to medium range that was sent is: " + data.LowToMediumRange)
+                        console.log("Medium to high range that was sent is: " + data.MediumToHighRange)
                     };
                 });
             } catch (error) {
