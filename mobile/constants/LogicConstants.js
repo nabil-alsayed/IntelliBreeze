@@ -12,10 +12,6 @@ export const TEMPERATURE = {
     thresholds: {
         HIGH_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/highThreshold",
         MED_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/mediumThreshold",
-    },
-    firebase: {
-        documentId :'aIPlgZv2kTA4axiMAnw5',
-        collectionRef: collection(db, 'temperatureThresholds')
     }
 }
 

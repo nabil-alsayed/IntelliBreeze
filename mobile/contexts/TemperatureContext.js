@@ -2,7 +2,7 @@ import React, {createContext, useState} from 'react';
 import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
 
 
-export const TemperatureContext = createContext();
+export const TemperatureContext = createContext(null);
 
 export const TemperatureProvider = ({ children }) => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
