@@ -12,7 +12,8 @@ import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
-import {TemperatureThresholdsProvider} from "../contexts/TemperatureThresholdsContext";
+import {TemperatureContext} from "../contexts/TemperatureContext";
+import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
 
 
 const ModesDisplayWidget = () => {
@@ -35,12 +36,7 @@ const ModesDisplayWidget = () => {
     tempUnit,
     showWarning,
     setShowWarning,
-    showConfirmation,
-    setShowConfirmation,
-    slidersDisabled,
-    setSlidersDisabled,
-    loading
-  } = useContext(TemperatureThresholdsContext);
+  } = useContext(TemperatureContext);
 
   // fetches created modes and set the local state to it
 
@@ -64,6 +60,10 @@ const ModesDisplayWidget = () => {
       setSelectedModeId(selectedMode.id);
     }
   }, [modes]); // modes added as dependency to account for modes changes
+
+  useEffect(() => {
+    useTemperatureThreshold(low)
+  }, []);
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);

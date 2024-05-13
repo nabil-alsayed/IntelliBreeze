@@ -17,7 +17,7 @@ import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
 import {SLIDER_VALUES} from "../constants/LogicConstants"
-import useFetchTemperatureThreshold from "../hooks/TemperatureThresholdsPublish";
+import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
@@ -60,7 +60,7 @@ const TemperatureThresholdSettings = () => {
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
 
-        useFetchTemperatureThreshold(collectionRef, HIGH_THRESHOLD_PUB_TOPIC, MED_THRESHOLD_PUB_TOPIC, lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
+        useTemperatureThreshold(collectionRef, HIGH_THRESHOLD_PUB_TOPIC, MED_THRESHOLD_PUB_TOPIC, lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
 
 
 

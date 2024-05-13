@@ -6,7 +6,7 @@ import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 publishing it to the MQTT whenever the application is opened (issue #46).
 It also separates responsibility and makes the TemperatureThresholdSettings class more modular (primarily where this
 hook is used).*/}
-const useFetchTemperatureThreshold = (collectionRef, HIGH_THRESHOLD_PUB_TOPIC, MED_THRESHOLD_PUB_TOPIC, lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange) => {
+const useTemperatureThreshold = (collectionRef, HIGH_THRESHOLD_PUB_TOPIC, MED_THRESHOLD_PUB_TOPIC, lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange) => {
     useEffect(() => {
         const fetchTemperatureThreshold = onSnapshot(collectionRef, (querySnapshot) => {
             try {
@@ -29,4 +29,4 @@ const useFetchTemperatureThreshold = (collectionRef, HIGH_THRESHOLD_PUB_TOPIC, M
     }, []);
 };
 
-export default useFetchTemperatureThreshold;
+export default useTemperatureThreshold;
