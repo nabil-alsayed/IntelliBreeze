@@ -17,7 +17,7 @@ import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
 import {SLIDER_VALUES} from "../constants/LogicConstants"
-import TemperatureSlider from "../components/TemperatureSlider";
+import CautionMessage from "../components/CautionMessage";
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
@@ -27,10 +27,12 @@ import TemperatureSlider from "../components/TemperatureSlider";
  temperature at which th fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
+    const[preferredTemp, setPreferredTemp] = useState(0);
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [tempUnit, setTempUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
+    const [showCaution, setShowCaution] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [slidersDisabled, setSlidersDisabled] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
@@ -90,6 +92,7 @@ const TemperatureThresholdSettings = () => {
             client.onConnected = () => {
                 publishToTopic(client, HIGH_THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "high temperature threshold");
                 publishToTopic(client, MED_THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "medium temperature threshold");
+                publishToTopic(client, PREF_TEMP_PUB_TOPIC, String((preferredTemp)), "preferred Temperature");
 
             };
 
@@ -104,18 +107,20 @@ const TemperatureThresholdSettings = () => {
 
 
     //this is the core method which verifies the slider input
-    const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
-        if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
+    const checkThreshold = (preferredTemp, lowToMediumRange, mediumToHighRange) => {
+    if((preferredTemp > lowToMediumRange) || (preferredTemp > mediumToHighRange)){
+       setShowCaution(true);
+       setShowConfirmation(false);
+    }else if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
+            setShowCaution(false);
             setShowWarning(true);
             setShowConfirmation(false);
-        } else {
+    }else {
+            setShowCaution(false);
             setShowWarning(false);
             updateThreshold().then(() => {
                 setShowConfirmation(true); //threshold addition is successful hence we return confirmation message
-
             });
-
-
         }
     }
 
@@ -132,23 +137,45 @@ const TemperatureThresholdSettings = () => {
 
 
             {/*LOW to MEDIUM Slider begins here*/}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Temperature Threshold Settings</Text>
-            </View>
+    
             <View style={styles.headerLine}></View>
             <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
 
             {/*Default Checkbox begins here*/}
             <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                    onPress={() => {setPreferredTemp(SLIDER_VALUES.preferredTemp);setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
                 <StatusBar style="auto" />
             </View>
 
-            <View>
-                <TemperatureSlider/>
+
+            {/*Preferred Temperature slider begins here*/}
+            <View style={styles.adjustmentContainerLM}>
+                <Image
+                    source={require('../assets/OtherIcons/coldlogo.png')}
+                    style={styles.coldLogo}
+                />
+                <View style={styles.sliderWrapper}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                        <Text style={styles.thresholdLabel}>PREFERRED TEMPERATURE </Text>
+                        <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
+                    </View>
+                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(preferredTemp)}</Text>
+                    <Slider
+                        style={{ width: 300, height: 50 }}
+                        value={preferredTemp}
+                        disabled = {slidersDisabled}
+                        onValueChange={(value) => setPreferredTemp(value)}
+                        minimumValue={-50}
+                        maximumValue={100}
+                    />
+                </View>
+                <Image
+                    source={require('../assets/OtherIcons/hotlogo.png')}
+                    style={styles.hotLogo}
+                />
             </View>
 
 
@@ -212,12 +239,21 @@ const TemperatureThresholdSettings = () => {
             </View>
             <View style={styles.container}>
                 <SaveButton onPress={() => {
-                    checkThreshold(lowToMediumRange, mediumToHighRange);
+                    checkThreshold(preferredTemp, lowToMediumRange, mediumToHighRange);
                 }} />
             </View>
 
 
             {/*condition and execution to show the warning message*/}
+            {showCaution && (
+
+                <CautionMessage
+                    message="Your selected preferred temperature must be lower than both of the threshold values!"
+                    onPressCancel={() => setShowCaution(false)}
+                />
+                
+            )}
+
             {showWarning && (
 
                 <WarningMessage
@@ -299,18 +335,19 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 140,
+        marginTop: 5,
+        marginBottom: 0,
     },
     adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
         flexDirection: "row",
         alignItems: "center",
         justifyContent: "space-between",
-        marginTop: 15,
+        marginTop: 10,
     },
     thresholdLabel: {
         fontSize: 18,
         fontWeight: "bold",
-        marginBottom: 10,
+        marginBottom: 5,
         marginLeft: 12,
 
     },
@@ -326,7 +363,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: "#666",
         textAlign: "center",
-        marginBottom: 10,
+        marginBottom: 5,
     },
     checkBoxWrapper: {
         alignItems: "center",

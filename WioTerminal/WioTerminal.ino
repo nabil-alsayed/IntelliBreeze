@@ -74,14 +74,12 @@ void loop() {
       Serial.print(subscribedPayload);
     }
 
-    changeSpeed(tempValue);
-    /*
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
-      changeSpeed();
+      changeSpeed(tempValue);
     } else {
       changeSpeedToCustomMode();
     }
-    */
+
     // implement the custom mode fan speed via another else to the last if
 
       float fanSpeedValue = dutyCycle;
