@@ -18,42 +18,18 @@ const EnergyConsumptionWidget = () => {
     } = useContext(ModeFormContext);
     const unit = "kWh";
 
-    const handleToggleModal = () => {
-        setModalVisible( {
-            visible: true,
-            timeframe: timeFrame
-        })
-    }
-
+    // Fetch and set initial energy when the component mounts
     useEffect(() => {
-        const fetchData = async () => {
-            const paths = [
-                `Year/${moment().format('YYYY')}`,
-                `Month/${moment().format('MMMM')}`,
-                `Week/Week ${moment().isoWeek()}`,
-                `Day/${moment().format('ddd')}`
-            ];
+        const todayStr = moment().format('YYYY-MM-DD');
+        const docRef = doc(db, "EnergyData", todayStr);
 
-            const dataPromises = paths.map(async (path) => {
-                const docRef = doc(db, path);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    return { path, energy: docSnap.data().energy };
-                }
-                return { path, energy: 0 }; // default to 0 if not found
-            });
-
-            const results = await Promise.all(dataPromises);
-            const newData = { ...energyData };
-            results.forEach((result) => {
-                const { path, energy } = result;
-                const label = path.split('/').pop();
-                const index = newData.labels.findIndex(l => l.includes(label));
-                if (index !== -1) {
-                    newData.datasets[0].data[index] = energy;
-                }
-            });
-            setEnergyData(newData);
+        const fetchInitialEnergy = async () => {
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                const initialEnergy = docSnap.data().energy;
+                setEnergy(initialEnergy);
+                energyCalculator.setInitialEnergy(initialEnergy);
+            }
         };
 
         fetchData().then(r => {});
