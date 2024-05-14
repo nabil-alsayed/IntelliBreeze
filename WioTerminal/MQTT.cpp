@@ -1,8 +1,8 @@
 #include "MQTT.h"
 #include "fanbutton.h"
 #include "FanSpeedAdjustment.h"
-  
-  
+
+
   const char* ssid = "Tele2_357564"; // WiFi Name
   const char* password = "vujjwagy";  // WiFi Password
   const char* mqtt_server = "broker.hivemq.com";  // MQTT Broker URL
@@ -12,7 +12,7 @@
   long lastMsg = 0;
   char msg[50];
   int value = 0;
-  
+
   //MQTT Topics for Publish and Subscribe
 
     //MQTT Temperature Related Topics
@@ -22,16 +22,22 @@
   const char* HIGH_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/highThreshold";
   const char* MED_THRESHOLD_SUB_TOPIC = "/intellibreeze/app/mediumThreshold";
 
+  //MODE Related TOPICS
+  const char* MODENAME_SUB_TOPIC =  "/intellibreeze/app/modeName";
+
     //MQTT Fan Speed Related Topics
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
-  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
 
 
-   String subscribedPayload = "C";
-   String customFanSpeedValue = "";
+   // String fanToggleValue = "";
+   //String highThresholdValue = "";
+   //String mediumThresholdValue = "";
+
+   String selectedMode;
+
 
 
   void setupClient(){
@@ -48,7 +54,7 @@
   Serial.print("Connecting to ");
   Serial.println(ssid);
   WiFi.begin(ssid, password); // Connecting WiFi
-  
+
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
@@ -80,18 +86,18 @@
   //Conditional for storing HIGH temperature threshold payload into variable
   if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
     highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
-    
+
     for (int i = 0; i < length; i++) {
       highThresholdValue += (char)payload[i];
     }
-    
+
     Serial.print("Received high threshold value: ");
     Serial.println(highThresholdValue);
 
   //Conditional for storing MEDIUM temperature threshold payload into variable
   } else if (strcmp(topic, MED_THRESHOLD_SUB_TOPIC) == 0) {
-    mediumThresholdValue = ""; 
-    
+    mediumThresholdValue = "";
+
     for (int i = 0; i < length; i++) {
       mediumThresholdValue += (char)payload[i];
     }
@@ -100,18 +106,10 @@
     Serial.println(mediumThresholdValue);
 
   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
-
-    subscribedPayload = String(buff_p);
-  }  else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
-       customFanSpeedValue = "";
-
-          for (int i = 0; i < length; i++) {
-            customFanSpeedValue += (char)payload[i];
-          }
-
-          Serial.println("Received Custom Fan Speed value: ");
-          Serial.println(customFanSpeedValue);
-   }
+    subscribedTempUnit = String(buff_p);
+  } else if (strcmp(topic, MODENAME_SUB_TOPIC) == 0){
+        selectedMode = String(buff_p);
+  }
 
     buff_p[length] = '\0';
   }
@@ -135,15 +133,17 @@
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
 
-      //Subscribing to fan speeds values from GUI
-      client.subscribe(FAN_SPEED_SUB_TOPIC);
+      //subscribe to incoming temperature units from phone app
+      client.subscribe(TEMPUNIT_SUB_TOPIC);
 
-      client.subscribe(TEMPUNIT_SUB_TOPIC);   
-      
+      //Subscribe to published selected mode name from phone app
+      client.subscribe(MODENAME_SUB_TOPIC);
+
     } else {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
+
       // Wait 5 seconds before retrying
       delay(5000);
     }
