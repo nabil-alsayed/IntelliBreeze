@@ -7,18 +7,7 @@ import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 import EnergyCalculatorUtils from '../../utils/EnergyCalculatorUtils';
 import { ModeFormContext } from "../../contexts/ModeFormContext";
 
-const initialEnergyData = () => {
-    let data = Array(31).fill(0);
-    return {
-        labels: [
-            "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun",
-            ...Array.from({ length: 6 }, (_, i) => `Week ${moment().subtract(5 - i, 'weeks').isoWeek()}`),
-            "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"
-        ],
-        datasets: [{ data }]
-    };
-};
-
+const energyCalculator = new EnergyCalculatorUtils();
 
 const EnergyConsumptionWidget = () => {
     const value = 20;
