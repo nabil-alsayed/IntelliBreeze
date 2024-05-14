@@ -41,6 +41,11 @@ const EnergyConsumptionWidget = () => {
         fetchInitialEnergy();
     }, []);
 
+    // Method to convert the subscribed Duty Cycle back to Fan Speed to pass to energy calculator
+    const convertCycleToFanSpeed = (dutyCycles) => {
+        return ((dutyCycles - 60) / 195.0 * 99) + 1;
+    }
+
     useTopicSubscription(async (newEnergyData) => {
         if (newEnergyData) {
             const today = moment();
