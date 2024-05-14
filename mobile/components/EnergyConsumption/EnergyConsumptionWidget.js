@@ -51,81 +51,39 @@ const EnergyConsumptionWidget = () => {
         return ((dutyCycles - 60) / 195.0 * 99) + 1;
     }
 
-    useTopicSubscription(async (newEnergyData) => {
-        if (newEnergyData) {
-            const today = moment();
-            const yearPath = `Year/${today.format('YYYY')}`
-            const monthPath = `Month/${today.format('MMMM')}`
-            const weekPath = `Week/Week ${today.isoWeek()}`
-            const dayPath = `Day/${today.format('ddd')}`;
-            const energyIncrement = parseFloat(newEnergyData) * 0.5;
-
-            // Update Firestore for day, week, and month
-            const updateFirestore = async (path, increment) => {
-                const docRef = doc(db, path);
-                try {
-                    const docSnap = await getDoc(docRef);
-
-                    if (docSnap.exists()) {
-                        // Document exists, fetch current energy and add the new increment
-                        const currentEnergy = docSnap.data().energy || 0; // Handle case where energy might not be set
-                        await updateDoc(docRef, {
-                            energy: currentEnergy + increment
-                        });
-                    } else {
-                        // Document does not exist, create it with th initial value
-                        await setDoc(docRef, { energy: increment });
-                    }
-                } catch (error) {
-                    console.error("Error accessing or updating the document:", error);
-                }
-            };
-
-            // Update all timeframes with energy increment value
-            await Promise.all([
-                updateFirestore(dayPath, energyIncrement),
-                updateFirestore(weekPath, energyIncrement),
-                updateFirestore(monthPath, energyIncrement),
-                updateFirestore(yearPath, energyIncrement),
-            ]);
-
-            // Update local state
-            setEnergyData(prevData => {
-                const newData = {...prevData};
-                const dayIndex = prevData.labels.indexOf(moment().format('ddd'));
-                const weekIndex = prevData.labels.indexOf(`Week ${moment().isoWeek()}`);
-                const monthIndex = prevData.labels.indexOf(moment().format('MMMM'));
-
-                if (dayIndex !== -1) newData.datasets[0].data[dayIndex] += energyIncrement;
-                if (weekIndex !== -1) newData.datasets[0].data[weekIndex] += energyIncrement;
-                if (monthIndex !== -1) newData.datasets[0].data[monthIndex] += energyIncrement;
-
-                return newData;
-            });
-        }
-    }, FAN_SPEED.TOPIC, FAN_SPEED.TOPIC_NAME);
-
+    // Hook to Display and Store Energy at an Interval of 1 second and reset state to updated level
     useEffect(() => {
-        const interval = setInterval(() => {
-            const today = moment().format('ddd');
-            if (today !== currentDay) {
-                setCurrentDay(today);
-                rollOverData(today);
-            }
-        }, 86400000); // 24 hours
-        return () => clearInterval(interval);
-    }, [currentDay]);
+        if (fanIsOn) {
 
-    const rollOverData = today => {
-        setEnergyData(prevData => {
-            const newData = {...prevData};
-            if (moment(today).day() === 1) {
-                newData.labels.splice(7, 6, ...Array.from({length: 6}, (_, i) => `Week ${moment().subtract(i, 'weeks').isoWeek()}`));
-                newData.datasets[0].data.fill(0, 7, 13);
+            const selectedMode = modes.find(mode => mode.id === selectedModeId);
+            const intervalId = setInterval(() => {
+            let updatedEnergy = 0;
+
+            // Decide if the mode selected is Auto
+            if(selectedMode){
+                updatedEnergy = energyCalculator.updateEnergy(selectedMode.FanSpeed);
+            } else {
+                updatedEnergy = energyCalculator.updateEnergy(convertCycleToFanSpeed(autoDutyCycles))
             }
-            newData.datasets[0].data.fill(0, 0, 7);
-            return newData;
-        });
+            const todayStr = moment().format('YYYY-MM-DD');
+            const docRef = doc(db, "EnergyData", todayStr);
+
+            setEnergy(updatedEnergy);
+            updateEnergyInDatabase(docRef, updatedEnergy);
+            }, 1000);
+
+            return () => clearInterval(intervalId); // Clean up on unmount
+        }
+    }, [autoDutyCycles, fanIsOn, modes, selectedModeId]);
+
+    // Method to update the Energy in Database
+    const updateEnergyInDatabase = async (docRef, updatedEnergy) => {
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            await updateDoc(docRef, { energy: updatedEnergy });
+        } else {
+            await setDoc(docRef, { energy: updatedEnergy, date: moment().toDate() });
+        }
     };
 
     return (
