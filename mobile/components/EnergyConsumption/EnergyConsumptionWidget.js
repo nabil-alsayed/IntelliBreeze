@@ -6,6 +6,8 @@ import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 import EnergyCalculatorUtils from '../../utils/EnergyCalculatorUtils';
 import { ModeFormContext } from "../../contexts/ModeFormContext";
+import {useTopicSubscription} from "../../hooks/useTopicSubscription";
+import {AUTO_MODE} from "../../constants/LogicConstants";
 
 const energyCalculator = new EnergyCalculatorUtils();
 
