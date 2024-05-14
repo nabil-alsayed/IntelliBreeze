@@ -12,7 +12,9 @@ import {AUTO_MODE} from "../../constants/LogicConstants";
 const energyCalculator = new EnergyCalculatorUtils();
 
 const EnergyConsumptionWidget = () => {
+    // State to track energy level
     const [energy, setEnergy] = useState(0);
+    // Global states needed for implementing the Energy Consumption display
     const {
         modes,
         fanIsOn,
@@ -22,7 +24,7 @@ const EnergyConsumptionWidget = () => {
     } = useContext(ModeFormContext);
     const unit = "kWh";
 
-    // Fetch and set initial energy when the component mounts
+    // Hook to Fetch and set initial energy when the component mounts
     useEffect(() => {
         const todayStr = moment().format('YYYY-MM-DD');
         const docRef = doc(db, "EnergyData", todayStr);
