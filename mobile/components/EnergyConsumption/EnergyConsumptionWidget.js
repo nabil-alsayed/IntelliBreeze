@@ -12,6 +12,8 @@ import {AUTO_MODE} from "../../constants/LogicConstants";
 const energyCalculator = new EnergyCalculatorUtils();
 
 const EnergyConsumptionWidget = () => {
+    // State to track last day
+    const [currentDay, setCurrentDay] = useState(moment().format('YYYY-MM-DD'));
     // State to track energy level
     const [energy, setEnergy] = useState(0);
     // Global states needed for implementing the Energy Consumption display
@@ -53,6 +55,9 @@ const EnergyConsumptionWidget = () => {
 
     // Hook to Display and Store Energy at an Interval of 1 second and reset state to updated level
     useEffect(() => {
+        const todayStr = moment().format('YYYY-MM-DD');
+        const isAnotherDay = todayStr !== currentDay;
+        const docRef = doc(db, "EnergyData", todayStr);
         if (fanIsOn) {
 
             const selectedMode = modes.find(mode => mode.id === selectedModeId);
@@ -65,9 +70,6 @@ const EnergyConsumptionWidget = () => {
             } else {
                 updatedEnergy = energyCalculator.updateEnergy(convertCycleToFanSpeed(autoDutyCycles))
             }
-            const todayStr = moment().format('YYYY-MM-DD');
-            const docRef = doc(db, "EnergyData", todayStr);
-
             setEnergy(updatedEnergy);
             updateEnergyInDatabase(docRef, updatedEnergy);
             }, 1000);
