@@ -32,7 +32,7 @@ const EnergyConsumptionWidget = () => {
             }
         };
 
-        fetchData().then(r => {});
+        fetchInitialEnergy();
     }, []);
 
     useTopicSubscription(async (newEnergyData) => {
