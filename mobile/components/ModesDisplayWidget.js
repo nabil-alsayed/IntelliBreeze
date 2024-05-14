@@ -1,12 +1,12 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, {useContext, useEffect, useState} from "react";
+import {FlatList, Modal, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
 import {ModeFormContext} from "../contexts/ModeFormContext";
-import { collection, onSnapshot, updateDoc, doc, getDoc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { collection, onSnapshot, updateDoc, doc, getDoc} from "firebase/firestore";
+import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
@@ -14,12 +14,16 @@ import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
 import {TemperatureContext} from "../contexts/TemperatureContext";
 import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
-import {TEMPERATURE} from "../constants/LogicConstants"
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
 
 
 const ModesDisplayWidget = () => {
   const publishMessage = useTopicPublish();
   const navigation = useNavigation();
+
+
+  //const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
     modes,
@@ -36,14 +40,36 @@ const ModesDisplayWidget = () => {
     mediumToHighRange,
     setLowToMediumRange,
     setMediumToHighRange,
-    tempUnit,
-    showWarning,
-    setShowWarning,
     isAutoMode,
     setIsAutoMode
   } = useContext(TemperatureContext);
 
+
+  const publishSelectedModeName = ( modeNameId ) => {
+    const selectedMode = modes.find( mode => mode.id === modeNameId);
+    const selectedModeName = selectedMode.ModeName;
+
+    console.log(selectedModeName);
+
+    const client = connectToMqtt();
+    try {
+      client.onConnected = () => {
+        publishToTopic(client, MODENAME_PUB_TOPIC, selectedModeName, "selectedModeName");
+      };
+    } catch (error) {
+      console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
+    }
+
+  };
+
   // fetches created modes and set the local state to it
+  const handlePress = (item) => {
+    setSelectedModeId(item.id);
+    publishSelectedModeName(item.id);
+    handleCustomModeSelection(item.id);
+    console.log(selectedModeId);
+
+  };
 
   useEffect(() => {
     const unsubscribe = onSnapshot(collection(db, "modes"), (querySnapshot) => {
@@ -57,7 +83,7 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
-  // fetches selected mode and set the context state to it
+  // fetchs selected mode and set the context state to it
 
   useEffect(() => {
     const selectedMode = modes.find(mode => mode.Selected === true);
@@ -106,8 +132,7 @@ const ModesDisplayWidget = () => {
     return docSnap.exists()
   }
 
-  /* Method to handle Selection of custom modes
-  Selection of New Mode and Deselection of Old Mode When a Mode is Pressed */
+  // Handle Selection of New Mode and Deselection of Old Mode When a Mode is Pressed
 
   const handleCustomModeSelection = async (modeId) => {
 
@@ -140,8 +165,8 @@ const ModesDisplayWidget = () => {
     console.log("Navigated");
   };
 
-/* Changes context/global state of modeSelectedId to
-"auto" to select Auto and deselect previous mode */
+  /* Changes context/global state of modeSelectedId to
+  "auto" to select Auto and deselect previous mode */
 
   const handleAutoModePress = () => {
     if(selectedModeId !== MODES.AUTO_MODE.ID){
@@ -187,7 +212,6 @@ const ModesDisplayWidget = () => {
           {/* Divider */}
           <Divider orientation="vertical" width={1}/>
 
-          {/*  Add button */}
           <View style={styles.smallContainer}>
             <TouchableOpacity
                 style={[styles.plus, {
@@ -209,14 +233,13 @@ const ModesDisplayWidget = () => {
                 contentContainerStyle={{columnGap: 15}}
                 showsHorizontalScrollIndicator={false}
                 renderItem={({item}) => (
-                    <TouchableOpacity onPress={() => handleCustomModeSelection(item.id)}
+                    <TouchableOpacity onPress={() => handlePress(item)}
                                       onLongPress={() => handleLongPress(item)}>
 
                       {/* the modes that will be shown in the list */}
                       <Mode iconName={item.SelectedIcon}
                             modeName={item.ModeName}
-                            selectedModeId={item.id}
-                      />
+                            selectedModeId={item.id}/>
 
                     </TouchableOpacity>
                 )}
@@ -295,23 +318,23 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
   },
-modalView: {
-  backgroundColor: '#fff',
-  borderRadius: 20,
-  paddingHorizontal: 20,
-  paddingTop:90,
-  rowGap:20,
-  alignItems: 'center',
-  width:"100%",
-  height:"100%",
-},
-buttonClose: {
-  backgroundColor: "#2196F3",
-      borderRadius: 20,
-      padding: 10,
-      elevation: 2,
-      marginTop: 15,
-},button:{
+  modalView: {
+    backgroundColor: '#fff',
+    borderRadius: 20,
+    paddingHorizontal: 20,
+    paddingTop:90,
+    rowGap:20,
+    alignItems: 'center',
+    width:"100%",
+    height:"100%",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    marginTop: 15,
+  },button:{
     borderRadius:15,
     width: "100%",
     height: 50,
