@@ -17,18 +17,6 @@ const EnergyConsumptionWidget = () => {
         selectedModeId,
     } = useContext(ModeFormContext);
     const unit = "kWh";
-    const [timeFrame, setTimeFrame] = useState("day");
-    const [counter, setCounter] = useState(0);
-    const [modalVisible, setModalVisible] = useState({visible: false, timeframe: timeFrame})
-    const frames = ["day","week","month"];
-    const [energyData, setEnergyData] = useState(initialEnergyData());
-    const [currentDay, setCurrentDay] = useState(moment().format('ddd'));
-
-    const handleToggleFrame = () => {
-        const newCounter = (counter + 1) % frames.length; // Calculate next index
-        setCounter(newCounter);
-        setTimeFrame(frames[newCounter]); // Update the time frame based on new counter
-    };
 
     const handleToggleModal = () => {
         setModalVisible( {
