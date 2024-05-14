@@ -10,7 +10,12 @@ import { ModeFormContext } from "../../contexts/ModeFormContext";
 const energyCalculator = new EnergyCalculatorUtils();
 
 const EnergyConsumptionWidget = () => {
-    const value = 20;
+    const [energy, setEnergy] = useState(0);
+    const {
+        modes,
+        fanIsOn,
+        selectedModeId,
+    } = useContext(ModeFormContext);
     const unit = "kWh";
     const [timeFrame, setTimeFrame] = useState("day");
     const [counter, setCounter] = useState(0);
