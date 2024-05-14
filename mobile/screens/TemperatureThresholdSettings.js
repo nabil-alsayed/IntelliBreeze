@@ -12,7 +12,7 @@ library.add(faFan);
 import 'firebase/database';
 import "firebase/compat/app";
 import { db } from "../firebaseConfig";
-import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
+import {collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
@@ -37,8 +37,8 @@ const TemperatureThresholdSettings = () => {
     const [slidersDisabled, setSlidersDisabled] = useState(false);
     const collectionRef = collection(db, 'temperatureThresholds');
     const documentID = 'aIPlgZv2kTA4axiMAnw5';
-    const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
-    const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
+    const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold";
+    const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold";
     const PREF_TEMP_PUB_TOPIC = "/intellibreeze/app/temperature";
     
 
@@ -46,7 +46,8 @@ const TemperatureThresholdSettings = () => {
     //variable to store data to firestore
     const newThresholds = {
         LowToMediumRange: lowToMediumRange,
-        MediumToHighRange: mediumToHighRange
+        MediumToHighRange: mediumToHighRange,
+        PreferredTemp: preferredTemp
     }
 
 
@@ -67,8 +68,10 @@ const TemperatureThresholdSettings = () => {
             try {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
+                    setPreferredTemp(data.PreferredTemp);
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
+                    
 
                 });
             } catch (error) {
@@ -93,7 +96,7 @@ const TemperatureThresholdSettings = () => {
                 publishToTopic(client, HIGH_THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "high temperature threshold");
                 publishToTopic(client, MED_THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "medium temperature threshold");
                 publishToTopic(client, PREF_TEMP_PUB_TOPIC, String((preferredTemp)), "preferred Temperature");
-
+                
             };
 
 
@@ -136,7 +139,7 @@ const TemperatureThresholdSettings = () => {
         <View style={styles.container}>
 
 
-            {/*LOW to MEDIUM Slider begins here*/}
+            
     
             <View style={styles.headerLine}></View>
             <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
@@ -248,7 +251,7 @@ const TemperatureThresholdSettings = () => {
             {showCaution && (
 
                 <CautionMessage
-                    message="Your selected preferred temperature must be lower than both of the threshold values!"
+                    message="Your selected preferred temperature value must be lower than both the LOW to MEDIUM and MEDIUM to HIGH thresholds!"
                     onPressCancel={() => setShowCaution(false)}
                 />
                 
