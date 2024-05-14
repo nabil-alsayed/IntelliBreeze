@@ -10,8 +10,9 @@ export const ModeFormProvider = ({ children }) => {
     const [modes, setModes] = useState([]);
     const [formValid, setFormValid] = useState(false);
     const [modeConfirmationModalVisible, setModeConfirmationModalVisible] = useState(false);
-    const [selectedModeId, setSelectedModeId] = useState("auto")
-    const [selectedModeFanSpeed, setSelectedModeFanSpeed] = useState(0)
+    const [selectedModeId, setSelectedModeId] = useState("auto");
+    const [selectedModeFanSpeed, setSelectedModeFanSpeed] = useState(0);
+    const [autoDutyCycles, setAutoDutyCycles] = useState(0);
     const value = {
         modalVisible,
         setModalVisible,
@@ -30,7 +31,9 @@ export const ModeFormProvider = ({ children }) => {
         selectedModeId,
         setSelectedModeId,
         selectedModeFanSpeed,
-        setSelectedModeFanSpeed
+        setSelectedModeFanSpeed,
+        autoDutyCycles,
+        setAutoDutyCycles
     };
 
     return (
