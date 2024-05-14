@@ -41,6 +41,11 @@ const EnergyConsumptionWidget = () => {
         fetchInitialEnergy();
     }, []);
 
+    // Hook to subscribe to Fan's Duty Cycles to use for Auto Mode's Energy Calc
+    useTopicSubscription(AutoDutyCycles => {
+        setAutoDutyCycles(AutoDutyCycles)
+    },AUTO_MODE.CYCLE.TOPIC,AUTO_MODE.CYCLE.TOPIC_NAME)
+
     // Method to convert the subscribed Duty Cycle back to Fan Speed to pass to energy calculator
     const convertCycleToFanSpeed = (dutyCycles) => {
         return ((dutyCycles - 60) / 195.0 * 99) + 1;
