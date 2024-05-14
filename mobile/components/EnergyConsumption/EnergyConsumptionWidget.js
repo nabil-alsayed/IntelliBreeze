@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import {Text, StyleSheet, View, TouchableOpacity,Pressable} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import Chart from "./Chart";
-import BlurryModal from "../BlurryModal";
 import moment from 'moment';
-import { useTopicSubscription } from '../../hooks/useTopicSubscription';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 import { FAN_SPEED } from '../../constants/LogicConstants'
@@ -158,29 +155,18 @@ const EnergyConsumptionWidget = () => {
 
     return (
         <View style={styles.container}>
-            <Pressable style={styles.iconContainer} onPress={handleToggleModal}>
-                <Icon  name={"bolt"} size={30}/>
-            </Pressable>
-            <View>
-                <View style={styles.value}>
-                    <Text numberOfLines={1} style={{fontSize:25,fontWeight:"bold"}}> {value + " " + unit}</Text>
-                </View>
-                <View style={styles.caption}>
-                    <Text numberOfLines={1} style={{fontSize:15,fontWeight:"400"}}> Electricity consumption this {""}
-                        <TouchableOpacity onPress={handleToggleFrame}><Text style={{color:"#169EFFFF",bottom:-2.6,fontSize:15,fontWeight:"400"}}>{timeFrame}</Text>
-                        </TouchableOpacity>
-                    </Text>
-                </View>
+            <View style={styles.iconContainer}>
+                <Icon name={"bolt"} size={30}/>
             </View>
-            <BlurryModal
-                visible={modalVisible.visible}
-                onClose={() => setModalVisible({visible: false, timeframe: timeFrame})}
-            >
-                <Chart selectedTimeFrame={modalVisible.timeframe} energyData={energyData}/>
-            </BlurryModal>
+            <View style={styles.textContainer}>
+                <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{energy.toFixed(2) + " " + unit}</Text>
+                <Text numberOfLines={1} style={{fontSize:15, fontWeight:"400"}}>
+                    Your Energy consumption today
+                </Text>
+            </View>
         </View>
-    )
-}
+    );
+};
 
 const styles = StyleSheet.create({
     container:{
