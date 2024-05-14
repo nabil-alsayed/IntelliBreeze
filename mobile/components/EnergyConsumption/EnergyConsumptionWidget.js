@@ -15,6 +15,8 @@ const EnergyConsumptionWidget = () => {
         modes,
         fanIsOn,
         selectedModeId,
+        autoDutyCycles,
+        setAutoDutyCycles
     } = useContext(ModeFormContext);
     const unit = "kWh";
 
