@@ -12,8 +12,11 @@ import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
 import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
+import {TemperatureContext} from "../contexts/TemperatureContext";
+import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
+
 
 const ModesDisplayWidget = () => {
   const publishMessage = useTopicPublish();
@@ -32,6 +35,14 @@ const ModesDisplayWidget = () => {
     selectedModeId,
     setSelectedModeId,
   } = useContext(ModeFormContext);
+  const {
+    lowToMediumRange,
+    mediumToHighRange,
+    setLowToMediumRange,
+    setMediumToHighRange,
+    isAutoMode,
+    setIsAutoMode
+  } = useContext(TemperatureContext);
 
 
   const publishSelectedModeName = ( modeNameId ) => {
@@ -80,6 +91,11 @@ const ModesDisplayWidget = () => {
       setSelectedModeId(selectedMode.id);
     }
   }, [modes]); // modes added as dependency to account for modes changes
+
+
+  //Call to the hook to fetch and publish the threshold values as soon as the modes are rendered on the home screen
+  useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
+
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);
@@ -137,6 +153,7 @@ const ModesDisplayWidget = () => {
         selectMode(newModeRef);
       }
       setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
+      setIsAutoMode(false);
     } catch (error) {
       console.error("Error in handling mode selection:", error);
     }
@@ -157,6 +174,7 @@ const ModesDisplayWidget = () => {
       deselectMode(oldModeRef)
       console.log("Switched to auto mode");
       setSelectedModeId(MODES.AUTO_MODE.ID);
+      setIsAutoMode(true);
     }
   }
 
@@ -172,6 +190,7 @@ const ModesDisplayWidget = () => {
       publishMessage(topic, `${selectedFanSpeed}`, topicName);
       console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
     } else {
+      //useTemperatureThreshold();
       publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
       console.log(`Publishing fan speed for mode AUTO`);
     }

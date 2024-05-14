@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { StyleSheet } from 'react-native';
 import {View, Text, Image, StatusBar, SafeAreaView} from "react-native";
 import Slider from "@react-native-community/slider";
@@ -16,7 +16,10 @@ import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
 import DefaultCheckBox from "../components/DefaultCheckBox";
-import {SLIDER_VALUES} from "../constants/LogicConstants"
+import {SLIDER_VALUES, TEMPERATURE} from "../constants/LogicConstants"
+import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
+import {ModeFormContext} from "../contexts/ModeFormContext";
+import {TemperatureContext} from "../contexts/TemperatureContext";
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
@@ -37,8 +40,6 @@ const TemperatureThresholdSettings = () => {
     const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
     const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
 
-
-
     //variable to store data to firestore
     const newThresholds = {
         LowToMediumRange: lowToMediumRange,
@@ -57,6 +58,7 @@ const TemperatureThresholdSettings = () => {
     }
 
 
+
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
         const fetchTemperatureThreshold = onSnapshot(collectionRef, (querySnapshot) => {
@@ -65,14 +67,17 @@ const TemperatureThresholdSettings = () => {
                     const data = doc.data();
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
-
                 });
             } catch (error) {
                 console.error("Failed to fetch previous thresholds", error);
             }
         });
         return () => fetchTemperatureThreshold();
-    }, []);
+    }, [ ]);
+
+
+
+
 
 
 

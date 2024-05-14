@@ -1,9 +1,12 @@
 import Stacks from './navigations/Stacks'
+import {TemperatureProvider} from "./contexts/TemperatureContext";
 
 export default function App() {
 
     return (
-        <Stacks/>
+        // <TemperatureProvider>
+            <Stacks/>
+        // </TemperatureProvider>
     );
 
 }
