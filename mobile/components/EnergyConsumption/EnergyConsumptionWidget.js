@@ -144,23 +144,28 @@ const EnergyConsumptionWidget = () => {
 };
 
 const styles = StyleSheet.create({
-    container:{
-        justifyContent:"flex-start",
-        alignItems:"center",
-        padding:15,
-        height:100,
-        borderRadius:20,
-        backgroundColor:"#fff",
-        columnGap:10,
-        flexDirection:"row"
+    container: {
+        justifyContent: "flex-start",
+        alignItems: "center",
+        padding: 15,
+        height: 100,
+        borderRadius: 20,
+        backgroundColor: "#fff",
+        columnGap: 10,
+        flexDirection: "row",
     },
-    iconContainer:{
-        width:60,
-        height:60,
-        justifyContent:"center",
-        alignItems:"center",
+    iconContainer: {
+        width: 60,
+        height: 60,
+        justifyContent: "center",
+        alignItems: "center",
         backgroundColor: "#f3f3f3",
-        borderRadius:50
+        borderRadius: 50
+    },
+    textContainer: {
+        flexDirection: "column",
+        justifyContent: "flex-start",
     }
-})
+});
+
 export default EnergyConsumptionWidget;
