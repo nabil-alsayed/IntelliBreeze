@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react'
-import {Text, StyleSheet, View, TouchableOpacity,Pressable} from "react-native";
+import React, { useState, useEffect, useContext } from 'react';
+import { Text, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from 'moment';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
-import { FAN_SPEED } from '../../constants/LogicConstants'
+import EnergyCalculatorUtils from '../../utils/EnergyCalculatorUtils';
+import { ModeFormContext } from "../../contexts/ModeFormContext";
 
 const initialEnergyData = () => {
     let data = Array(31).fill(0);
