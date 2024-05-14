@@ -17,6 +17,8 @@ const useTemperatureThreshold = () => {
         setLowToMediumRange,
         mediumToHighRange,
         setMediumToHighRange,
+        isAutoMode,
+        setIsAutoMode,
     } = useContext(TemperatureContext);
 
     const collectionRef =  collection(db, 'temperatureThresholds');
@@ -42,7 +44,7 @@ const useTemperatureThreshold = () => {
             }
         });
         return () => fetchTemperatureThreshold();
-    }, []);
+    }, [isAutoMode]);
 };
 
 export default useTemperatureThreshold;

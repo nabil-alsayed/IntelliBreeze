@@ -13,25 +13,19 @@
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
 
-   Serial.println("YEAHHHH MEDIUM THRESHOLD IS: ");
-   Serial.print(mediumThreshold);
-   Serial.println("YEAHHHH HIGH THRESHOLD IS: ");
-   Serial.print(highThreshold);
-   Serial.println("YEAHHHH THE TEMPERATURE IS");
-   Serial.print(tempValue);
 
    if(tempValue>=mediumThreshold && tempValue<highThreshold){
     dutyCycle = 180;
     analogWrite(fanPin, dutyCycle);
     Serial.print("Temperature is above ");
     Serial.println(mediumThreshold);
-    Serial.println("Changed speed to medium.");
+    Serial.println("Speed is at medium.");
   } else if (tempValue>=highThreshold){
     dutyCycle = 255;
     analogWrite(fanPin, dutyCycle);
     Serial.print("Temperature is above ");
     Serial.println(highThreshold);
-    Serial.println("Changed speed to high.");
+    Serial.println("Speed is at high.");
   }
 
 }

@@ -39,6 +39,8 @@ const ModesDisplayWidget = () => {
     tempUnit,
     showWarning,
     setShowWarning,
+    isAutoMode,
+    setIsAutoMode
   } = useContext(TemperatureContext);
 
   // fetches created modes and set the local state to it
@@ -125,6 +127,7 @@ const ModesDisplayWidget = () => {
         selectMode(newModeRef);
       }
       setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
+      setIsAutoMode(false);
     } catch (error) {
       console.error("Error in handling mode selection:", error);
     }
@@ -145,6 +148,7 @@ const ModesDisplayWidget = () => {
       deselectMode(oldModeRef)
       console.log("Switched to auto mode");
       setSelectedModeId(MODES.AUTO_MODE.ID);
+      setIsAutoMode(true);
     }
   }
 
@@ -160,10 +164,12 @@ const ModesDisplayWidget = () => {
       publishMessage(topic, `${selectedFanSpeed}`, topicName);
       console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
     } else {
+      //useTemperatureThreshold();
       publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
       console.log(`Publishing fan speed for mode AUTO`);
     }
   }, [modes,selectedModeId]);
+
 
   return (
       <View style={styles.mainContainer}>

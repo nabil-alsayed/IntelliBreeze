@@ -8,6 +8,7 @@ export const TemperatureProvider = ({ children }) => {
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [tempUnit, setTempUnit] = useState('C');
+    const [isAutoMode, setIsAutoMode] = useState(false);
 
     const value = {
         lowToMediumRange,
@@ -15,7 +16,9 @@ export const TemperatureProvider = ({ children }) => {
         mediumToHighRange,
         setMediumToHighRange,
         tempUnit,
-        setTempUnit
+        setTempUnit,
+        isAutoMode,
+        setIsAutoMode,
     }
 
     return (
