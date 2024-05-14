@@ -67,7 +67,8 @@ const ModesDisplayWidget = () => {
   }, [modes]); // modes added as dependency to account for modes changes
 
 
-    useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
+  //Call to the hook to fetch and publish the threshold values as soon as the modes are rendered on the home screen
+  useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
 
 
   const handleLongPress = (mode) => {

@@ -7,10 +7,8 @@ import {TemperatureContext} from "../contexts/TemperatureContext";
 
 
 
-{/*PURPOSE OF HOOK: The purpose of this hook is to increase reusability of fetching the thresholds from the firebase and
-publishing it to the MQTT whenever the application is opened (issue #46).
-It also separates responsibility and makes the TemperatureThresholdSettings class more modular (primarily where this
-hook is used).*/}
+{/*PURPOSE OF HOOK: The purpose of this hook is to increase re-usability of fetching the thresholds from the firebase and
+publishing it to the MQTT whenever the application is opened or the auto mode is selected (issue #46).*/}
 const useTemperatureThreshold = () => {
     const {
         lowToMediumRange,
@@ -27,8 +25,6 @@ const useTemperatureThreshold = () => {
             try {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
-                    console.log("FB LM " + data.LowToMediumRange)
-                    console.log("FB MH " + data.MediumToHighRange)
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
                     const client = connectToMqtt();
