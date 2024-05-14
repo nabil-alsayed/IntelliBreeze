@@ -6,7 +6,7 @@ export const ModeFormProvider = ({ children }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modeEditModalVisible, setModeEditModalVisible] = useState(false);
     const [fanSpeed, setFanSpeed] = useState(0);
-    const [fanIsOn, setFanIsOn] = useState(true)
+    const [fanIsOn, setFanIsOn] = useState(false);
     const [modes, setModes] = useState([]);
     const [formValid, setFormValid] = useState(false);
     const [modeConfirmationModalVisible, setModeConfirmationModalVisible] = useState(false);
