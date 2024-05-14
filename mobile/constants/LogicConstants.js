@@ -6,6 +6,13 @@ export const FAN_SPEED = {
     MAX_SPEED_LIMIT: 100
 }
 
+export const AUTO_MODE = {
+    CYCLE: {
+        TOPIC: "/intellibreeze/sensor/automatic/fanspeed",
+        TOPIC_NAME: "AUTO FAN SPEED CYCLES",
+    }
+}
+
 export const MODES = {
     AUTO_MODE: {
         ID: "auto"
