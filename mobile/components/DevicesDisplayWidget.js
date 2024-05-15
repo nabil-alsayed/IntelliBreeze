@@ -4,6 +4,7 @@ import DeviceCard from "./DeviceCard";
 import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
 import { useNavigation } from "@react-navigation/native";
 import {ModeFormContext} from "../contexts/ModeFormContext";
+import AddDeviceButton from "./AddDeviceButton";
 
 
 const DevicesDisplayWidget = () => {
@@ -39,16 +40,18 @@ const DevicesDisplayWidget = () => {
 
   })
 
-
   return (
     <View style={styles.container}>
         <Text style={styles.sectionTitle}>Linked Devices</Text>
-        <DeviceCard
-        deviceTitle = "Fan"
-        deviceValue = {autoDutyCycles}
-        deviceUnits = "Cycle"
-        onPress= {handleButtonPress}
-          />
+        <View style={{flexDirection:'row', width:"100%", columnGap:15}}>
+            <DeviceCard
+            deviceTitle = "Fan"
+            deviceValue = {autoDutyCycles}
+            deviceUnits = "Cycle"
+            onPress= {handleButtonPress}
+              />
+            <AddDeviceButton/>
+        </View>
     </View>
   );
 }
