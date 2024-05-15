@@ -9,13 +9,14 @@ extern String highThresholdValue;    //value set by user in the application wher
 extern String startingThresholdValue; //value set by user on the apllication for when fan turns on and off in automatic mode
 extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode
 extern int dutyCycle;                //used to control the pulse width modulation of the fan
-extern float tempValue;              //used to compare user thresholds to control fan speed
+extern float tempValue;              //used to compare user thresholds to current temperature
 extern boolean fanIsOn;
 
 
 
 //function changes speed of fan using thresholds
 extern void changeSpeed(float tempValue);
+extern float convertSliderToDutyCycle(float sliderValue);
 extern void changeSpeedToCustomMode();
 
 

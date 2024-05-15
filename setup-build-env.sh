@@ -1,8 +1,3 @@
-# Credits to Pasha Klimenkov for writing esp32 CI guide: https://codeblog.dotsandbrackets.com/gitlab-ci-esp32-arduino/
-# I have modified his code to work with Wio Terminal, which is not the esp32, but still uses arduino-cli and GitLab.
-
-#!/bin/bash
-
 apt-get update
 cd ~
 
@@ -26,10 +21,7 @@ arduino-cli lib install "DHT sensor library@1.4.6"
 
 cd -
 
-# Install 'third-party' packages / libraries: find proper location and 'git clone'
-#apt-get install git -y
-#cd `arduino-cli config dump | grep sketchbook | sed 's/.*\ //'`/libraries
-#git clone https://github.com/ThingPulse/esp8266-oled-ssd1306.git
-#git clone https://github.com/Seeed-Studio/Seeed_Arduino_RTC.git
 
-#cd -
+
+
+

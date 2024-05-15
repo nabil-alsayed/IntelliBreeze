@@ -1,22 +1,22 @@
 import React, { useEffect, useState} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+import {useTopicSubscription} from "../hooks/useTopicSubscription";
 
 const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
 const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature" //TODO: Move To Constants
 
 const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: Enhance SOLID
     const [unit, setUnit] = useState('°C'); //
-    const [temperature, setTemp] = useState(0);
+    const [temperature, setTemperature] = useState(0);
+    const temperatureTopic = "/intellibreeze/sensor/temperature"; //TODO: Move to constants
+    const topicName = "temperature"; //TODO: Move to constants
 
-
-    useEffect(() => {
-        setTemp(metricValue);
-        setUnit(metricUnit);
-    }, [metricValue, metricUnit]);
-
-
+    // Subscribe for Temperature
+    useTopicSubscription((newTemperature) => {
+        setTemperature(newTemperature);
+    }, temperatureTopic, topicName);
 
     const client = connectToMqtt();
 
@@ -25,18 +25,18 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
         if (unit === '°C') {
             // Convert Celsius to Fahrenheit
             const newTemp = (temperature * 9/5) + 32;
-            setTemp(Math.round(newTemp));
+            setTemperature(Math.round(newTemp));
             setUnit('°F');
         } else if (unit === '°F'){
             // Convert Fahrenheit to Celsius
             const newTemp = (((temperature - 32) * 5/9) + 273);
-            setTemp(Math.round(newTemp));
+            setTemperature(Math.round(newTemp));
             setUnit('K');
 
         }else {
             // Convert Fahrenheit to Kelvin
             const newTemp = temperature - 273 ;
-            setTemp(Math.round(newTemp));
+            setTemperature(Math.round(newTemp));
             setUnit('°C');
 
         }
@@ -45,7 +45,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
     const onMessageArrived = (message) => {
         console.log("temperature:", message.payloadString);
         if (message.destinationName === TEMP_PUB_TOPIC) {
-            setTemp(parseInt(message.payloadString));
+            setTemperature(parseInt(message.payloadString));
         }
     };
 
@@ -56,33 +56,40 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
     };
     return (
         <View style={styles.container}>
-            <View style={styles.metricValueIcon}>
-                <FontAwesome6 name={ iconName } size={24} color={metricName === "Humidity" ? "skyblue" : "black"}/>
-                {/*Value*/}
-                <Text style={[styles.value, styles.child]}>
-                    {temperature}
-                </Text>
-                {/*Unit*/}
-                <Text style={[styles.value, styles.child, metricName === "Temperature" ? styles.temperature : {}]} onPress={convertTemperature}>
-                    {unit}
-                </Text>
+            <View style={styles.iconContainer}>
+                <FontAwesome6 name={"temperature-half"} size={30} />
             </View>
-            <Text style={[styles.name, styles.child]}>{metricName}</Text>
+            <View style={styles.subContainer}>
+                <View style={{flexDirection:'row', columnGap:5}}>
+                    {/*Value*/}
+                    <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{temperature}</Text>
+                    {/*Unit*/}
+                    <TouchableOpacity onPress={convertTemperature}>
+                        <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold", color:"#1881d5"}}>{unit}</Text>
+                    </TouchableOpacity>
+                </View>
+                    <Text numberOfLines={1} style={{fontSize:15, fontWeight:"400"}}>
+                        Your current room temperature
+                    </Text>
+
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        display: "flex",
-        flex: 1,
-        minHeight: 120,
-        padding: 20,
+        justifyContent: "flex-start",
         alignItems: "center",
-        justifyContent: "center",
-        gap: 10,
-        backgroundColor: "#fff",
+        padding: 15,
+        height: 100,
         borderRadius: 20,
+        backgroundColor: "#fff",
+        columnGap: 10,
+        flexDirection: "row",
+    },
+    subContainer:{
+        flex:1,
     },
     value: {
         fontWeight: "bold",
@@ -98,6 +105,14 @@ const styles = StyleSheet.create({
     },
     temperature:{
         textDecorationLine: "underline",
+    },
+    iconContainer: {
+        height:60,
+        width:60,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#f3f3f3",
+        borderRadius: 50,
     }
 });
 

@@ -10,19 +10,21 @@
   boolean fanIsOn = false;
 
 //function that changes speed of the fan to MEDIUM and HIGH
+
   void changeSpeed(float tempValue){
-    
     float startingThreshold = startingThresholdValue.toFloat();
     float mediumThreshold = mediumThresholdValue.toFloat();
     float highThreshold = highThresholdValue.toFloat();
-
 
     if(tempValue >= startingThreshold && (tempValue < mediumThreshold && tempValue < highThreshold)){ // && fanIsOn == false){
       
       //fanIsOn = true;
       dutyCycle = 255;
+      Serial.print("Temperature is above ");
+      Serial.println(startingThreshold);
       analogWrite(fanPin, dutyCycle);
       delay(1500);
+
       Serial.println("Fan is on");
       dutyCycle = 20;
       analogWrite(fanPin, dutyCycle);
@@ -31,6 +33,8 @@
 
       dutyCycle = 180;
       analogWrite(fanPin, dutyCycle);
+      Serial.print("Temperature is above ");
+      Serial.println(mediumThreshold);
       Serial.println("Changed speed to medium:");
       Serial.print(dutyCycle);
 
@@ -38,6 +42,8 @@
 
       dutyCycle = 255;
       analogWrite(fanPin, dutyCycle);
+      Serial.print("Temperature is above ");
+      Serial.println(highThreshold);
       Serial.println("Changed speed to high.");
       Serial.print(dutyCycle);
 
@@ -47,10 +53,25 @@
       analogWrite(fanPin, dutyCycle);
       Serial.println("Fan is off");
       Serial.print(dutyCycle);
-
     }
   }
+/*=======
+   if(tempValue>=mediumThreshold && tempValue<highThreshold){
+    dutyCycle = 180;
+    analogWrite(fanPin, dutyCycle);
+    Serial.print("Temperature is above ");
+    Serial.println(mediumThreshold);
+    Serial.println("Speed is at medium.");
+  } else if (tempValue>=highThreshold){
+    dutyCycle = 255;
+    analogWrite(fanPin, dutyCycle);
+    Serial.print("Temperature is above ");
+    Serial.println(highThreshold);
+    Serial.println("Speed is at high.");
+>>>>>>> main
+  }
 
+*/
 
 
    

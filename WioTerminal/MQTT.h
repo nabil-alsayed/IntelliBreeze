@@ -22,13 +22,15 @@
   extern const char* TEMPUNIT_SUB_TOPIC;
   extern const char* HIGH_THRESHOLD_SUB_TOPIC;
   extern const char* MED_THRESHOLD_SUB_TOPIC;
+  extern const char* MODENAME_SUB_TOPIC;
   extern const char* MANUAL_FAN_SPEED_SUB_TOPIC ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   extern const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* FAN_STATE_PUB_TOPIC;
   extern const char* FAN_SPEED_SUB_TOPIC;
   
-  extern String subscribedPayload;
+  extern String subscribedTempUnit;
+  extern String selectedMode;
 
 
   void setup_wifi();
