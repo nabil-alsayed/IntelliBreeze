@@ -6,14 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 const TemperatureSlider = ({ label, icon, value, onValueChange, disabled }) => {
     const [tempUnit, setTempUnit] = useState('C');
 
-    const convertTemperature = (temp) => {
-        if (tempUnit === 'F') {
-            return Math.floor((temp * 9 / 5) + 32) + '°F';
-        } else if (tempUnit === 'K') {
-            return Math.floor(temp + 273.15) + 'K';
-        }
-        return temp + '°C';
-    };
 
     return (
         <View style={styles.container}>
