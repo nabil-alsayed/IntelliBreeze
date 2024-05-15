@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Text, StyleSheet, View } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { Feather } from '@expo/vector-icons';
 import moment from 'moment';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
@@ -94,11 +95,14 @@ const EnergyConsumptionWidget = () => {
             <View style={styles.iconContainer}>
                 <Icon name={"bolt"} size={30}/>
             </View>
-            <View style={styles.textContainer}>
-                <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{energy.toFixed(5) + " " + unit}</Text>
-                <Text numberOfLines={1} style={{fontSize:15, fontWeight:"400"}}>
-                    Your Energy consumption today
-                </Text>
+            <View style={{flexDirection:"row"}}>
+                <View style={styles.textContainer}>
+                    <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{energy.toFixed(5) + " " + unit}</Text>
+                    <Text numberOfLines={1} style={{fontSize:15, fontWeight:"400"}}>
+                        Your Energy consumption today
+                    </Text>
+                </View>
+                <Feather name="arrow-right-circle" size={24} color="black" />
             </View>
         </View>
     );
