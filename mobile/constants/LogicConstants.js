@@ -15,7 +15,9 @@ export const TEMPERATURE = {
     thresholds: {
         HIGH_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/highThreshold",
         MED_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/mediumThreshold",
-    }
+    },
+    documentId: 'aIPlgZv2kTA4axiMAnw5',
+    dbPath: 'temperatureThresholds'
 }
 
 export const MODES = {

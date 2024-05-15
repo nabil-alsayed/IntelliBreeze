@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
-import SaveButton from "../components/SaveButton";
+import SaveButton from "../components/TemperatureThresholds/SaveButton";
 
 const FanSpeedScreen = () => {
 
