@@ -16,6 +16,13 @@ export default class EnergyCalculatorUtils {
         this.cumulativeEnergy = initialEnergy;
     }
 
+    // Method to reset Energy to 0 When Day Changes
+    resetEnergy() {
+        this.cumulativeEnergy = 0;
+        this.lastUpdateTime = moment(); // Reset the last update time as well
+    }
+
+
     updateEnergy(fanSpeed) {
         const now = moment();
         const timeDelta = now.diff(this.lastUpdateTime, 'seconds'); // Calculate the time difference in seconds
