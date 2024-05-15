@@ -19,6 +19,27 @@ Here are a couple of things that you will need before moving on to the **Install
 - [Wio Terminal from Seeed Studio](https://www.seeedstudio.com/Wio-Terminal-p-4509.html)
 - [Arduino IDE](https://www.arduino.cc/en/software)
 - Wio Terminal Grove Sensors (The list of sensors can be found in the Wiki)
+- Other hardware components as listed below
+
+#### **Required Components**
+
+1. **`MOSFET Transistor`**
+   - `IRF530N` (or any n-channel MOSFET)
+     - The MOSFET is an essential component for controlling the fan speed. The IRF530N is recommended due to its compatibility with the Wio-Terminal's maximum 5V voltage output. It is crucial to use an n-channel MOSFET for this application, as it operates with lower gate voltage.
+
+2. **`Wio-Terminal`**
+    - The Wio-Terminal serves as the central controller for the smart fan system. Its 5V output voltage is compatible with the MOSFET's gate voltage requirements.
+
+3. **`Five male-to-male jumper wires`** + **Alligator Clips**
+    - The jumper wires serve as a connection basis between the different hardware components and the breadboard. They are responsbile for transmitting signals and power. Alligator clips facilitate the process of connecting the raw ends of the wire for better stability.
+
+4. **`12V DC Fan`**
+    - For optimal performance in this project, consider using the `Arctic P12 PWM PST` fan. With a starting voltage of **3.9V** and a typical operating voltage of **12V**, it aligns well with the project requirements. Although it's designed as a 4-pin fan, only two pins, the **negative/ground** and **positive/VCC** terminals, are necessary for this project since the PWM and tachometer pins are not utilized. Therefore, a 2-pin fan variant suffices.
+
+5. **`Basic/Variable DC Power Supply`**
+    - A basic 12V DC supply suffices. If a variable DC supply is used, the voltage must be set to `12V` and current to `0.1A`(for the recommended fan above, otherwise, the technical specifications for the used fan must be checked).
+
+
 
 
 ## Installation Guide 
@@ -28,7 +49,10 @@ TBD (To Be Decided)
 
 ## Usage
 
-TBD (To Be Decided)
+The following section consists of concrete steps to set-up the hardware components in order to run the fan-system.
+
+### Hardware - Setting up the Fan System
+
 
 ## System Design
 
