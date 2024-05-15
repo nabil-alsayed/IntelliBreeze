@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { convertTemperature } from '../../utils/temperatureConverterUtils'
 
 const TemperatureSlider = ({ label, icon, value, onValueChange, disabled }) => {
     const [tempUnit, setTempUnit] = useState('C');
