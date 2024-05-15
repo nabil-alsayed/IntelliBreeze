@@ -1,15 +1,18 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import LogOutButton from "./LogOutButton";
+import DropDownMenuButton from "./DropDownMenuButton";
 
-const Header = ({ name }) => {
+const Header = () => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.leftContainer}>
-        <Text style={styles.headerText}>Hello, {name}! 👋</Text>
+        <Text style={styles.headerText}>Hello! 👋</Text>
         <Text style={styles.subHeaderText}>Welcome back to IntelliBreeze</Text>
       </View>
-      <LogOutButton />
+      <View style={styles.dropDownMenu}>
+        {/*TODO: Un-hide it after implementing it*/}
+        <DropDownMenuButton />
+      </View>
     </View>
   );
 };
@@ -33,6 +36,9 @@ const styles = StyleSheet.create({
     color: "#707070",
     fontSize: 20,
   },
+  dropDownMenu: {
+    display: "none",
+  }
 });
 
 export default Header;

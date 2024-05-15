@@ -22,8 +22,6 @@ const ModesDisplayWidget = () => {
   const publishMessage = useTopicPublish();
   const navigation = useNavigation();
 
-
-  //const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
   const [currentModeDetails, setCurrentModeDetails] = useState({});
   const {
     modes,
@@ -199,7 +197,7 @@ const ModesDisplayWidget = () => {
 
   return (
       <View style={styles.mainContainer}>
-        <Text style={styles.sectionTitle}>General Modes</Text>
+        <Text style={styles.sectionTitle}>Modes</Text>
 
         {/* Auto + Modes Container */}
         <View style={styles.subContainer}>
@@ -282,7 +280,8 @@ const styles = StyleSheet.create({
   },
   sectionTitle:{
     color: "#000",
-    fontSize: 20,
+    fontSize: 17,
+    fontWeight:'400'
   },
   subTitle:{
     color: "#868585",
