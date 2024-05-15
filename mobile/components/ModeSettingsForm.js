@@ -5,7 +5,7 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import IconPicker from "./IconPicker";
 import MultiSlider from '@ptomasroos/react-native-multi-slider';
-import ConfirmationModal from "./ConfirmationModal";
+import ConfirmationModal from "./TemperatureThresholds/ConfirmationModal";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { FAN_SPEED } from "../constants/LogicConstants";
 

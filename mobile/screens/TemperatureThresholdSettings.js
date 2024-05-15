@@ -1,22 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet } from 'react-native';
-import {View, Text, Image, StatusBar, SafeAreaView} from "react-native";
-import Slider from "@react-native-community/slider";
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faFan } from "@fortawesome/free-solid-svg-icons";
-import SaveButton from "../components/SaveButton";
-import WarningMessage from "../components/WarningMessage";
-import ConfirmationMessage from "../components/ConfirmationMessage";
-library.add(faFan);
-import 'firebase/database';
-import "firebase/compat/app";
-import { db } from "../firebaseConfig";
-import { collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
-import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
-import "../components/Metric";
-import DefaultCheckBox from "../components/DefaultCheckBox";
-import {SLIDER_VALUES} from "../constants/LogicConstants"
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
+import { faFan } from '@fortawesome/free-solid-svg-icons';
+import SaveButton from '../components/TemperatureThresholds/SaveButton';
+import WarningMessage from '../components/TemperatureThresholds/WarningMessage';
+import ConfirmationMessage from '../components/TemperatureThresholds/ConfirmationMessage';
+import DefaultCheckBox from '../components/TemperatureThresholds/DefaultCheckBox';
+import TemperatureSlider from '../components/TemperatureThresholds/TemperatureSlider';
+import { db } from '../firebaseConfig';
+import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
+import { connectToMqtt, publishToTopic } from '../utils/mqttUtils';
+import { SLIDER_VALUES, TEMPERATURE } from "../constants/LogicConstants";
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
@@ -26,36 +19,21 @@ import {SLIDER_VALUES} from "../constants/LogicConstants"
  temperature at which th fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
-    const [lowToMediumRange, setLowToMediumRange] = useState(0);
-    const [mediumToHighRange, setMediumToHighRange] = useState(0);
-    const [tempUnit, setTempUnit] = useState('C');
-    const [showWarning, setShowWarning] = useState(false);
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [slidersDisabled, setSlidersDisabled] = useState(false);
-    const collectionRef = collection(db, 'temperatureThresholds');
-    const documentID = 'aIPlgZv2kTA4axiMAnw5';
-    const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
-    const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
-
-
+        const [lowToMediumRange, setLowToMediumRange] = useState(0);
+        const [mediumToHighRange, setMediumToHighRange] = useState(0);
+        const [showWarning, setShowWarning] = useState(false);
+        const [showConfirmation, setShowConfirmation] = useState(false);
+        const [slidersDisabled, setSlidersDisabled] = useState(false);
+        const collectionRef = collection(db, TEMPERATURE.dbPath);
+        const documentID = TEMPERATURE.documentId;
+        const HIGH_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.HIGH_THRESHOLD_PUB_TOPIC
+        const MED_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.MED_THRESHOLD_PUB_TOPIC
 
     //variable to store data to firestore
     const newThresholds = {
         LowToMediumRange: lowToMediumRange,
         MediumToHighRange: mediumToHighRange
     }
-
-
-    //This function calculates the temperature if the preferredUnit/tempUnit is changed
-    const convertTemperature = (temp) => {
-        if (tempUnit === 'F') {
-            return Math.floor(Math.round((temp * 9 / 5) + 32)) + '°F';
-        } else if (tempUnit === 'K') {
-            return Math.floor((temp + 273.15).toFixed(2)) + 'K';
-        }
-        return Math.floor(temp) + '°C';
-    }
-
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
@@ -65,15 +43,13 @@ const TemperatureThresholdSettings = () => {
                     const data = doc.data();
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
-
                 });
             } catch (error) {
                 console.error("Failed to fetch previous thresholds", error);
             }
         });
         return () => fetchTemperatureThreshold();
-    }, []);
-
+    }, [ ]);
 
 
     //this method is responsible for updating the slider values to the firebase
@@ -98,9 +74,6 @@ const TemperatureThresholdSettings = () => {
         }
     }
 
-
-
-
     //this is the core method which verifies the slider input
     const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
         if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
@@ -121,213 +94,89 @@ const TemperatureThresholdSettings = () => {
         setSlidersDisabled(isChecked);
     };
 
-
-
     //UI for the sliders
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
+            <View style={[{padding:20, rowGap:20}]}>
+                <StatusBar style="auto" />
+                <View style={styles.header}>
+                    <Text style={styles.headerText}>Temperature Threshold Settings</Text>
+                    <Text style={styles.description}>
+                        Set the temperatures at which the fan speeds change, or select defaults.
+                    </Text>
+                </View>
 
-
-            {/*LOW to MEDIUM Slider begins here*/}
-            <View style={styles.header}>
-                <Text style={styles.headerText}>Temperature Threshold Settings</Text>
-            </View>
-            <View style={styles.headerLine}></View>
-            <Text style={styles.infoText}>Please set the temperature at which you would like the speed of the fan to change, or just select default.</Text>
-
-            {/*Default Checkbox begins here*/}
-            <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
                     onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
-                <StatusBar style="auto" />
-            </View>
 
-
-            {/*LOW to MEDIUM Slider begins here*/}
-            <View style={styles.adjustmentContainerLM}>
-                <Image
-                    source={require('../assets/OtherIcons/coldlogo.png')}
-                    style={styles.coldLogo}
+                <TemperatureSlider
+                    label="LOW to MEDIUM"
+                    icon={faFan}
+                    value={lowToMediumRange}
+                    onValueChange={setLowToMediumRange}
+                    disabled={slidersDisabled}
                 />
-                <View style={styles.sliderWrapper}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.thresholdLabel}>LOW to MEDIUM </Text>
-                        <FontAwesomeIcon icon={faFan} style={{color: 'black', marginBottom: 15, marginLeft: 5 }} size={30} />
-                    </View>
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(lowToMediumRange)}</Text>
-                    <Slider
-                        style={{ width: 300, height: 50 }}
-                        value={lowToMediumRange}
-                        disabled = {slidersDisabled}
-                        onValueChange={(value) => setLowToMediumRange(value)}
-                        minimumValue={-50}
-                        maximumValue={100}
+
+                <TemperatureSlider
+                    label="MEDIUM to HIGH"
+                    icon={faFan}
+                    value={mediumToHighRange}
+                    onValueChange={setMediumToHighRange}
+                    disabled={slidersDisabled}
+                />
+
+                <SaveButton onPress={checkThreshold} />
+
+                {/*condition and execution to show the warning message*/}
+                {showWarning && (
+
+                    <WarningMessage
+                        message="LOW to MEDIUM threshold is higher than MEDIUM to HIGH!"
+                        onPressCancel={() => setShowWarning(false)}
+                        onPressSave={() => {  //function to store values to firebase is called
+                            updateThreshold() //user accepts the unusual select so warning is removed
+                                .then(setShowWarning(false))
+                                .then(setShowConfirmation(true))
+                        }}
                     />
-                </View>
-                <Image
-                    source={require('../assets/OtherIcons/hotlogo.png')}
-                    style={styles.hotLogo}
-                />
-            </View>
 
+                )}
 
-            <View style={styles.line}></View>
-
-
-            {/*MEDIUM to HIGH Slider begins here*/}
-            <View style={styles.adjustmentContainerMH}>
-                <Image
-                    source={require('../assets/OtherIcons/coldlogo.png')}
-                    style={styles.coldLogo}
-                />
-                <View style={styles.sliderWrapper}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                        <Text style={styles.thresholdLabel}>MEDIUM to HIGH </Text>
-                        <FontAwesomeIcon icon={faFan} style={[{ color: 'black' }, { marginBottom: 15 }, { marginLeft: 5 }]} size={30} />
-                    </View>
-
-                    <Text style={{ fontSize: 18, fontWeight: 'normal', color: 'black', marginBottom: 10, marginRight: 10 }}>Switch at: {convertTemperature(mediumToHighRange)}</Text>
-                    <Slider
-                        style={{ width: 300, height: 50 }}
-                        value = {mediumToHighRange}
-                        disabled = {slidersDisabled}
-                        onValueChange={(value) => setMediumToHighRange(value)}
-                        minimumValue={-50}
-                        maximumValue={100}
+                {/*condition and execution to show the confirmation message*/}
+                {showConfirmation && (
+                    <ConfirmationMessage
+                        message="Settings Saved!"
+                        onPress={() => setShowConfirmation(false)}
                     />
-                </View>
-                <Image
-                    source={require('../assets/OtherIcons/hotlogo.png')}
-                    style={styles.hotLogo}
-                />
+                )}
             </View>
-            <View style={styles.container}>
-                <SaveButton onPress={() => {
-                    checkThreshold(lowToMediumRange, mediumToHighRange);
-                }} />
-            </View>
-
-
-            {/*condition and execution to show the warning message*/}
-            {showWarning && (
-
-                <WarningMessage
-                    message="Your LOW to MEDIUM threshold is greater than your MEDIUM to HIGH threshold!
-                    This means that the fan will run faster at a lower temperature.
-                    Are you sure you want this?"
-                    onPressCancel={() => setShowWarning(false)}
-                    onPressSave={()=> {
-                        updateThreshold() //function to store values to firebase is called
-                            .then(setShowWarning(false)) //user accepts the unusual select so warning is removed
-                            .then(setShowConfirmation(true))
-
-
-                    }}
-                />
-
-            )}
-
-            {/*condition and execution to show the confirmation message*/}
-            {showConfirmation && (
-
-                   <ConfirmationMessage
-                      message="Settings Saved!"
-                      onPress={() => setShowConfirmation(false)}
-                   />
-
-
-            )}
-        </View>
-
-
+        </SafeAreaView>
     );
-}
-
+};
 
 //styling for individual components of the UI
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        paddingHorizontal: 10,
-        paddingTop: 20,
+        flexShrink: 1,
+        backgroundColor: '#f0f0f0',
     },
     header: {
-        flexDirection: "row",
-        alignItems: "center",
-        marginBottom: 20,
+        justifyContent:"center",
+        alignItems:"center",
+        rowGap:10
     },
     headerText: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: "#333",
+        fontSize: 22,
+        fontWeight: 'bold',
+        color: '#333',
     },
-    line: {
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        width: "100%",
-        marginTop: 20,
-        marginBottom: 1,
-    },
-    headerLine: {
-        borderBottomWidth: 1,
-        borderBottomColor: "#ccc",
-        width: "110%",
-        marginTop: 1,
-        marginBottom: 5,
-    },
-    hotLogo: {
-        width: 40,
-        height: 40,
-    },
-    coldLogo: {
-        width: 50,
-        height: 50,
-    },
-    adjustmentContainerLM: {   /*adjustment container for the low to medium slider*/
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 140,
-    },
-    adjustmentContainerMH: { /*adjustment container for the medium to high slider*/
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent: "space-between",
-        marginTop: 15,
-    },
-    thresholdLabel: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-        marginLeft: 12,
-
-    },
-    sliderWrapper: {
-        alignItems: "center",
-    },
-    warningMessage: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    infoText: {
+    description: {
         fontSize: 16,
-        color: "#666",
-        textAlign: "center",
-        marginBottom: 10,
+        color: '#666',
+        marginBottom: 20,
     },
-    checkBoxWrapper: {
-        alignItems: "center",
-        backgroundColor: '#f0f0f0',
-        borderRadius: 10,
-        padding: 10,
-    },
-
 });
 
 export default TemperatureThresholdSettings;

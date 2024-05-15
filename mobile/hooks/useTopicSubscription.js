@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import {connectToMqtt, subscribeToTopic, unsubscribeFromTopic} from '../utils/mqttUtils';
+import {connectToMqtt, subscribeToTopic} from '../utils/mqttUtils';
 
 export const useTopicSubscription = (onTopicUpdate, topic, topicName) => {
     const [client, setClient] = useState(null);

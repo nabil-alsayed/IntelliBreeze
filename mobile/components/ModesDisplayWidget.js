@@ -9,11 +9,18 @@ import { collection, onSnapshot, updateDoc, doc, getDoc} from "firebase/firestor
 import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
-import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+import { useNavigation } from "@react-navigation/native";
+import { useTopicPublish } from "../hooks/useTopicPublish";
+import {FAN_SPEED, MODES} from "../constants/LogicConstants";
+import {TemperatureContext} from "../contexts/TemperatureContext";
+import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
 
-const ModesDisplayWidget = () => {
 
+const ModesDisplayWidget = () => {
+  const publishMessage = useTopicPublish();
+  const navigation = useNavigation();
 
 
   //const [selectedModeId, setSelectedModeId] = useState(null); // I have to change it later to users selected
@@ -28,6 +35,14 @@ const ModesDisplayWidget = () => {
     selectedModeId,
     setSelectedModeId,
   } = useContext(ModeFormContext);
+  const {
+    lowToMediumRange,
+    mediumToHighRange,
+    setLowToMediumRange,
+    setMediumToHighRange,
+    isAutoMode,
+    setIsAutoMode
+  } = useContext(TemperatureContext);
 
 
   const publishSelectedModeName = ( modeNameId ) => {
@@ -47,10 +62,11 @@ const ModesDisplayWidget = () => {
 
   };
 
+  // fetches created modes and set the local state to it
   const handlePress = (item) => {
     setSelectedModeId(item.id);
     publishSelectedModeName(item.id);
-    handleModeSelection(item.id);
+    handleCustomModeSelection(item.id);
     console.log(selectedModeId);
 
   };
@@ -75,6 +91,11 @@ const ModesDisplayWidget = () => {
       setSelectedModeId(selectedMode.id);
     }
   }, [modes]); // modes added as dependency to account for modes changes
+
+
+  //Call to the hook to fetch and publish the threshold values as soon as the modes are rendered on the home screen
+  useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
+
 
   const handleLongPress = (mode) => {
     setCurrentModeDetails(mode);
@@ -113,7 +134,7 @@ const ModesDisplayWidget = () => {
 
   // Handle Selection of New Mode and Deselection of Old Mode When a Mode is Pressed
 
-  const handleModeSelection = async (modeId) => {
+  const handleCustomModeSelection = async (modeId) => {
 
     // gets the reference for old selected mode and the newly selected mode
 
@@ -132,10 +153,49 @@ const ModesDisplayWidget = () => {
         selectMode(newModeRef);
       }
       setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
+      setIsAutoMode(false);
     } catch (error) {
       console.error("Error in handling mode selection:", error);
     }
   }
+
+  // Navigates the user to the Temperature Threshold Screen by Long Pressing
+  const handleAutoModeLongPress = () => {
+    navigation.navigate("TemperatureThreshold");
+    console.log("Navigated");
+  };
+
+  /* Changes context/global state of modeSelectedId to
+  "auto" to select Auto and deselect previous mode */
+
+  const handleAutoModePress = () => {
+    if(selectedModeId !== MODES.AUTO_MODE.ID){
+      const oldModeRef = doc(db, "modes", selectedModeId);
+      deselectMode(oldModeRef)
+      console.log("Switched to auto mode");
+      setSelectedModeId(MODES.AUTO_MODE.ID);
+      setIsAutoMode(true);
+    }
+  }
+
+  // Hook to continuously check for Mode and Speed changes to communicate it with MQTT
+
+  useEffect(() => {
+    // Checks if the mode is not null and is not Auto Mode
+    const topic = FAN_SPEED.TOPIC;
+    const topicName = FAN_SPEED.TOPIC_NAME;
+    if (selectedModeId && selectedModeId !== MODES.AUTO_MODE.ID) {
+      const selectedMode = modes.find(mode => mode.id === selectedModeId);
+      const selectedFanSpeed = selectedMode.FanSpeed;
+      publishMessage(topic, `${selectedFanSpeed}`, topicName);
+      console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
+    } else {
+      //useTemperatureThreshold();
+      publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
+      console.log(`Publishing fan speed for mode AUTO`);
+    }
+  }, [modes,selectedModeId]);
+
 
   return (
       <View style={styles.mainContainer}>
@@ -145,7 +205,9 @@ const ModesDisplayWidget = () => {
         <View style={styles.subContainer}>
 
           {/*  Auto button */}
-          <AutoModeButton/>
+          <TouchableOpacity onPress={handleAutoModePress} onLongPress={handleAutoModeLongPress}>
+            <AutoModeButton />
+          </TouchableOpacity>
 
           {/* Divider */}
           <Divider orientation="vertical" width={1}/>
@@ -163,7 +225,7 @@ const ModesDisplayWidget = () => {
             </TouchableOpacity>
             <Text style={styles.subTitle}>Add Mode</Text>
           </View>
-          <View style={{width: 160}}>
+          <View style={{flex:1}}>
             <FlatList
                 data={modes}
                 keyExtractor={item => item.id}
@@ -177,7 +239,7 @@ const ModesDisplayWidget = () => {
                       {/* the modes that will be shown in the list */}
                       <Mode iconName={item.SelectedIcon}
                             modeName={item.ModeName}
-                            selected={item.Selected}/>
+                            selectedModeId={item.id}/>
 
                     </TouchableOpacity>
                 )}

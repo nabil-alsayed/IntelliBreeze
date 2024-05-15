@@ -2,14 +2,12 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
-import SaveButton from "../components/SaveButton";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import {FAN_SLIDER_MANUAL} from "../constants/LogicConstants";
+import SaveButton from "../components/TemperatureThresholds/SaveButton";
 
 const FanSpeedScreen = () => {
-
     const[fanSpeedRange,setFanSpeedRange] = useState(0)
-
     const handlePress = () => {
         try{
             const client = connectToMqtt(); // connect to mqtt
