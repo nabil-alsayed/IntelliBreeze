@@ -5,6 +5,7 @@ import PowerButton from '../components/PowerButton';
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import {FAN_SLIDER_MANUAL} from "../constants/LogicConstants";
 import SaveButton from "../components/TemperatureThresholds/SaveButton";
+import SaveButtonSlider from "../components/SaveButtonSlider";
 
 const FanSpeedScreen = () => {
     const[fanSpeedRange,setFanSpeedRange] = useState(0)
@@ -42,7 +43,7 @@ const FanSpeedScreen = () => {
                   maximumValue={100}
                   />
                     <View>
-                        <SaveButton onPress = {handlePress}/>
+                        <SaveButtonSlider onPress = {handlePress}/>
                     </View>
                 </View>
             </View>

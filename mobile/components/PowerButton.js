@@ -8,8 +8,6 @@ const PowerButton = () => {
     const { fanIsOn, setFanIsOn } = useContext(ModeFormContext)
 
     const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
-
-
     const handlePress = () => {
         const message = !fanIsOn ? 'HIGH' : 'LOW'; // if the newState is on, let message be HIGH otherwise LOW        console.log("FAN: " + newFanState);
         try{
