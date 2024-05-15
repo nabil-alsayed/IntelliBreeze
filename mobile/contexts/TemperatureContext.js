@@ -1,6 +1,4 @@
 import React, {createContext, useState} from 'react';
-import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
-
 
 export const TemperatureContext = createContext(null);
 
