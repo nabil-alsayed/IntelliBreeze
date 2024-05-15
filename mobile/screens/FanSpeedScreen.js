@@ -41,7 +41,7 @@ const FanSpeedScreen = () => {
                   <Slider style = {{width: 300, height: 50}}
                   onValueChange={(value)=> setFanSpeedRange(value)}
                   minimumValue={0}
-                  maximumValue={255}
+                  maximumValue={100}
                   />
                     <View>
                         <SaveButton onPress = {handlePress}/>

@@ -1,6 +1,6 @@
 #include "MQTT.h"
 #include <DHT.h>
-#include "fanbutton.h"
+#include "manualmode.h"
 #include "FanSpeedAdjustment.h"
 #define DHT_PIN 0
 #define DHT_TYPE DHT11
@@ -24,7 +24,7 @@ const int modeTitleY = 140;
 
  String subscribedTempUnit = "C";
 
-  bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
+extern bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 
 
 void setup() {
