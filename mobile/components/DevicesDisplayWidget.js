@@ -1,15 +1,14 @@
 import React, {useContext, useEffect, useState} from "react";
-import { View, StyleSheet } from "react-native";
-import FanSpeedButton from "./FanSpeedButton";
+import { View, Text, StyleSheet } from "react-native";
+import DeviceCard from "./DeviceCard";
 import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
 import {ModeFormContext} from "../contexts/ModeFormContext";
 
 
-const FanSpeedDisplayWidget = () => {
-  
-  const navigation = useNavigation();
+const DevicesDisplayWidget = () => {
+
+    const navigation = useNavigation();
   
   const handleButtonPress = () => {
     navigation.navigate("FanSpeedScreen");};
@@ -43,21 +42,29 @@ const FanSpeedDisplayWidget = () => {
 
   return (
     <View style={styles.container}>
-        <FanSpeedButton
-        buttonTitle = "Fan Speed"
-        buttonValue = {autoDutyCycles}
-        buttonUnits = "cycles"
+        <Text style={styles.sectionTitle}>Linked Devices</Text>
+        <DeviceCard
+        deviceTitle = "Fan"
+        deviceValue = {autoDutyCycles}
+        deviceUnits = "Cycle"
         onPress= {handleButtonPress}
           />
     </View>
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row", // Aligns children (Metric components) in a row
-    justifyContent: "flex-start",
-    width: "100%", // Full width to contain the Metric components
-  },
+    container:{
+        flex:1,
+        flexDirection: "column",
+        justifyContent: "flex-start",
+        width: "100%",
+        rowGap: 15,
+    },
+    sectionTitle:{
+        color: "#000",
+        fontSize: 17,
+        fontWeight:'400'
+    }
 });
 
-export default FanSpeedDisplayWidget;
+export default DevicesDisplayWidget;
