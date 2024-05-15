@@ -22,6 +22,10 @@ export default class EnergyCalculatorUtils {
         this.lastUpdateTime = moment(); // Reset the last update time as well
     }
 
+    // Method to convert the subscribed Duty Cycle back to Fan Speed to pass to energy calculator
+    convertCycleToFanSpeed = (dutyCycles) => {
+        return ((dutyCycles - 60) / 195.0 * 99) + 1;
+    }
 
     updateEnergy(fanSpeed) {
         const now = moment();
