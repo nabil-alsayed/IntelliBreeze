@@ -5,6 +5,7 @@ import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
+import Metric from "../components/Metric";
 
 const HomeScreen = () => {
 
@@ -14,7 +15,7 @@ const HomeScreen = () => {
                         contentContainerStyle={styles.innerContainer}>
                 <Header name={"User"} style={{position: "sticky"}}/>
                 <EnergyConsumptionWidget/>
-                <MetricsDisplayWidget />
+                <Metric/>
                 <ModeDisplayWidget/>
                 <FanSpeedDisplayWidget/>
                 <StatusBar style="auto"/>
