@@ -5,7 +5,7 @@ import { convertTemperature } from '../../utils/temperatureConverterUtils'
 
 const TemperatureSlider = ({ label, icon, value, onValueChange, disabled }) => {
     const [tempUnit, setTempUnit] = useState('C');
-
+    let temperature = convertTemperature(value, tempUnit)
 
     return (
         <View style={styles.container}>
@@ -20,7 +20,7 @@ const TemperatureSlider = ({ label, icon, value, onValueChange, disabled }) => {
                         Switches at: { }
                     </Text>
                     <Text style={[styles.value,{fontWeight:"bold"}]}>
-                       {convertTemperature(value)}
+                       {temperature}
                     </Text>
                 </View>
                 <Slider
