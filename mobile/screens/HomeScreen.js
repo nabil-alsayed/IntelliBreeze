@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
-import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
+import DevicesDisplayWidget from "../components/DevicesDisplayWidget";
 import Metric from "../components/Metric";
 
 const HomeScreen = () => {
@@ -13,11 +13,11 @@ const HomeScreen = () => {
         <SafeAreaView style={styles.container}>
             <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.innerContainer}>
-                <Header name={"User"} style={{position: "sticky"}}/>
+                <Header/>
                 <EnergyConsumptionWidget/>
                 <Metric/>
                 <ModeDisplayWidget/>
-                <FanSpeedDisplayWidget/>
+                <DevicesDisplayWidget/>
                 <StatusBar style="auto"/>
             </ScrollView>
         </SafeAreaView>
