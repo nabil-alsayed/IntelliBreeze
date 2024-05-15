@@ -4,10 +4,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import moment from 'moment';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
-import EnergyCalculatorUtils from '../../utils/EnergyCalculatorUtils';
+import EnergyCalculatorUtils from '../../utils/energyCalculatorUtils';
 import { ModeFormContext } from "../../contexts/ModeFormContext";
-import {useTopicSubscription} from "../../hooks/useTopicSubscription";
-import {AUTO_MODE} from "../../constants/LogicConstants";
+import { useTopicSubscription } from "../../hooks/useTopicSubscription";
+import { AUTO_MODE } from "../../constants/LogicConstants";
 
 const energyCalculator = new EnergyCalculatorUtils();
 
@@ -26,57 +26,58 @@ const EnergyConsumptionWidget = () => {
     } = useContext(ModeFormContext);
     const unit = "kWh";
 
-    // Hook to Fetch and set initial energy when the component mounts
-    useEffect(() => {
-        const todayStr = moment().format('YYYY-MM-DD');
-        const docRef = doc(db, "EnergyData", todayStr);
-
-        const fetchInitialEnergy = async () => {
-            const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
-                const initialEnergy = docSnap.data().energy;
-                setEnergy(initialEnergy);
-                energyCalculator.setInitialEnergy(initialEnergy);
-            }
-        };
-
-        fetchInitialEnergy();
-    }, []);
 
     // Hook to subscribe to Fan's Duty Cycles to use for Auto Mode's Energy Calc
     useTopicSubscription(AutoDutyCycles => {
         setAutoDutyCycles(AutoDutyCycles)
     },AUTO_MODE.CYCLE.TOPIC,AUTO_MODE.CYCLE.TOPIC_NAME)
 
-    // Method to convert the subscribed Duty Cycle back to Fan Speed to pass to energy calculator
-    const convertCycleToFanSpeed = (dutyCycles) => {
-        return ((dutyCycles - 60) / 195.0 * 99) + 1;
-    }
+
+    useEffect(() => {
+        const todayStr = moment().format('YYYY-MM-DD');
+        const docRef = doc(db, "EnergyData", todayStr);
+        const isSameDay = currentDay === todayStr
+        const fetchInitialEnergy = async () => {
+            const docSnap = await getDoc(docRef);
+            const initialEnergy = docSnap.data().energy;
+            if (docSnap.exists() && isSameDay) {
+                setEnergy(initialEnergy);
+                energyCalculator.setInitialEnergy(initialEnergy);
+            } else {
+                setEnergy(0);
+                energyCalculator.resetEnergy();
+                setCurrentDay(todayStr)
+            }
+        };
+
+        fetchInitialEnergy();
+    }, []);
 
     // Hook to Display and Store Energy at an Interval of 1 second and reset state to updated level
     useEffect(() => {
         const todayStr = moment().format('YYYY-MM-DD');
-        const isAnotherDay = todayStr !== currentDay;
-        const docRef = doc(db, "EnergyData", todayStr);
-        if (fanIsOn) {
+        const intervalId = setInterval(() => {
+            if (todayStr !== currentDay) {
+                // Reset energy at the start of a new day
+                energyCalculator.resetEnergy();
+                setEnergy(0);
+                setCurrentDay(todayStr);
+                updateEnergyInDatabase(doc(db, "EnergyData", todayStr), 0);
+            } else if (fanIsOn) {
+                const selectedMode = modes.find(mode => mode.id === selectedModeId);
+                const autoSpeed = energyCalculator.convertCycleToFanSpeed(autoDutyCycles)
+                const updatedEnergy = selectedMode ?
+                    energyCalculator.updateEnergy(selectedMode.FanSpeed) :
+                    energyCalculator.updateEnergy(autoSpeed);
 
-            const selectedMode = modes.find(mode => mode.id === selectedModeId);
-            const intervalId = setInterval(() => {
-            let updatedEnergy = 0;
-
-            // Decide if the mode selected is Auto
-            if(selectedMode){
-                updatedEnergy = energyCalculator.updateEnergy(selectedMode.FanSpeed);
-            } else {
-                updatedEnergy = energyCalculator.updateEnergy(convertCycleToFanSpeed(autoDutyCycles))
+                setEnergy(updatedEnergy);
+                updateEnergyInDatabase(doc(db, "EnergyData", todayStr), updatedEnergy);
             }
-            setEnergy(updatedEnergy);
-            updateEnergyInDatabase(docRef, updatedEnergy);
-            }, 1000);
+        }, 1000);
 
-            return () => clearInterval(intervalId); // Clean up on unmount
-        }
-    }, [autoDutyCycles, fanIsOn, modes, selectedModeId]);
+        return () => clearInterval(intervalId);
+    }, [fanIsOn, modes, selectedModeId, autoDutyCycles, currentDay]);
+
 
     // Method to update the Energy in Database
     const updateEnergyInDatabase = async (docRef, updatedEnergy) => {
@@ -94,7 +95,7 @@ const EnergyConsumptionWidget = () => {
                 <Icon name={"bolt"} size={30}/>
             </View>
             <View style={styles.textContainer}>
-                <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{energy.toFixed(2) + " " + unit}</Text>
+                <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{energy.toFixed(5) + " " + unit}</Text>
                 <Text numberOfLines={1} style={{fontSize:15, fontWeight:"400"}}>
                     Your Energy consumption today
                 </Text>
