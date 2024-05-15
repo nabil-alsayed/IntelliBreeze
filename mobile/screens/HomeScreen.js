@@ -30,21 +30,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#f3f3f3",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingLeft: 10,
-        paddingRight: 10,
-        position: 'relative',
-    },
-    buttonContainer: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-    },
-    logo: {
-        width: 70, 
-        height: 70,
     },
     innerContainer: {
-        flex:1,
         rowGap:15,
         paddingHorizontal:20
     }
