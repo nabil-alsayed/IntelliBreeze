@@ -1,4 +1,3 @@
-
 export const FAN_SPEED = {
     TOPIC: "/intellibreeze/sensor/fanspeed",
     TOPIC_NAME: "FAN SPEED",
@@ -10,6 +9,12 @@ export const AUTO_MODE = {
     CYCLE: {
         TOPIC: "/intellibreeze/sensor/automatic/fanspeed",
         TOPIC_NAME: "AUTO FAN SPEED CYCLES",
+    }
+}
+export const TEMPERATURE = {
+    thresholds: {
+        HIGH_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/highThreshold",
+        MED_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/mediumThreshold",
     }
 }
 

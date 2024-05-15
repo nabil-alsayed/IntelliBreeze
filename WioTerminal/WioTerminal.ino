@@ -48,12 +48,9 @@ void setup() {
 
 
 void loop() {
-  //tempValue = dht.readTemperature();
-     //float tempValue = dht.readTemperature();
 
-     //toggleFan();
 
-      float tempValue = dht.readTemperature();
+      tempValue = dht.readTemperature();
       String temperatureString = String(tempValue);
       const char* temperatureChars = temperatureString.c_str();
       String tempName = "Temperature";

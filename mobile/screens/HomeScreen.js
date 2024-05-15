@@ -6,14 +6,13 @@ import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
 
-
 const HomeScreen = () => {
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
                         contentContainerStyle={styles.innerContainer}>
-                <Header name={"Manas"} style={{position: "sticky"}}/>
+                <Header name={"User"} style={{position: "sticky"}}/>
                 <EnergyConsumptionWidget/>
                 <MetricsDisplayWidget />
                 <FanSpeedDisplayWidget/>
