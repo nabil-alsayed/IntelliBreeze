@@ -15,8 +15,8 @@ const HomeScreen = () => {
                 <Header name={"User"} style={{position: "sticky"}}/>
                 <EnergyConsumptionWidget/>
                 <MetricsDisplayWidget />
-                <FanSpeedDisplayWidget/>
                 <ModeDisplayWidget/>
+                <FanSpeedDisplayWidget/>
                 <StatusBar style="auto"/>
             </ScrollView>
         </SafeAreaView>
