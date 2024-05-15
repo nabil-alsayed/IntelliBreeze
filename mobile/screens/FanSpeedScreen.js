@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
+import {View, Text, StyleSheet, SafeAreaView} from 'react-native';
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
 import SaveButton from "../components/SaveButton";
@@ -29,13 +29,11 @@ const FanSpeedScreen = () => {
       <SafeAreaView style={{flex:1}}>
           <View  style={{justifyContent:"center", alignItems:"center", flexGrow:1, rowGap:30}}>
             <View style = {styles.container}>
-                <View style = {styles.valueDisplayImageContainer}>
-                  <ImageBackground style={styles.valueDisplayImage} source={require("../assets/OtherIcons/ValueDisplay.png")}>
-                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 75}}> Cooler </Text>
-                    <Text style = {{fontSize: 40, marginTop: 3, marginRight: 95, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)}</Text>
-                    <Text style = {{fontSize: 35, marginLeft: 110, marginTop: -100, fontWeight: "bold"}}> cycles </Text>
-                    <Text style = {{fontSize: 15, marginLeft: 91, marginTop: 10}}> Speed </Text>
-                  </ImageBackground>
+                <View style = {styles.valueDisplayContainer}>
+                    <Text> Cooler </Text>
+                    <Text> {Math.floor(fanSpeedRange)}</Text>
+                    <Text> cycles </Text>
+                    <Text> Speed </Text>
                 </View>
                 <View style = {styles.slideContainer}>
                   <Slider style = {{width: 300, height: 50}}
@@ -58,12 +56,21 @@ const FanSpeedScreen = () => {
 }  
 
 const styles = StyleSheet.create({
-    valueDisplayImageContainer: {
-      marginBottom: 20,
+    valueDisplayContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        borderWidth: 5,
+        borderColor: "#2196F3",
+        padding: 20,
+        width:275,
+        height: 275,
+        borderRadius: 200
     },
     valueDisplayImage: {
       width: 230,
       height: 230,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     container: {
       flexDirection: "column",
