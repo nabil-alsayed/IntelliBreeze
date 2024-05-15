@@ -9,7 +9,9 @@ const Header = () => {
         <Text style={styles.headerText}>Hello! 👋</Text>
         <Text style={styles.subHeaderText}>Welcome back to IntelliBreeze</Text>
       </View>
-      <DropDownMenuButton />
+      <View style={styles.dropDownMenu}>
+        <DropDownMenuButton /> // TODO: Un-hide it after implementing it
+      </View>
     </View>
   );
 };
@@ -33,6 +35,9 @@ const styles = StyleSheet.create({
     color: "#707070",
     fontSize: 20,
   },
+  dropDownMenu: {
+    display: "none",
+  }
 });
 
 export default Header;
