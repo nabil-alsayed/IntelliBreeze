@@ -19,12 +19,10 @@ const styles = StyleSheet.create({
         height: 215,
         alignItems: "center",
         justifyContent: "center",
-        borderStyle: "dashed",
-        borderWidth:3,
-        borderColor:"rgba(141,140,140,0.36)"
+        backgroundColor:"rgba(33,150,243,0.9)"
     },
     icon:{
-        color: "rgba(141,140,140,0.58)"
+        color: "#fff"
     }
 });
 
