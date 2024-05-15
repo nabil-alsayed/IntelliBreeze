@@ -1,9 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import { View, StyleSheet } from "react-native";
 import FanSpeedButton from "./FanSpeedButton";
 import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import {ModeFormContext} from "../contexts/ModeFormContext";
 
 
 const FanSpeedDisplayWidget = () => {
@@ -13,7 +14,7 @@ const FanSpeedDisplayWidget = () => {
   const handleButtonPress = () => {
     navigation.navigate("FanSpeedScreen");};
 
-    const [fanSpeed, setFanSpeed] = useState(0);
+    const { autoDutyCycles, setAutoDutyCycles } = useContext(ModeFormContext);
 
   useEffect(()=>{
 
@@ -21,7 +22,7 @@ const FanSpeedDisplayWidget = () => {
       const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
 
       const handleMessage = (message) =>{
-          setFanSpeed(parseInt(message.payloadString));
+          setAutoDutyCycles(parseInt(message.payloadString));
           console.log("fan speed (Auto Mode)", message.payloadString);
       }
 
@@ -44,7 +45,7 @@ const FanSpeedDisplayWidget = () => {
     <View style={styles.container}>
         <FanSpeedButton
         buttonTitle = "Fan Speed"
-        buttonValue = {fanSpeed}
+        buttonValue = {autoDutyCycles}
         buttonUnits = "cycles"
         onPress= {handleButtonPress}
           />

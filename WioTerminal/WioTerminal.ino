@@ -2,54 +2,55 @@
 #include <DHT.h>
 #include "fanbutton.h"
 #include "FanSpeedAdjustment.h"
-#define DHT_PIN 0  
+#define DHT_PIN 0
 #define DHT_TYPE DHT11
 #define Gate 2
 
+DHT dht(DHT_PIN, DHT_TYPE);
 
-  DHT dht(DHT_PIN, DHT_TYPE);
- 
 //TEMPERATURE_READING_INITIALISATIONS
-const int tempReadingX = 80;
-const int tempReadingY = 100;
+const int tempReadingX = 40;
+const int tempReadingY = 80;
 const int tempTitleX = 40 ;
-const int tempTitleY = 60;
+const int tempTitleY = 40;
 String tempUnit = "C";
-extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode
+extern String customFanSpeedValue;    // value set by user in the application for fan speed 
+                                      //for a specific custom mode
 
+extern float tempValue = 0; //temperature sensor reading
 
-  extern float tempValue = 0; //temperature sensor reading
+//SELECTED MODE_READING INITIALISATION
+const int modeReadingX = 80;
+const int modeReadingY = 180;
+const int modeTitleX = 80 ;
+const int modeTitleY = 140;
+
+ String subscribedTempUnit = "C";
 
   bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
-
 
 
 void setup() {
   tft.begin();
   tft.fillScreen(TFT_BLACK);
   tft.setRotation(3);
- 
+
   Serial.println();
   Serial.begin(115200);
   setup_wifi();
   client.setServer(mqtt_server, 1883); // Connect the MQTT Server
   client.setCallback(callback);
-  dht.begin(); 
+  dht.begin();
 
-  pinMode(Gate, OUTPUT);
-  digitalWrite(Gate, LOW);
-
-}
-
-
-
-  
+     pinMode(Gate, OUTPUT);
+    digitalWrite(Gate, LOW);
+  }
 
 
 void loop() {
 
 
-      float tempValue = dht.readTemperature();
+      tempValue = dht.readTemperature();
       String temperatureString = String(tempValue);
       const char* temperatureChars = temperatureString.c_str();
       String tempName = "Temperature";
@@ -59,24 +60,26 @@ void loop() {
         Serial.println("preliminary tempValue = " );
         Serial.print(tempValue);
 
-        Serial.println("subscribedPayload = " );
-        Serial.print(subscribedPayload);
+        Serial.println("subscribedTempUnit = " );
+        Serial.print(subscribedTempUnit);
 
 
-    if (subscribedPayload == "°F"){
+    if (subscribedTempUnit == "°F"){
       tempUnit = "F";
       tempValue = (tempValue * 9/5) + 32;
       Serial.println("FAHRENHEIT TEMP = " );
-      Serial.print(subscribedPayload);
+      Serial.print(tempValue);
 
-    }else if (subscribedPayload == "K"){
+
+    }else if (subscribedTempUnit == "K"){
       tempUnit = "K";
       tempValue = (tempValue  + 273);
       Serial.println("kelvin temp = " );
-      Serial.print(subscribedPayload);
+      Serial.print(tempValue);
     }
-
+    
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
+      Serial.println("ENTERING CHANGE SPEED!");
       changeSpeed();
     } else {
       changeSpeedToCustomMode();
@@ -89,19 +92,26 @@ void loop() {
       String fanSpeedName = "Fan Speed";
       const char* fanSpeedNameChar = fanSpeedName.c_str();
 
+     tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
+     tft.setTextSize(2); //sets the size of text
+    //prints strings from given coordinates
 
-      tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
-      tft.setTextSize(2); //sets the size of text
+    //Label Strings
+    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
+    tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
 
-      tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
-      tft.setTextSize(5);
+    //Temperature Strings
+    tft.setTextSize(5);
+    tft.drawString(temperatureString, tempReadingX, tempReadingY);
+    tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
+     tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
-      tft.drawString(temperatureString, tempReadingX, tempReadingY); //prints strings from given coordinates
-      tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
-      tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
+     //Selected fan mode Strings:
+    tft.setTextSize(4);
+    tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
-      delay(5000);
-      tft.fillScreen(TFT_RED);
+    delay(5000);
+    tft.fillScreen(TFT_RED);
 
     if (!client.connected()) {
       reconnect();
@@ -117,11 +127,8 @@ void loop() {
       publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
       publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
 
-
-
-
-
-
+      Serial.println("Selected Mode:");
+      Serial.println(selectedMode);
   }
 }
 

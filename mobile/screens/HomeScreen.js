@@ -1,33 +1,25 @@
-
-import {useState} from "react";
 import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
 import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
-import {ModeFormProvider} from "../contexts/ModeFormContext";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import FanSpeedDisplayWidget from "../components/FanSpeedDisplayWidget";
 
-
 const HomeScreen = () => {
 
-    const [value, setValue] = useState(0);
-
     return (
-        <ModeFormProvider>
-            <SafeAreaView style={styles.container}>
-                <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
-                            contentContainerStyle={styles.innerContainer}>
-                    <Header name={"Manas"} style={{position: "sticky"}}/>
-                    <EnergyConsumptionWidget/>           
-                    <MetricsDisplayWidget value = {value}/>
-                    <FanSpeedDisplayWidget/>
-                    <ModeDisplayWidget/>
-                    <StatusBar style="auto"/>
-                </ScrollView>
-            </SafeAreaView>
-        </ModeFormProvider>
+        <SafeAreaView style={styles.container}>
+            <ScrollView scrollEnabled={false} showsVerticalScrollIndicator={false}
+                        contentContainerStyle={styles.innerContainer}>
+                <Header name={"User"} style={{position: "sticky"}}/>
+                <EnergyConsumptionWidget/>
+                <MetricsDisplayWidget />
+                <FanSpeedDisplayWidget/>
+                <ModeDisplayWidget/>
+                <StatusBar style="auto"/>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 

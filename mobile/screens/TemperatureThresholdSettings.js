@@ -9,7 +9,8 @@ import TemperatureSlider from '../components/TemperatureThresholds/TemperatureSl
 import { db } from '../firebaseConfig';
 import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
 import { connectToMqtt, publishToTopic } from '../utils/mqttUtils';
-import {SLIDER_VALUES} from "../constants/LogicConstants";
+import { SLIDER_VALUES, TEMPERATURE } from "../constants/LogicConstants";
+
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
  speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
@@ -23,20 +24,16 @@ const TemperatureThresholdSettings = () => {
         const [showWarning, setShowWarning] = useState(false);
         const [showConfirmation, setShowConfirmation] = useState(false);
         const [slidersDisabled, setSlidersDisabled] = useState(false);
-        const collectionRef = collection(db, 'temperatureThresholds');
-        const documentID = 'aIPlgZv2kTA4axiMAnw5';
-        const HIGH_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/highThreshold"
-        const MED_THRESHOLD_PUB_TOPIC = "/intellibreeze/app/mediumThreshold"
-
-
+        const collectionRef = collection(db, TEMPERATURE.dbPath);
+        const documentID = TEMPERATURE.documentId;
+        const HIGH_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.HIGH_THRESHOLD_PUB_TOPIC
+        const MED_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.MED_THRESHOLD_PUB_TOPIC
 
     //variable to store data to firestore
     const newThresholds = {
         LowToMediumRange: lowToMediumRange,
         MediumToHighRange: mediumToHighRange
     }
-
-
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
@@ -46,15 +43,13 @@ const TemperatureThresholdSettings = () => {
                     const data = doc.data();
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
-
                 });
             } catch (error) {
                 console.error("Failed to fetch previous thresholds", error);
             }
         });
         return () => fetchTemperatureThreshold();
-    }, []);
-
+    }, [ ]);
 
 
     //this method is responsible for updating the slider values to the firebase
@@ -79,9 +74,6 @@ const TemperatureThresholdSettings = () => {
         }
     }
 
-
-
-
     //this is the core method which verifies the slider input
     const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
         if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
@@ -101,8 +93,6 @@ const TemperatureThresholdSettings = () => {
     const handleDefaultCheckboxToggle = (isChecked) => {
         setSlidersDisabled(isChecked);
     };
-
-
 
     //UI for the sliders
     return (
