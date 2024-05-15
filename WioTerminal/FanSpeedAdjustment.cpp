@@ -24,7 +24,7 @@
       analogWrite(fanPin, dutyCycle);
       delay(1500);
       Serial.println("Fan is on");
-      dutyCycle = 60;
+      dutyCycle = 20;
       analogWrite(fanPin, dutyCycle);
 
     }else if(tempValue>=mediumThreshold && tempValue<highThreshold){

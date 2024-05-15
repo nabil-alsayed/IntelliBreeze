@@ -30,7 +30,6 @@
   
   extern String subscribedPayload;
 
-  void setupClient();
 
   void setup_wifi();
 

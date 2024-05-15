@@ -54,11 +54,11 @@ void loop() {
       const char* tempNameChar = tempName.c_str();
 
 
-        Serial.println("preliminary tempValue = " );
-        Serial.print(tempValue);
+       // Serial.println("preliminary tempValue = " );
+        // Serial.print(tempValue);
 
-        Serial.println("subscribedPayload = " );
-        Serial.print(subscribedPayload);
+        //Serial.println("subscribedPayload = " );
+       //Serial.print(subscribedPayload);
 
 
     if (subscribedPayload == "°F"){
@@ -74,10 +74,16 @@ void loop() {
       Serial.print(subscribedPayload);
     }
 
+  
+
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
-      changeSpeed(tempValue);
-    } else {
+
+      changeSpeed(tempValue); 
+
+    }else {
+
       changeSpeedToCustomMode();
+      
     }
 
     // implement the custom mode fan speed via another else to the last if
@@ -105,7 +111,7 @@ void loop() {
       tft.drawString(".", tempReadingX + 150, tempReadingY - 30);
       tft.drawString(tempUnit, tempReadingX + 170, tempReadingY);
 
-      delay(5000);
+      delay(2000);
       tft.fillScreen(TFT_RED);
 
     if (!client.connected()) {

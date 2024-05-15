@@ -34,10 +34,7 @@
    String customFanSpeedValue = "";
 
 
-  void setupClient(){
-      client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
-      client.subscribe(PREF_TEMP_SUB_TOPIC);
-  }
+  
 
   void setup_wifi() {
   delay(10);
@@ -141,15 +138,17 @@
       client.publish("WTout", "hello world");
       // ... and resubscribe
       client.subscribe("WTin");
-
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
-      client.subscribe(PREF_TEMP_SUB_TOPIC); 
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+      client.subscribe(PREF_TEMP_SUB_TOPIC); 
 
       //Subscribing to fan speeds values from GUI
       client.subscribe(FAN_MODE_SUB_TOPIC);
-      client.subscribe(TEMPUNIT_SUB_TOPIC);   
+
+      //Subscribing for changing the unit of temperature measurement
+      client.subscribe(TEMPUNIT_SUB_TOPIC);
+       
       
     } else {
       Serial.print("failed, rc=");
@@ -161,13 +160,13 @@
   }
 }
 
-  void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName){
+  void publish(const char* PUBLISHING_TOPIC, const char* payload, const char* topicName){
 
     snprintf(msg, 50, "%.1f", payload); // Convert temperature to string
-        client.publish(SUBSCRIPTION_TOPIC, payload); // Publish temperature value to MQTT broker
+        client.publish(PUBLISHING_TOPIC, payload); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
-        Serial.printf("Published %s\n", topicName);
-        Serial.println(payload);
+        // Serial.printf("Published %s\n", topicName);
+        // Serial.println(payload);
 
 
   }
