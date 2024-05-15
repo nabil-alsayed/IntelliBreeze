@@ -10,7 +10,8 @@ const Header = () => {
         <Text style={styles.subHeaderText}>Welcome back to IntelliBreeze</Text>
       </View>
       <View style={styles.dropDownMenu}>
-        <DropDownMenuButton /> // TODO: Un-hide it after implementing it
+        {/*TODO: Un-hide it after implementing it*/}
+        <DropDownMenuButton />
       </View>
     </View>
   );
