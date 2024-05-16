@@ -39,6 +39,9 @@ Here are a couple of things that you will need before moving on to the **Install
 5. **`Basic/Variable DC Power Supply`**
     - A basic 12V DC supply suffices. If a variable DC supply is used, the voltage must be set to `12V` and current to `0.1A`(for the recommended fan above, otherwise, the technical specifications for the used fan must be checked).
 
+6. **`Grove - Temperature & Humidity Sensor (DHT11)`**
+    - [Here](https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/) is the link to the information for the temperature sensor required for this project. To point out, this temperature sensor can take readings from `0 to 50 °C`, which is compatible with the temperature threshold adjustment sliders in the mobile application. However, if a different sensor with a different range is used, changing these constants just requires a change to the minThresholdLimit and maxThresholdLimit in the LogicConstants class under the constants folder.
+
 
 
 
