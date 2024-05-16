@@ -62,6 +62,11 @@ Refer to the user manual given with the Wio Terminal, specifically the map for t
 6. Connect the `Temperature and Humidity Sensor` to the **right hand side** grove socket on the Wio Terminal.
 7. Connect the **type-c end** of the USB cable into the USB port of the Wio Terminal, and the **type-a end** into your computer from where the Arduino code will be uploaded.
 
+Following is the circuit diagram that can be referred to while following the steps above.
+#### Circuit Diagram
+![image info](graphics/IntellibreezeCircuitDesign.png)
+
+#### Image for replication
 ## System Design
 
 The following diagram illustrates how the basic overview of the project should look like:-
