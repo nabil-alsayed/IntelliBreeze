@@ -2,7 +2,7 @@ import React from "react";
 import { View, StyleSheet } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const LogOutButton = () => {
+const DropDownMenuButton = () => {
   return (
     <View style={styles.rightContainer}>
       <MaterialIcons
@@ -23,4 +23,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LogOutButton;
+export default DropDownMenuButton;

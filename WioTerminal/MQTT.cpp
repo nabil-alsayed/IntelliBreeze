@@ -30,13 +30,10 @@
   const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
-
-
-   // String fanToggleValue = "";
-   //String highThresholdValue = "";
-   //String mediumThresholdValue = "";
+  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
 
    String selectedMode;
+   String customFanSpeedValue = "";
 
 
 
@@ -105,12 +102,23 @@
     Serial.print("Received medium threshold value: ");
     Serial.println(mediumThresholdValue);
 
-  } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
+  } else if (strcmp(topic, FAN_SPEED_SUB_TOPIC) == 0){
+       customFanSpeedValue = "";
+
+          for (int i = 0; i < length; i++) {
+            customFanSpeedValue += (char)payload[i];
+          }
+
+          Serial.println("Received Custom Fan Speed value: ");
+          Serial.println(customFanSpeedValue);
+   } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
+
     subscribedTempUnit = String(buff_p);
+
   } else if (strcmp(topic, MODENAME_SUB_TOPIC) == 0){
+
         selectedMode = String(buff_p);
   }
-
     buff_p[length] = '\0';
   }
 
@@ -133,9 +141,12 @@
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
 
+      //Subscribing to fan speeds values from GUI
+      client.subscribe(FAN_SPEED_SUB_TOPIC);
+
       //subscribe to incoming temperature units from phone app
       client.subscribe(TEMPUNIT_SUB_TOPIC);
-
+      
       //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);
 

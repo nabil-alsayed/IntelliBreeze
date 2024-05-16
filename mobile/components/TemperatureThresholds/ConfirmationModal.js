@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import {Modal, View, Text, StyleSheet, TouchableOpacity} from "react-native";
-import { ModeFormContext } from "../contexts/ModeFormContext";
+import { ModeFormContext } from "../../contexts/ModeFormContext";
 import { deleteDoc, doc } from "firebase/firestore";
-import { db } from "../firebaseConfig";
+import { db } from "../../firebaseConfig";
 
 const ConfirmationModal = ({ modeId, actionTitle }) => {
     const { setModeEditModalVisible } = useContext(ModeFormContext);

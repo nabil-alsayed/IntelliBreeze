@@ -4,6 +4,7 @@
 #include "FanSpeedAdjustment.h"
 #define DHT_PIN 0
 #define DHT_TYPE DHT11
+#define Gate 2
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
@@ -13,6 +14,8 @@ const int tempReadingY = 80;
 const int tempTitleX = 40 ;
 const int tempTitleY = 40;
 String tempUnit = "C";
+extern String customFanSpeedValue;    // value set by user in the application for fan speed 
+                                      //for a specific custom mode
 
 extern float tempValue = 0; //temperature sensor reading
 
@@ -39,18 +42,15 @@ void setup() {
   client.setCallback(callback);
   dht.begin();
 
-    digitalWrite(fanPin, LOW);
-    pinMode(fanPin, OUTPUT);
+     pinMode(Gate, OUTPUT);
+    digitalWrite(Gate, LOW);
   }
 
 
 void loop() {
-  //tempValue = dht.readTemperature();
-     //float tempValue = dht.readTemperature();
 
-     //toggleFan();
 
-      float tempValue = dht.readTemperature();
+      tempValue = dht.readTemperature();
       String temperatureString = String(tempValue);
       const char* temperatureChars = temperatureString.c_str();
       String tempName = "Temperature";
@@ -77,8 +77,14 @@ void loop() {
       Serial.println("kelvin temp = " );
       Serial.print(tempValue);
     }
-
+    
+    if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
+      Serial.println("ENTERING CHANGE SPEED!");
       changeSpeed();
+    } else {
+      changeSpeedToCustomMode();
+    }
+    // implement the custom mode fan speed via another else to the last if
 
       float fanSpeedValue = dutyCycle;
       String fanSpeedString = String(fanSpeedValue);

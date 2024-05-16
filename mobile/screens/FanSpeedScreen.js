@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, ImageBackground, SafeAreaView} from 'react-native';
 import Slider from "@react-native-community/slider";
 import PowerButton from '../components/PowerButton';
-import SaveButton from "../components/SaveButton";
-import FanSpeedDisplayWidget from '../components/FanSpeedDisplayWidget';
+import SaveButton from "../components/TemperatureThresholds/SaveButton";
 
 const FanSpeedScreen = () => {
 
@@ -18,7 +17,6 @@ const FanSpeedScreen = () => {
                     <Text style = {{fontSize: 15, marginLeft: 90, marginTop: 30}}> Cooler </Text>
                     <Text style = {{fontSize: 15, marginLeft: 90, marginTop: 10}}> Speed </Text>
                     <Text style = {{fontSize: 35, marginTop: 25, marginRight: 10, alignSelf: "center", fontWeight: "bold"}}> {Math.floor(fanSpeedRange)} cycles</Text>
-                    <Text style = {{fontSize: 30, marginLeft: 110, marginTop: -100, fontWeight: "bold"}}> </Text> 
                   </ImageBackground>
                 </View>
                 <View style = {styles.slideContainer}>
