@@ -4,8 +4,6 @@
 #include <Arduino.h>
 #include <WiFi.h>
 #include <PubSubClient.h>
-#include <WiFi.h>
-#include <PubSubClient.h>
 #include <TFT_eSPI.h>
 
   // Update these with values suitable for your network.
@@ -28,12 +26,12 @@
   extern const char* MANUAL_FAN_SPEED_SUB_TOPIC ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   extern const char* MANUAL_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
   extern const char* AUTO_FAN_SPEED_PUB_TOPIC; //Topic for WIO to publish
+  extern const char* FAN_STATE_PUB_TOPIC;
   extern const char* FAN_SPEED_SUB_TOPIC;
   
   extern String subscribedTempUnit;
   extern String selectedMode;
 
-  void setupClient();
 
   void setup_wifi();
 

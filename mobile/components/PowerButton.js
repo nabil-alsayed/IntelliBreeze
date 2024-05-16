@@ -29,7 +29,7 @@ const PowerButton = () => {
     return(
         <TouchableOpacity onPress={handlePress}>
             <View style={[styles.buttonContainer, {backgroundColor: fanIsOn ? "#2196F3FF" : "#999797"}]}>
-                <AntDesign name="poweroff" size={24} color="black" size={55} color={"white"}/>
+                <AntDesign name="poweroff"  size={55} color={"white"}/>
             </View>
         </TouchableOpacity>
     );

@@ -5,4 +5,4 @@ export const convertTemperature = (temp, tempUnit) => {
         return Math.floor(temp + 273.15) + 'K';
     }
     return temp.toFixed(0) + '°C';
-};
+}; 
