@@ -25,7 +25,7 @@ Here are a couple of things that you will need before moving on to the **Install
 
 1. **`MOSFET Transistor`**
    - `IRF530N` (or any n-channel MOSFET)
-     - The MOSFET is an essential component for controlling the fan speed. The IRF530N is recommended due to its compatibility with the Wio-Terminal's maximum 5V voltage output. It is crucial to use an n-channel MOSFET for this application, as it operates with lower gate voltage.
+     - The MOSFET is an essential component for controlling the fan speed. The IRF530N is recommended due to its compatibility with the Wio-Terminal's maximum 5V voltage output. It is crucial to use an n-channel MOSFET for this application, as it operates with lower gate voltage. [Here](https://www.nextpcb.com/blog/how-does-a-mosfet-work) is a more detailed description of how a MOSFET transistor works.
 
 2. **`Wio-Terminal`**
     - The Wio-Terminal serves as the central controller for the smart fan system. Its 5V output voltage is compatible with the MOSFET's gate voltage requirements.
@@ -53,6 +53,14 @@ The following section consists of concrete steps to set-up the hardware componen
 
 ### Hardware - Setting up the Fan System
 
+Refer to the user manual given with the Wio Terminal, specifically the map for the GPIO (General Purpose Input/Output) pins to follow the steps below. If possible, wear insulated rubber gloves to, although unlikely, avoid getting shocked. 
+1. Connect the **`positive terminal`** of the fan to the **`positive/VCC pin`** of the DC power supply. Use an alligator clip, if required, to hold the jumper wire stable on a non-variable power supply.
+2. Connect the **`negative terminal/Ground pin`** of the fan to the **`Drain`** of the MOSFET.
+3. Connect the **`Gate`** of the MOSFET to **`pin number 16`** (PWM1/A2/D2) on the GPIO of the Wio Terminal .
+4. To establish a common ground, connect the **`Source`** of the MOSFET to a ground pin (**`GND, i.e. pin 39`**) on the GPIO of the Wio Terminal.
+5. Connect the **`Source`** of the MOSFET to the **`negative terminal`** of the power supply.  
+6. Connect the `Temperature and Humidity Sensor` to the **right hand side** grove socket on the Wio Terminal.
+7. Connect the **type-c end** of the USB cable into the USB port of the Wio Terminal, and the **type-a end** into your computer from where the Arduino code will be uploaded.
 
 ## System Design
 
