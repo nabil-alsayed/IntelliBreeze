@@ -87,6 +87,6 @@ void changeSpeedToCustomMode(){
   float customFanSpeed = customFanSpeedValue.toFloat();
     dutyCycle = convertSliderToDutyCycle(customFanSpeed);
     analogWrite(fanPin, dutyCycle);
-    Serial.println("Changed speed to Custom Mode's speed: " + customFanSpeedValue + ". Duty Cycle: " + dutyCycle);
+    //Serial.println("Changed speed to Custom Mode's speed: " + customFanSpeedValue + ". Duty Cycle: " + dutyCycle);
 }
 

@@ -13,6 +13,7 @@ export const AUTO_MODE = {
 }
 export const TEMPERATURE = {
     thresholds: {
+        PREF_TEMP_PUB_TOPIC: "/intellibreeze/app/temperature",
         HIGH_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/highThreshold",
         MED_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/mediumThreshold",
     },
@@ -27,7 +28,7 @@ export const MODES = {
 }
 
 export const SLIDER_VALUES = {
+    preferredTemp: 23,
     mediumDefaultThreshold: 25,
     highDefaultThreshold: 27
 }
-

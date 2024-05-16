@@ -56,8 +56,8 @@ void setup() {
       String tempName = "Temperature";
       const char* tempNameChar = tempName.c_str();
 
-        Serial.println("subscribedTempUnit = " );
-        Serial.print(subscribedTempUnit);
+       // Serial.println("subscribedTempUnit = " );
+       // Serial.print(subscribedTempUnit);
 
 
     if (subscribedTempUnit == "°F"){
@@ -131,8 +131,8 @@ void setup() {
     publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(FAN_STATE_PUB_TOPIC, fanStateChars, fanStateChar);
 
-    Serial.println("Selected Mode:");
-    Serial.println(selectedMode);
+    //Serial.println("Selected Mode:");
+    //Serial.println(selectedMode);
   }
 }
 

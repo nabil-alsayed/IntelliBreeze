@@ -42,9 +42,9 @@ const TemperatureThresholdSettings = () => {
 
     //variable to store data to firestore
     const newThresholds = {
+        PreferredTemp: preferredTemp,
         LowToMediumRange: lowToMediumRange,
-        MediumToHighRange: mediumToHighRange,
-        PreferredTemp: preferredTemp
+        MediumToHighRange: mediumToHighRange
     }
 
     
@@ -78,9 +78,10 @@ const TemperatureThresholdSettings = () => {
 
             const client = connectToMqtt();
             client.onConnected = () => {
+                publishToTopic(client, PREF_TEMP_PUB_TOPIC, String((preferredTemp)), "preferred Temperature");
                 publishToTopic(client, HIGH_THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "high temperature threshold");
                 publishToTopic(client, MED_THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "medium temperature threshold");
-                publishToTopic(client, PREF_TEMP_PUB_TOPIC, String((preferredTemp)), "preferred Temperature");
+                
                 
             };
 
