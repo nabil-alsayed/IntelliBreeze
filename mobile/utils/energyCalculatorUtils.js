@@ -38,7 +38,6 @@ export default class EnergyCalculatorUtils {
 
         // If the fan is running (fanSpeed > 0)
         if (fanSpeed > 0) {
-            const rate = 0.01 + (0.09 * (fanSpeed / 100)); // Calculate energy increment based on fan speed
             // Assume a baseline energy consumption rate and scale with fan speed
             // A normal roof fan consumes approximately 75 watts at full speed (100% duty cycle)
             // Adjusted rate to account for PWM and power consumption characteristics
