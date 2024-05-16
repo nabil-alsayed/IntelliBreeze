@@ -64,9 +64,12 @@ Refer to the user manual given with the Wio Terminal, specifically the map for t
 
 Following is the circuit diagram that can be referred to while following the steps above.
 #### Circuit Diagram
-![image info](graphics/IntellibreezeCircuitDesign.png)
+![CircuitDiagram](graphics/IntellibreezeCircuitDesign.png)
 
+The image below shows the setup used during development. It can provide as a useful reference for how the temperature sensor is connected to the Wio and anything that maybe unclear in the circuit diagram above.
 #### Image for replication
+![image info](graphics/IntellibreezeCircuitPicture.png)
+
 ## System Design
 
 The following diagram illustrates how the basic overview of the project should look like:-
