@@ -143,10 +143,11 @@
       client.subscribe(PREF_TEMP_SUB_TOPIC); 
 
       //Subscribing to fan speeds values from GUI
-      // client.subscribe(FAN_MODE_SUB_TOPIC);
+       //client.subscribe(FAN_MODE_SUB_TOPIC);
 
       //subscribe to incoming temperature units from phone app
       client.subscribe(TEMPUNIT_SUB_TOPIC);
+      client.subscribe(FAN_SPEED_SUB_TOPIC);
       
       //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);

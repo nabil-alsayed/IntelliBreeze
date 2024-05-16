@@ -1,4 +1,4 @@
-/*import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import {Modal, View, Text, StyleSheet, TouchableOpacity} from "react-native";
 import { ModeFormContext } from "../../contexts/ModeFormContext";
 import { deleteDoc, doc } from "firebase/firestore";
@@ -99,4 +99,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default ConfirmationModal;*/
+export default ConfirmationModal;
