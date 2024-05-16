@@ -27,10 +27,13 @@
 
     //MQTT Fan Speed Related Topics
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
-  const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
+  const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/fan/slider/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
   const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
+
+     String fanToggleValue = ""
+
 
    String selectedMode;
    String customFanSpeedValue = "";
@@ -79,6 +82,30 @@
     buff_p[i] = (char)payload[i];
   }
   Serial.println();
+
+  // Conditional for changing speed of fan manually
+    if (strcmp(topic, MANUAL_FAN_SPEED_SUB_TOPIC) == 0) {
+        fanToggleValue = "";
+
+        for (int i = 0; i < length; i++) {
+          fanToggleValue += (char)payload[i];
+        }
+
+        Serial.print("Received fan slider value: ");
+        Serial.println(fanToggleValue);
+      }
+
+  // Conditional for toggling on and off the fan
+  if (strcmp(topic, FAN_TOGGLE_SUB_TOPIC) == 0) {
+      fanToggleValue = "";
+
+      for (int i = 0; i < length; i++) {
+        fanToggleValue += (char)payload[i];
+      }
+
+      Serial.print("Received fan toggle value: ");
+      Serial.println(fanToggleValue);
+    }
 
   //Conditional for storing HIGH temperature threshold payload into variable
   if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
@@ -149,6 +176,12 @@
       
       //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);
+
+      //Subscribe to toggle mode from phone app
+      client.subscribe(FAN_TOGGLE_SUB_TOPIC);
+
+      //Subscribe to manual fan speed sub topic
+      client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
 
     } else {
       Serial.print("failed, rc=");

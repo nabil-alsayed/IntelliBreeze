@@ -41,5 +41,13 @@ void changeSpeedToCustomMode(){
     analogWrite(fanPin, dutyCycle);
     Serial.println("Changed speed to Custom Mode's speed: " + customFanSpeedValue + ". Duty Cycle: " + dutyCycle);
 }
+//function that changes fan speed based on published value of slider in manual mode
+void changeSpeedToManualModeSlider(){
+  float manualFanSpeedSlider = manualFanSpeedSlider.toFloat;
+  dutyCycle = convertSliderToDutyCycle(manualFanSpeedSlider);
+  analogWrite(fanPin, dutyCycle);
+  Serial.println("Changed speed to Custom Mode's speed: " + manualFanSpeedSlider + ". Duty Cycle: " + dutyCycle);
+}
+
 
 

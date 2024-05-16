@@ -15,6 +15,3 @@ void toggleFan(){
    }
    digitalWrite(fanPin, digitalValue); // function that recieves value and turns it on or off, depending on GUI Button
 }
-void toggleSlider(){
-  
-}
