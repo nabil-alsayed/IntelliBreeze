@@ -51,8 +51,6 @@ void loop() {
 
 
       tempValue = dht.readTemperature();
-      String temperatureString = String(tempValue);
-      const char* temperatureChars = temperatureString.c_str();
       String tempName = "Temperature";
       const char* tempNameChar = tempName.c_str();
 
@@ -77,7 +75,10 @@ void loop() {
       Serial.println("kelvin temp = " );
       Serial.print(tempValue);
     }
-    
+
+    String temperatureString = String(tempValue);
+      const char* temperatureChars = temperatureString.c_str();
+
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
       Serial.println("ENTERING CHANGE SPEED!");
       changeSpeed();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
-import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+import {connectToMqtt, publishToTopic, } from "../utils/mqttUtils";
 import {useTopicSubscription} from "../hooks/useTopicSubscription";
 
 const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
@@ -20,28 +20,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
 
     const client = connectToMqtt();
 
-    const convertTemperature = () => {
-
-        if (unit === '°C') {
-            // Convert Celsius to Fahrenheit
-            const newTemp = (temperature * 9/5) + 32;
-            setTemperature(Math.round(newTemp));
-            setUnit('°F');
-        } else if (unit === '°F'){
-            // Convert Fahrenheit to Celsius
-            const newTemp = (((temperature - 32) * 5/9) + 273);
-            setTemperature(Math.round(newTemp));
-            setUnit('K');
-
-        }else {
-            // Convert Fahrenheit to Kelvin
-            const newTemp = temperature - 273 ;
-            setTemperature(Math.round(newTemp));
-            setUnit('°C');
-
-        }
-    };
-
     const onMessageArrived = (message) => {
         console.log("temperature:", message.payloadString);
         if (message.destinationName === TEMP_PUB_TOPIC) {
@@ -49,11 +27,33 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
         }
     };
 
-    client.onConnected = () => {
-        subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
-        publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
-        console.log(unit);
+    const convertTemperature = () => {
+        let newTemp;
+        if (unit === '°C') {
+            // Convert Celsius to Fahrenheit
+            newTemp = (temperature * 9 / 5) + 32;
+            setUnit('°F');
+        } else if (unit === '°F') {
+            // Convert Fahrenheit to Kelvin
+            newTemp = (((temperature - 32) * 5 / 9) + 273);
+            setUnit('K');
+        } else {
+            // Convert Kelvin to Celsius
+            newTemp = temperature - 273;
+            setUnit('°C');
+        }
+        
+        client.onConnected = () => {
+            //subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
+            publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
+            console.log(unit);
+        };
+        setTemperature(Math.round(newTemp));
     };
+
+
+
+
     return (
         <View style={styles.container}>
             <View style={styles.iconContainer}>
