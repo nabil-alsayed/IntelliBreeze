@@ -1,4 +1,4 @@
-export const convertTemperature = (temp, tempUnit) => {
+export const convertToTemperature = (temp, tempUnit) => {
     if (tempUnit === 'F') {
         return Math.floor((temp * 9 / 5) + 32) + '°F';
     } else if (tempUnit === 'K') {

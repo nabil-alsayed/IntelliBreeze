@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Image, Animated } from 'react-native';
 import Slider from '@react-native-community/slider';
-import { convertTemperature } from '../../utils/temperatureConverterUtils'
+import { convertToTemperature } from '../../utils/temperatureConverterUtils'
 
 const TemperatureSlider = ({ label, icon, value, onValueChange, disabled }) => {
     const [tempUnit, setTempUnit] = useState('C');
-    let temperature = convertTemperature(value, tempUnit)
+    let temperature = convertToTemperature(value, tempUnit);
 
     return (
         <View style={styles.container}>

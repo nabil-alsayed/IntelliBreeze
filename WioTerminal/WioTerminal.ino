@@ -25,7 +25,7 @@ const int modeReadingY = 180;
 const int modeTitleX = 80 ;
 const int modeTitleY = 140;
 
- String subscribedTempUnit = "C";
+ String subscribedTempUnit = "°C";
 
   bool manualMode = true; // a boolean to check if the mode is set to manual or not in the GUI
 

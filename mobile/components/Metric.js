@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, {useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
@@ -55,7 +55,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
         console.log(newTemp);
         console.log(newUnit);
         client.onConnected = () => {
-            //subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
             publishToTopic(client, TEMP_UNIT_TOPIC, newUnit, "TEMP_UNIT " );
             console.log(newUnit);
         };
