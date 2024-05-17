@@ -26,13 +26,13 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
     <TouchableOpacity onPress = {onPress} style={styles.container}>
         <View style={{flex:1, flexDirection:"column", justifyContent: 'space-evenly'}}>
             <View style={{flexDirection:'row', columnGap:15}}>
-                <FontAwesome5 name={"fan"} size={35}></FontAwesome5>
+                <FontAwesome5 name={"fan"} color = {"white"} size={35}></FontAwesome5>
                 <View style={{flexDirection:'row', columnGap:5}}>
-                    <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{deviceValue}</Text>
-                    <Text style={[styles.deviceSubText, {color: "#000"}]}>{deviceUnits}</Text>
+                    <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceValue}</Text>
+                    <Text style={[styles.deviceSubText, {color: "white"}]}>{deviceUnits}</Text>
                 </View>
             </View>
-            <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{deviceTitle}</Text>
+            <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceTitle}</Text>
                 <View style={styles.deviceModeContainer}>
                     <Icon name={selectedModeIcon} size={14}/>
                     <Text style={styles.deviceModeTitle} numberOfLines={1}>{selectedModeName}</Text>
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     padding: 15,
     flexDirection: "column",
     borderRadius: 20,
-    backgroundColor: "#fff",
+    backgroundColor: "#00BFFF",
     width: 170,
     height: 215,
     alignItems: "center",
