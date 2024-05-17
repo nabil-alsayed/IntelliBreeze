@@ -96,6 +96,17 @@ The image below shows the setup used during development. It can provide as a use
 #### Image for replication
 ![image info](graphics/IntellibreezeCircuitPicture.png)
 
+## Using the WIO Terminal
+
+1. Download the Arduino IDE and navigate to **`File`** then click on **`Open`**
+2. Locate the directory where the intellibreeze project (**`dit113g8`**) is stored and open the **` WioTerminal`** folder an click **`Open`**
+3. After the sketch has opened connect the Wio terminal to the laptop using the USB port and turn on the switch of the WIO Terminal.
+4. When the Wio Terminal is connect navigate to the top left of the screen and ensure that the correct port is selected, the device should be displayed in **`BOLD`**
+5. Once all of these steps are done click the arrow button on the top left to upload the code.
+6. There you have it! The WIO Terminal should be running and the display should be on!
+
+
+
 ## System Design
 
 The following diagram illustrates how the basic overview of the project should look like:-
