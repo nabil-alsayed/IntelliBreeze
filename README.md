@@ -49,10 +49,9 @@ Here are a couple of things that you will need before moving on to the **Install
 ## Running the GUI on the phone
 
 ## Installation guides
-To run the the expo application and be able to access the GUI of this project the following need to be installed: Node.js, Expo, and Expo go
+To run the the expo application and be able to access the GUI of this project the following need to be installed: Node.js and Expo go
 
 Refer to the following link for installing Node.js on your laptop: https://nodejs.org/en/learn/getting-started/how-to-install-nodejs
-Refer to the following link for installing Expo on your laptop: https://docs.expo.dev/more/expo-cli/
 
 To install EXPO GO find your App store/Play store and select expo go and install it
 
