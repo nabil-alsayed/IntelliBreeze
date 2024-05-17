@@ -4,6 +4,8 @@
 #include "FanSpeedAdjustment.h"
 
   extern int dutyCycle;
+  extern String fanToggleValue;
+
 
 #define fanPin 2
 

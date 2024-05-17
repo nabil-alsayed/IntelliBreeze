@@ -29,7 +29,7 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
                 <FontAwesome5 name={"fan"} color = {"white"} size={35}></FontAwesome5>
                 <View style={{flexDirection:'row', columnGap:5}}>
                     <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceValue}</Text>
-                    <Text style={[styles.deviceSubText, {color: "#000"}]}>{deviceUnits}</Text>
+                    <Text style={[styles.deviceSubText, {color: "white"}]}>{deviceUnits}</Text>
                 </View>
             </View>
             <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceTitle}</Text>
