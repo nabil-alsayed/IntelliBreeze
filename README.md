@@ -45,9 +45,31 @@ Here are a couple of things that you will need before moving on to the **Install
 
 
 
-## Installation Guide 
 
-TBD (To Be Decided)
+## Running the GUI on the phone
+
+## Installation guides
+To run the the expo application and be able to access the GUI of this project the following need to be installed: Node.js and Expo go
+
+Refer to the following link for installing Node.js on your laptop: https://nodejs.org/en/learn/getting-started/how-to-install-nodejs
+
+To install EXPO GO find your App store/Play store and select expo go and install it
+
+## Setting up the Expo Go and running the GUI
+
+1. Pull the code from the main branch
+
+2. Navigate to the directory -> /dit113g8/mobile/
+
+3. Run command **`npm install`** to install the dependencies to your local machine.
+
+4. After you successfully installed the necessary dependencies type the command **`npm start`**
+
+6. After running **`npm start`** you receive a QR Code that can be scanned if your on an IOS device you can use the phone camera to scan the QR code. If you are on Andriod then you can navigate the EXPO GO app and click the button **`Scan QR code`** and you can scan the QR code from there
+
+7. The app should bundle and run successfully!!
+
+
 
 
 ## Usage
@@ -72,6 +94,17 @@ Following is the circuit diagram that can be referred to while following the ste
 The image below shows the setup used during development. It can provide as a useful reference for how the temperature sensor is connected to the Wio and anything that maybe unclear in the circuit diagram above.
 #### Image for replication
 ![image info](graphics/IntellibreezeCircuitPicture.png)
+
+## Using the WIO Terminal
+
+1. Download the Arduino IDE and navigate to **`File`** then click on **`Open`**
+2. Locate the directory where the intellibreeze project (**`dit113g8`**) is stored and open the **` WioTerminal`** folder an click **`Open`**
+3. After the sketch has opened connect the Wio terminal to the laptop using the USB port and turn on the switch of the WIO Terminal.
+4. When the Wio Terminal is connect navigate to the top left of the screen and ensure that the correct port is selected, the device should be displayed in **`BOLD`**
+5. Once all of these steps are done click the arrow button on the top left to upload the code.
+6. There you have it! The WIO Terminal should be running and the display should be on!
+
+
 
 ## System Design
 
