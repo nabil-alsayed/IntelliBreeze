@@ -64,9 +64,9 @@ To install EXPO GO find your App store/Play store and select expo go and install
 
 3. Run command **`npm install`** to install the dependencies to your local machine.
 
-4. After you successfully installed the necessary dependencies type the command **`npm install`**
+4. After you successfully installed the necessary dependencies type the command **`npm start`**
 
-6. After running **`npm install`** you receive a QR Code that can be scanned if your on an IOS device you can use the phone camera to scan the QR code. If you are on Andriod then you can navigate the EXPO GO app and click the button **`Scan QR code`** and you can scan the QR code from there
+6. After running **`npm start`** you receive a QR Code that can be scanned if your on an IOS device you can use the phone camera to scan the QR code. If you are on Andriod then you can navigate the EXPO GO app and click the button **`Scan QR code`** and you can scan the QR code from there
 
 7. The app should bundle and run successfully!!
 
