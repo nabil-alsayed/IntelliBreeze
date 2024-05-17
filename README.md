@@ -45,9 +45,32 @@ Here are a couple of things that you will need before moving on to the **Install
 
 
 
-## Installation Guide 
 
-TBD (To Be Decided)
+## Running the GUI on the phone
+
+## Installation guides
+To run the the expo application and be able to access the GUI of this project the following need to be installed: Node.js, Expo, and Expo go
+
+Refer to the following link for installing Node.js on your laptop: https://nodejs.org/en/learn/getting-started/how-to-install-nodejs
+Refer to the following link for installing Expo on your laptop: https://docs.expo.dev/more/expo-cli/
+
+To install EXPO GO find your App store/Play store and select expo go and install it
+
+## Setting up the Expo Go and running the GUI
+
+1. Pull the code from the main branch
+
+2. Navigate to the directory -> /dit113g8/mobile/
+
+3. Run command **`npm install`** to install the dependencies to your local machine.
+
+4. After you successfully installed the necessary dependencies type the command **`npm install`**
+
+6. After running **`npm install`** you receive a QR Code that can be scanned if your on an IOS device you can use the phone camera to scan the QR code. If you are on Andriod then you can navigate the EXPO GO app and click the button **`Scan QR code`** and you can scan the QR code from there
+
+7. The app should bundle and run successfully!!
+
+
 
 
 ## Usage
