@@ -1,7 +1,7 @@
 import React, { useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
-import {connectToMqtt, publishToTopic, } from "../utils/mqttUtils";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import {useTopicSubscription} from "../hooks/useTopicSubscription";
 
 const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
@@ -18,8 +18,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
         setTemperature(newTemperature);
     }, temperatureTopic, topicName);
 
-    const client = connectToMqtt();
-
     const onMessageArrived = (message) => {
         console.log("temperature:", message.payloadString);
         if (message.destinationName === TEMP_PUB_TOPIC) {
@@ -29,26 +27,38 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
 
     const convertTemperature = () => {
         let newTemp;
+        let newUnit;
+
         if (unit === '°C') {
             // Convert Celsius to Fahrenheit
             newTemp = (temperature * 9 / 5) + 32;
-            setUnit('°F');
+            newUnit = '°F';
+            setUnit(newUnit);
+            console.log(newUnit);
         } else if (unit === '°F') {
             // Convert Fahrenheit to Kelvin
             newTemp = (((temperature - 32) * 5 / 9) + 273);
-            setUnit('K');
+            newUnit = 'K';
+            setUnit(newUnit);
+            console.log(newUnit);
         } else {
             // Convert Kelvin to Celsius
             newTemp = temperature - 273;
-            setUnit('°C');
+            newUnit = '°C';
+            setUnit(newUnit);
+            console.log(newUnit);
         }
-        
+
+        const client = connectToMqtt();
+        setTemperature(Math.round(newTemp));
+
+        console.log(newTemp);
+        console.log(newUnit);
         client.onConnected = () => {
             //subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
-            publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
-            console.log(unit);
+            publishToTopic(client, TEMP_UNIT_TOPIC, newUnit, "TEMP_UNIT " );
+            console.log(newUnit);
         };
-        setTemperature(Math.round(newTemp));
     };
 
 

@@ -54,15 +54,15 @@ void loop() {
       String tempName = "Temperature";
       const char* tempNameChar = tempName.c_str();
 
-
-        Serial.println("preliminary tempValue = " );
-        Serial.print(tempValue);
-
         Serial.println("subscribedTempUnit = " );
         Serial.print(subscribedTempUnit);
 
-
-    if (subscribedTempUnit == "°F"){
+    if (subscribedTempUnit == "°C"){
+      tempUnit = "C";
+      Serial.println("Ceslius TEMP = " );
+      Serial.print(tempValue);
+    
+    } else if (subscribedTempUnit == "°F"){
       tempUnit = "F";
       tempValue = (tempValue * 9/5) + 32;
       Serial.println("FAHRENHEIT TEMP = " );
