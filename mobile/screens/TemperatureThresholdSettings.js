@@ -93,7 +93,7 @@ const TemperatureThresholdSettings = () => {
     }
 
     //this is the core method which verifies the slider input
-    const checkThreshold = (preferredTemp, lowToMediumRange, mediumToHighRange) => {
+    const checkThreshold = () => {
     if((preferredTemp > lowToMediumRange) || (preferredTemp > mediumToHighRange)){
        setShowCaution(true);
        setShowConfirmation(false);
