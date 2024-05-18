@@ -1,83 +1,60 @@
-image: ubuntu:latest
-
-variables:
-  NODE_VERSION: "14.17.0"
-
-before_script:
-  # run shell script for installing arduino-cli, Wio Terminal core, and project libraries
-  - chmod +x setup-build-env.sh               # change permissions to execute bash shell script
-  - ./setup-build-env.sh                      # execute bash shell script
-  - apt-get update && apt-get install -y curl # Ensure curl is available to install nvm
-  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
-  - export NVM_DIR="$HOME/.nvm"
-  - source ~/.bashrc
-  - nvm install $NODE_VERSION
-  - nvm use $NODE_VERSION
-  - npm install -g npm@latest                # Ensure the latest npm is installed
+image: node:18.0.0
 
 stages:
   - build
   - deploy
-  - test
 
-compile:
-  stage: build
-  tags:
-    - docker
-  script:
-    - export PATH=$PATH:/root/bin             # set the path to arduino-cli installation folder
-    - pwd                                     # print the current working directory
-    - cd WioTerminal                       # change the directory to arduino folder
-    - echo "$SECRETS_H" > Secrets.h           # import secrets from GitLAB CI/CD Settings -> Variables
-    #- echo "$NETWORK_INFO_H" > NetworkInfo.h  # import secrets for WiFi from Gitlab CI/CD Settings -> Variables
-    #- echo "$BROKER_INFO_H" > BrokerInfo.h    # import secrets for MQTT from Gitlab CI/CD Settings -> Variables
-    - arduino-cli lib list                    # check that libraries are installed
+variables:
+  NODE_VERSION: "18.0.0" # current node version
+  EAS_ACCESS_TOKEN: "3Mg5Ly0KeNI9-hOuAz8IydXd2bDhilL-sK3RdWhO" #nabil's access token on expo
 
-    # Compile
-    - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
-
-    # Upload
-    - arduino-cli board list                  # Check if device is connected
-  except:
-    - tags
+before_script:
+  # Common setup tasks for both Arduino and React Native builds
+  - apt-get update && apt-get install -y curl git build-essential
+  - curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+  - export NVM_DIR="$HOME/.nvm"
+  - '[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'  # This loads nvm
+  - nvm install $NODE_VERSION
+  - nvm use $NODE_VERSION
+  - npm install -g expo-cli
+  - npm install -g eas-cli
 
 build-react-native:
   stage: build
   script:
-    - cd mobile                      # Navigate to the React Native directory
-    - npm install                             # Install dependencies
-    - npx react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/assets/
-  artifacts:
-    paths:
-      - android/app/build/outputs/
-  only:
-    - master
-    - merge_requests
+    - cd mobile #to Navigate to mobile directory
+    - npm install  # Ensure all dependencies are installed
+    - eas build --platform android #build the android version
+    - echo "React Native build successful!" # success message
 
-test-react-native:
-  stage: test
+compile-arduino:
+  stage: build
+  tags:
+    - docker
   script:
-    - cd mobile
-    - npm run test                             # Run tests defined in the React Native project
+    - export PATH=$PATH:/root/bin
+    - chmod +x setup-build-env.sh
+    - ./setup-build-env.sh
+    - cd WioTerminal
+    - echo "$SECRETS_H" > Secrets.h
+    - arduino-cli lib list
+    - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
+    - echo "Arduino build successful!"
+  except:
+    - tags
 
-release:
+release-arduino:
   stage: deploy
   tags:
     - upload
   script:
-    - export PATH=$PATH:/root/bin             # set the path to arduino-cli installation folder
-    - pwd                                     # print the current working directory
-    - cd WioTerminal                         # change the directory to arduino folder
-    - echo "$SECRETS_H" > Secrets.h           # import secrets from GitLAB CI/CD Settings -> Variables
-    #- echo "$NETWORK_INFO_H" > NetworkInfo.h  # import secrets for WiFi from Gitlab CI/CD Settings -> Variables
-    #- echo "$BROKER_INFO_H" > BrokerInfo.h    # import secrets for MQTT from Gitlab CI/CD Settings -> Variables
-    - arduino-cli lib list                    # check that libraries are installed
-
-    # Compile
+    - export PATH=$PATH:/root/bin
+    - cd WioTerminal
+    - echo "$SECRETS_H" > Secrets.h
+    - arduino-cli lib list
     - arduino-cli compile --fqbn Seeeduino:samd:seeed_wio_terminal
-
-    # Upload
-    - arduino-cli board list                  # Check if device is connected
-    - arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal           # if runnner is on local machine
+    - arduino-cli board list
+    - arduino-cli upload -p $COM_PORT --fqbn Seeeduino:samd:seeed_wio_terminal
+    - echo "Arduino upload successful!"
   only:
     - tags
