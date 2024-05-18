@@ -68,13 +68,16 @@ void loop() {
   const char* temperatureChars = temperatureString.c_str();
 
 // if fanToggleValue is HIGH, then the state of fan is on and running and vice versa
-  fanState = toggleFan();
+  if (fanToggleValue == "HIGH") {
+    fanState = true;
+  } else if (fanToggleValue == "LOW") {
+    fanState = false;
+  }
 
 // if fanState is on or customFanSpeedValue is auto then..
   if (fanState || (strcmp(customFanSpeedValue.c_str(), "auto") == 0) ) {
     // if its in auto, changeSpeed depending on temperature
-    if (strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
-      Serial.println("ENTERING CHANGE SPEED!");
+    if (strcmp(customFanSpeedValue.c_str(), "auto") == 0 ) {
       changeSpeed();
     // else if its in on state (meaning customFanSpeedValue not publishing the auto String but a value instead), then changeSpeedToCustomMode based on slider
     } else {
@@ -91,11 +94,6 @@ void loop() {
   const char* fanSpeedChars = fanSpeedString.c_str();
   String fanSpeedName = "Fan Speed";
   const char* fanSpeedNameChar = fanSpeedName.c_str();
-
-  String fanStateString = String(fanIsOn);
-  const char* fanStateChars = fanStateString.c_str();
-  String fanStateName = "Fan State";
-  const char* fanStateChar = fanStateName.c_str();
 
   tft.setTextColor(TFT_BLACK); //sets the text colour to black
   tft.setTextSize(2); //sets the size of text
@@ -116,7 +114,7 @@ void loop() {
   tft.setTextSize(4);
   tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
-  delay(2000);
+  delay(1000);
   tft.fillScreen(TFT_RED);
 
   if (!client.connected()) {
@@ -130,8 +128,6 @@ void loop() {
     publish(TEMP_PUB_TOPIC, temperatureChars, tempNameChar);
     publish(MANUAL_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
     publish(AUTO_FAN_SPEED_PUB_TOPIC, fanSpeedChars, fanSpeedNameChar);
-    publish(FAN_STATE_PUB_TOPIC, fanStateChars, fanStateChar);
-
     Serial.print("Selected Mode:");
     Serial.println(selectedMode);
   }

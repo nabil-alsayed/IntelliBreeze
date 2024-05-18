@@ -10,7 +10,6 @@ import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
-import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
 import {TemperatureContext} from "../contexts/TemperatureContext";
 import useTemperatureThreshold from "../hooks/useTemperatureThreshold";

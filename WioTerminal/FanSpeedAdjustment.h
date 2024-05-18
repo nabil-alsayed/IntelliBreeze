@@ -15,9 +15,11 @@ extern boolean fanIsOn;
 
 
 //function changes speed of fan using thresholds
-extern void changeSpeed(float tempValue);
+extern void changeSpeed();
 extern float convertSliderToDutyCycle(float sliderValue);
 extern void changeSpeedToCustomMode();
+extern void changeSpeedToManualModeSlider();
+
 
 
 #endif                               // end header guard

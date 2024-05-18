@@ -7,6 +7,6 @@ extern int dutyCycle;
 
 #define fanPin 2
 
-extern bool toggleFan();
+extern uint32_t toggleFan();
 
 #endif
