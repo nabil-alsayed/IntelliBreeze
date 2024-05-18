@@ -15,7 +15,7 @@ The sensors attached to our smart fan provide temperature and energy consumption
 ### Purpose
 **Mission Statement:** "**Summer is coming!** We want to provide a solution that creates a cooler and more relaxing atmosphere for the world"
 
-The intellibreeze fan is aimed towards custmors located in warmer climates during warmer times of the year. It is a smart-fan that is capable of dectecting the temperature of the surrounding enviroment and turn the fan on based on how warm the surroundings are. The fan contains numerous modes like: Manual, Auto, and Custom. Each mode has it own use and benefits.
+The Intellibreeze fan is aimed towards customers located in warmer climates during warmer times of the year. It is a smart-fan that is capable of dectecting the temperature of the surrounding enviroment and turn the fan on based on how warm the surroundings are. The fan contains numerous modes like: Manual, Auto, and Custom. Each mode has it own use and benefits.
 
 **Auto:** Allows the user to set three different temperature thresholds that determine both when the automatically fan will turn on/off and at what temperatures the fan speed will change.
 
@@ -27,12 +27,13 @@ The UI on the mobile application is very simple and all of the functionalities o
 
 ### Benefits
 
-- The intellibreeze fan runs independently in auto mode which is a "hands free" mode
-- The intellibreeze fan allows for multiple custom mode, this means that the fan can be suited for multiple users
+- The Intellibreeze fan runs independently in auto mode which is a "hands free" mode
+- The Intellibreeze fan allows for multiple custom mode, this means that the fan can be suited for multiple users
 - The fan is remotely connected from the phone, when away from the fan the user can do mutiple things like:
     1. Turning the fan on and off
-    2. Monitoring the energy consumption of the fan in real time
-    3. Monitoring the fan speed in real time
+    2. Monitoring the real time temperature of the surroundings
+    3. Monitoring the energy consumption of the fan in real time
+    4. Monitoring the fan speed in real time
 
 
 ## Dependencies & Requirements
@@ -121,7 +122,7 @@ The image below shows the setup used during development. It can provide as a use
 ### Using the WIO Terminal
 
 1. Download the Arduino IDE and navigate to **`File`** then click on **`Open`**
-2. Locate the directory where the intellibreeze project (**`dit113g8`**) is stored and open the **` WioTerminal`** folder an click **`Open`**
+2. Locate the directory where the Intellibreeze project (**`dit113g8`**) is stored and open the **` WioTerminal`** folder an click **`Open`**
 3. After the sketch has opened connect the Wio terminal to the laptop using the USB port and turn on the switch of the WIO Terminal.
 4. When the Wio Terminal is connect navigate to the top left of the screen and ensure that the correct port is selected, the device should be displayed in **`BOLD`**
 5. Once all of these steps are done click the arrow button on the top left to upload the code.
