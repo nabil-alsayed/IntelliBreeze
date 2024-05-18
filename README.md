@@ -23,6 +23,18 @@ Manual: This allows the fan to be controlled by a toggle button that swithces on
 
 Custom: Allows the user to create a custom mode with its own unique name and logo. It also allows the user to selected a fixed preferred fan speed value that the fan will run at whenever the mode is activated.
 
+### Benefits
+
+- The intellibreeze fan runs independently in auto mode which is a "hands free" mode
+- The intellibreeze fan allows for multiple custom mode, this means that the fan can be suited for multiple users
+- The fan is remotely connected from the phone, when away from the fan the user can do mutiple things like:
+    1. Turning the fan on and off
+    2. Monitoring the energy consumption of the fan in real time
+    3. Monitoring the fan speed in real time
+
+
+    
+
 ## Dependencies & Requirements
 
 Here are a couple of things that you will need before moving on to the **Installation Guide** of IntelliBreeze.
