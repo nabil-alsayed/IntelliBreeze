@@ -57,6 +57,14 @@ const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
         }
     },[selectedModeId])
 
+    const determineModeType = () => {
+        if (selectedModeId === (MODES.AUTO_MODE.ID)) {
+            return { modeName: "Auto", modeIcon: "tachometer" };
+        } else {
+            return { modeName: selectedModeName, modeIcon: selectedModeIcon }
+        }
+    }
+
     return(
         <View style={styles.container}>
             <View style={{flex:1, flexDirection:"column", justifyContent: 'space-evenly'}}>
@@ -82,9 +90,6 @@ const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
                         value={isEnabled}
                     />
                 </View>
-        </View>
-    </TouchableOpacity>
-);
             </View>
         </View>
     );
