@@ -3,12 +3,18 @@ import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ModeFormContext } from "../contexts/ModeFormContext";
 import Icon from "react-native-vector-icons/FontAwesome";
+import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+import { MODES } from '../constants/LogicConstants'
 
 
 const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
     const { selectedModeId, setSelectedModeId, modes, setModes } = useContext(ModeFormContext)
     const [ selectedModeName, setSelectedModeName ] = useState('Auto')
-    const [ selectedModeIcon, setSelectedModeIcon ] = useState('sun')
+    const [ selectedModeIcon, setSelectedModeIcon ] = useState('gear')
+    const [ isEnabled, setIsEnabled ] = useState(false)
+    const { autoDutyCycles, setAutoDutyCycles, fanIsOn, setFanIsOn } = useContext(ModeFormContext);
+
+    const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
 
 
     useEffect(() => {
@@ -21,6 +27,35 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
             setSelectedModeIcon(selectedMode.SelectedIcon);  // Use selectedMode.ModeName, not selectedModeId.ModeName
         }
     }, [selectedModeId, modes]);  // Include 'modes' in the dependencies array
+    const toggleSwitch = () => {
+        const message = !fanIsOn ? 'HIGH' : 'LOW'; // if the newState is on, let message be HIGH otherwise LOW        console.log("FAN: " + newFanState);
+        if (isEnabled) {
+            setFanIsOn(false)
+        } else {
+            setFanIsOn(true)
+        }
+        try{
+            const client = connectToMqtt(); // connect to mqtt
+            setFanIsOn(!fanIsOn);
+            client.onConnected = () => { // on connection
+                console.log("Successfully connected to MQTT.");
+                publishToTopic(client, FAN_TOGGLE_PUB_TOPIC, message, "fan on/off toggle"); // publish topic with client, message HIGH or LOW and topicName
+                console.log("Successfully published " + message + " to MQTT.");
+            }
+            console.log("Successfully published toggle value!");
+            console.log("MESSAGE ON MQTT : =====> " + message )
+        }catch(error){
+            console.error("Failed to publish toggle value", error);
+        }
+        setIsEnabled(previousState => !previousState)
+
+    }
+
+    useEffect(()=> {
+        if(selectedModeId === MODES.AUTO_MODE){
+            setIsEnabled(!isEnabled)
+        }
+    },[selectedModeId])
 
     return(
     <TouchableOpacity onPress = {onPress} style={styles.container}>
