@@ -6,7 +6,7 @@ import { db } from "../firebaseConfig";
 import {collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import "../components/Metric";
-import CautionMessage from "../components/CautionMessage";
+import CautionMessage from "../components/TemperatureThresholds/CautionMessage";
 import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 import { faFan } from '@fortawesome/free-solid-svg-icons';
 import SaveButton from '../components/TemperatureThresholds/SaveButton';
@@ -168,7 +168,7 @@ const TemperatureThresholdSettings = () => {
 
                     <CautionMessage
                         message="Your selected preferred temperature value must be lower than both the LOW to MEDIUM and MEDIUM to HIGH thresholds!"
-                        onPressCancel={() => setShowCaution(false)}
+                        onPressOk={() => setShowCaution(false)}
                     />
 
                         )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import {View, Text, Button, StyleSheet, Modal} from 'react-native';
 
-const CautionMessage = ({ message, onPressCancel }) => {
+const CautionMessage = ({ message, onPressOk }) => {
     return (
         <Modal
             animationType="fade"
@@ -10,7 +10,7 @@ const CautionMessage = ({ message, onPressCancel }) => {
             <View style={styles.container}>
                 <View style={styles.warningContainer}>
                     <Text style={styles.message}>{message}</Text>
-                    <Button title="Cancel" onPress={onPressCancel} />
+                    <Button title="OK" onPress={onPressOk} />
                 </View>
             </View>
         </Modal>
