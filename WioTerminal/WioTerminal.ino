@@ -68,18 +68,14 @@ void loop() {
   const char* temperatureChars = temperatureString.c_str();
 
 // if fanToggleValue is HIGH, then the state of fan is on and running and vice versa
-  if (fanToggleValue == "HIGH") {
-    fanState = true;
-  } else if (fanToggleValue == "LOW") {
-    fanState = false;
-  }
+  fanState = toggleFan();
 
 // if fanState is on or customFanSpeedValue is auto then..
   if (fanState || (strcmp(customFanSpeedValue.c_str(), "auto") == 0) ) {
     // if its in auto, changeSpeed depending on temperature
     if (strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
       Serial.println("ENTERING CHANGE SPEED!");
-      changeSpeed(); //Vaibhav enter parameter is tempValue
+      changeSpeed();
     // else if its in on state (meaning customFanSpeedValue not publishing the auto String but a value instead), then changeSpeedToCustomMode based on slider
     } else {
       changeSpeedToCustomMode();
