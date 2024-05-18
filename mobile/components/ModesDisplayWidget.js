@@ -19,7 +19,6 @@ const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
 
 
 const ModesDisplayWidget = () => {
-  const publishMessage = useTopicPublish();
   const navigation = useNavigation();
 
   const [currentModeDetails, setCurrentModeDetails] = useState({});
@@ -81,16 +80,6 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
-  // fetchs selected mode and set the context state to it
-
-  useEffect(() => {
-    const selectedMode = modes.find(mode => mode.Selected === true);
-    if (selectedMode) {
-      setSelectedModeId(selectedMode.id);
-    }
-  }, [modes]); // modes added as dependency to account for modes changes
-
-
   //Call to the hook to fetch and publish the threshold values as soon as the modes are rendered on the home screen
   useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
 
@@ -151,7 +140,6 @@ const ModesDisplayWidget = () => {
         selectMode(newModeRef);
       }
       setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
-      setIsAutoMode(false);
     } catch (error) {
       console.error("Error in handling mode selection:", error);
     }
@@ -172,7 +160,7 @@ const ModesDisplayWidget = () => {
       deselectMode(oldModeRef)
       console.log("Switched to auto mode");
       setSelectedModeId(MODES.AUTO_MODE.ID);
-      setIsAutoMode(true);
+      setIsAutoMode(!isAutoMode);
     }
   }
 
