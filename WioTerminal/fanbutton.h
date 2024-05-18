@@ -3,14 +3,10 @@
 #include <Arduino.h>
 #include "FanSpeedAdjustment.h"
 
-  extern int dutyCycle;
-  extern String fanToggleValue;
-
+extern int dutyCycle;
 
 #define fanPin 2
 
-extern String fanToggleValue;
-
-extern void toggleFan();
+extern uint32_t toggleFan();
 
 #endif

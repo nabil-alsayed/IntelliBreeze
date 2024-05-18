@@ -62,6 +62,10 @@ const ModeSettingsForm = ({modeId} ) => {
         }
     };
 
+    const isManualMode = () => {
+        return modeId === "manual"
+    }
+
     const handleOpenConfirmationModal = () => {
         setModeConfirmationModalVisible(true)
     }
@@ -71,21 +75,25 @@ const ModeSettingsForm = ({modeId} ) => {
     };
 
     return (
-    <View style={styles.form}>
+        <View style={styles.form}>
             <ConfirmationModal style={styles.modal} actionTitle={"Delete the mode"} visibility={modeConfirmationModalVisible} modeId={modeId}/>
             <View style={styles.settingField}>
-                <Text style={styles.label}>Choose Mode Name</Text>
-                <TextInput
-                    value={modeDetails.modeName}
-                    style={styles.input}
-                    onChangeText={text => setModeDetails(prev => ({ ...prev, modeName: text }))}
-                    placeholder="Mode Name"
-                    />
+                <Text style={styles.label}>{isManualMode() ? "Mode Name" : "Choose Mode Name"}</Text>
+                {isManualMode() ?
+                    <View style={styles.manual}>
+                        <Text> Manual </Text>
+                    </View> :
+                    <TextInput
+                        value={modeDetails.modeName}
+                        style={styles.input}
+                        onChangeText={text => setModeDetails(prev => ({ ...prev, modeName: text }))}
+                        placeholder="Mode Name"
+                    />}
             </View>
-            <View style={styles.settingField}>
+            {!isManualMode() && <View style={styles.settingField}>
                 <Text style={styles.label}> Choose Mode Icon</Text>
                 <IconPicker onSelectIcon={icon => setModeDetails(prev => ({ ...prev, selectedIcon: icon }))} selectedIcon={modeDetails.selectedIcon}/>
-            </View>
+            </View> }
             <View style={styles.settingField}>
                 <Text style={styles.label}> Choose Fan Speed</Text>
                 <View style={{flexDirection:"row",justifyContent:"space-between",alignItems:"center",columnGap:15}}>
@@ -103,11 +111,11 @@ const ModeSettingsForm = ({modeId} ) => {
             </View>
             <View style={{flexDirection:"row",columnGap:20,justifyContent:"space-around",width: "100%"}}>
                 <TouchableOpacity style={[styles.button,{backgroundColor: validateForm() ? "#169EFFFF" : "#909092",flex:1}]} onPress={submitModification}><Text style={[styles.buttonText,{color:"#fff"}]}>Apply Changes</Text></TouchableOpacity>
-                <TouchableOpacity style={[styles.button,{backgroundColor:"#d40808",width:"25%"}]} onPress={handleOpenConfirmationModal}><Icon name={"trash"} size={25} color={"white"}/></TouchableOpacity>
+                { !isManualMode() && <TouchableOpacity style={[styles.button,{backgroundColor:"#d40808",width:"25%"}]} onPress={handleOpenConfirmationModal}><Icon name={"trash"} size={25} color={"white"}/></TouchableOpacity> }
             </View>
             <TouchableOpacity style={[styles.button,{backgroundColor:"#ffffff",width: "100%"}]} onPress={handleModalClose}><Text style={[styles.buttonText,{color:"#000"}]}>Cancel</Text></TouchableOpacity>
-    </View>
-)
+        </View>
+    )
 }
 
 const styles = StyleSheet.create({
@@ -162,6 +170,16 @@ const styles = StyleSheet.create({
         width:"100%",
         justifyContent:"center",
         alignItems:"center"
+    },
+    manual:{
+        borderRadius:5,
+        paddingVertical:10,
+        paddingHorizontal:5,
+        backgroundColor:"#f8f8f8",
+        borderStyle: 'solid',
+        borderWidth:3,
+        borderColor:"#f8f8f8",
+        flexShrink:1
     }
 })
 

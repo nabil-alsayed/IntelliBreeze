@@ -10,7 +10,6 @@ import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
 import AutoModeButton from "./AutoModeButton";
 import { useNavigation } from "@react-navigation/native";
-import { useTopicPublish } from "../hooks/useTopicPublish";
 import {FAN_SPEED, MODES} from "../constants/LogicConstants";
 import {TemperatureContext} from "../contexts/TemperatureContext";
 import useTemperatureThreshold from "../hooks/useTemperatureThreshold";
@@ -19,7 +18,6 @@ const MODENAME_PUB_TOPIC =  "/intellibreeze/app/modeName"
 
 
 const ModesDisplayWidget = () => {
-  const publishMessage = useTopicPublish();
   const navigation = useNavigation();
 
   const [currentModeDetails, setCurrentModeDetails] = useState({});
@@ -81,16 +79,6 @@ const ModesDisplayWidget = () => {
     return () => unsubscribe();  // Clean up the subscription
   }, []);
 
-  // fetchs selected mode and set the context state to it
-
-  useEffect(() => {
-    const selectedMode = modes.find(mode => mode.Selected === true);
-    if (selectedMode) {
-      setSelectedModeId(selectedMode.id);
-    }
-  }, [modes]); // modes added as dependency to account for modes changes
-
-
   //Call to the hook to fetch and publish the threshold values as soon as the modes are rendered on the home screen
   useTemperatureThreshold(lowToMediumRange, mediumToHighRange, setLowToMediumRange, setMediumToHighRange)
 
@@ -151,7 +139,6 @@ const ModesDisplayWidget = () => {
         selectMode(newModeRef);
       }
       setSelectedModeId(modeId);  // Assume setSelectedModeId is a state setter function
-      setIsAutoMode(false);
     } catch (error) {
       console.error("Error in handling mode selection:", error);
     }
@@ -172,7 +159,7 @@ const ModesDisplayWidget = () => {
       deselectMode(oldModeRef)
       console.log("Switched to auto mode");
       setSelectedModeId(MODES.AUTO_MODE.ID);
-      setIsAutoMode(true);
+      setIsAutoMode(!isAutoMode);
     }
   }
 
@@ -182,14 +169,30 @@ const ModesDisplayWidget = () => {
     // Checks if the mode is not null and is not Auto Mode
     const topic = FAN_SPEED.TOPIC;
     const topicName = FAN_SPEED.TOPIC_NAME;
+    const client = connectToMqtt();
     if (selectedModeId && selectedModeId !== MODES.AUTO_MODE.ID) {
       const selectedMode = modes.find(mode => mode.id === selectedModeId);
       const selectedFanSpeed = selectedMode.FanSpeed;
-      publishMessage(topic, `${selectedFanSpeed}`, topicName);
+
+      try {
+        client.onConnected = () => {
+          publishToTopic(client, topic, selectedFanSpeed, topicName);
+        };
+      } catch (error) {
+        console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
+      }
       console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
     } else {
-      //useTemperatureThreshold();
-      publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
+
+      try {
+        client.onConnected = () => {
+          publishToTopic(client, topic, MODES.AUTO_MODE.ID, topicName);
+        };
+      } catch (error) {
+        console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
+      }
+
+
       console.log(`Publishing fan speed for mode AUTO`);
     }
   }, [modes,selectedModeId]);
