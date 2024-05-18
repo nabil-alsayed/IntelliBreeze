@@ -58,16 +58,16 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
     },[selectedModeId])
 
     return(
-    <TouchableOpacity onPress = {onPress} style={styles.container}>
-        <View style={{flex:1, flexDirection:"column", justifyContent: 'space-evenly'}}>
-            <View style={{flexDirection:'row', columnGap:15}}>
-                <FontAwesome5 name={"fan"} color = {"white"} size={35}></FontAwesome5>
-                <View style={{flexDirection:'row', columnGap:5}}>
-                    <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceValue}</Text>
-                    <Text style={[styles.deviceSubText, {color: "white"}]}>{deviceUnits}</Text>
+        <View style={styles.container}>
+            <View style={{flex:1, flexDirection:"column", justifyContent: 'space-evenly'}}>
+                <View style={{flexDirection:'row', columnGap:15}}>
+                    <FontAwesome5 name={"fan"} size={35}></FontAwesome5>
+                    <View style={{flexDirection:'row', columnGap:5}}>
+                        <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{autoDutyCycles}</Text>
+                        <Text style={[styles.deviceSubText, {color: "#000"}]}>{deviceUnits}</Text>
+                    </View>
                 </View>
-            </View>
-            <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "white"}]}>{deviceTitle}</Text>
+                <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{deviceTitle}</Text>
                 <View style={styles.deviceModeContainer}>
                     <Icon name={selectedModeIcon} size={14}/>
                     <Text style={styles.deviceModeTitle} numberOfLines={1}>{selectedModeName}</Text>
