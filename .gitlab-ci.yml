@@ -20,7 +20,7 @@ before_script:
   - npm install -g eas-cli
 
 build-react-native:
-  image: node:20.12.2
+  image: node:20.5.0
   stage: build
   script:
     - cd mobile #to Navigate to mobile directory
