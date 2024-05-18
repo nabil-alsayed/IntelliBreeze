@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from "react";
-import { Text, StyleSheet, TouchableOpacity, View } from "react-native";
+import { Text, StyleSheet, View, Switch } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { ModeFormContext } from "../contexts/ModeFormContext";
 import Icon from "react-native-vector-icons/FontAwesome";
@@ -7,8 +7,8 @@ import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtil
 import { MODES } from '../constants/LogicConstants'
 
 
-const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
-    const { selectedModeId, setSelectedModeId, modes, setModes } = useContext(ModeFormContext)
+const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
+    const { selectedModeId, modes } = useContext(ModeFormContext)
     const [ selectedModeName, setSelectedModeName ] = useState('Auto')
     const [ selectedModeIcon, setSelectedModeIcon ] = useState('gear')
     const [ isEnabled, setIsEnabled ] = useState(false)
@@ -85,18 +85,21 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
         </View>
     </TouchableOpacity>
 );
+            </View>
+        </View>
+    );
 };
 
 const styles = StyleSheet.create({
     container: {
-    padding: 15,
-    flexDirection: "column",
-    borderRadius: 20,
-    backgroundColor: "#00BFFF",
-    width: 170,
-    height: 215,
-    alignItems: "center",
-    justifyContent: "center",
+        padding: 15,
+        flexDirection: "column",
+        borderRadius: 20,
+        backgroundColor: "#00BFFF",
+        width: 170,
+        height: 215,
+        alignItems: "center",
+        justifyContent: "center",
     },
     deviceModeContainer: {
         backgroundColor: "#f3f3f3",
