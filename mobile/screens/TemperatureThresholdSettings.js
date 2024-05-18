@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import 'firebase/database';
 import "firebase/compat/app";
@@ -22,14 +21,13 @@ import { SLIDER_VALUES, TEMPERATURE } from "../constants/LogicConstants";
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
  speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
  the sliders allow them to set it freely. These values are saved to firebase and published to the MQTT broker when the save
- is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher than the
- temperature at which th fan switches to medium.*/}
+ button is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher
+ than the temperature at which the fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
     const[preferredTemp, setPreferredTemp] = useState(0);
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
-    const [tempUnit, setTempUnit] = useState('C');
     const [showWarning, setShowWarning] = useState(false);
     const [showCaution, setShowCaution] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
@@ -47,7 +45,6 @@ const TemperatureThresholdSettings = () => {
         MediumToHighRange: mediumToHighRange
     }
 
-    
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
@@ -68,6 +65,7 @@ const TemperatureThresholdSettings = () => {
     }, [ ]);
 
 
+
     //this method is responsible for updating the slider values to the firebase
     async function updateThreshold () {
 
@@ -85,25 +83,25 @@ const TemperatureThresholdSettings = () => {
                 
             };
 
-
         } catch (error) {
             console.error("Failed to save!");
             alert("Failed to save. Please try again later. ");
         }
     }
 
+
     //this is the core method which verifies the slider input
     const checkThreshold = () => {
-    if((preferredTemp > lowToMediumRange) || (preferredTemp > mediumToHighRange)){
+    if((preferredTemp > lowToMediumRange) || (preferredTemp > mediumToHighRange)){ //is not allowed so shows caution
        setShowCaution(true);
        setShowConfirmation(false);
-    }else if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
+    } else if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
         console.log("ENTERED WARNING MESSAGE")
 
             setShowCaution(false);
             setShowWarning(true);
             setShowConfirmation(false);
-    }else {
+    } else {
             setShowCaution(false);
             setShowWarning(false);
             updateThreshold().then(() => {
@@ -115,7 +113,6 @@ const TemperatureThresholdSettings = () => {
     const handleDefaultCheckboxToggle = (isChecked) => {
         setSlidersDisabled(isChecked);
     };
-
 
 
 
@@ -163,7 +160,8 @@ const TemperatureThresholdSettings = () => {
 
                 <SaveButton onPress={checkThreshold} />
 
-                {/*condition and execution to show the warning message*/}
+
+                {/*condition and execution to show the caution message*/}
                 {showCaution && (
 
                     <CautionMessage
@@ -172,6 +170,7 @@ const TemperatureThresholdSettings = () => {
                     />
 
                         )}
+
 
                 {/*condition and execution to show the warning message*/}
                 {showWarning && (
@@ -187,6 +186,7 @@ const TemperatureThresholdSettings = () => {
                     />
 
                 )}
+
 
                 {/*condition and execution to show the confirmation message*/}
                 {showConfirmation && (
