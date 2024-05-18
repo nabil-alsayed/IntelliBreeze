@@ -13,46 +13,51 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
     const temperatureTopic = "/intellibreeze/sensor/temperature"; //TODO: Move to constants
     const topicName = "temperature"; //TODO: Move to constants
 
+    const convertSubscribedTemperature = (subscribedTemp) => {
+        let newTemp;
+        if (unit === '°C') {
+            // Convert Celsius temperature to Fahrenheit
+            newTemp = subscribedTemp;
+
+        } else if (unit === '°F') {
+            // Convert Fahrenheit temperature to Kelvin
+            newTemp = (subscribedTemp * 9 / 5) + 32;
+
+        } else {
+            // Convert Kelvin temperature to Celsius
+            newTemp = subscribedTemp + 273;
+
+        }
+        setTemperature(newTemp);
+    }
+
     // Subscribe for Temperature
     useTopicSubscription((newTemperature) => {
-        setTemperature(newTemperature);
+        convertSubscribedTemperature(newTemperature);
     }, temperatureTopic, topicName);
 
-    const onMessageArrived = (message) => {
-        console.log("temperature:", message.payloadString);
-        if (message.destinationName === TEMP_PUB_TOPIC) {
-            setTemperature(parseInt(message.payloadString));
-        }
-    };
 
-    const convertTemperature = () => {
-        let newTemp;
+    const publishChangedTempUnit = () => {
         let newUnit;
 
         if (unit === '°C') {
-            // Convert Celsius to Fahrenheit
-            newTemp = (temperature * 9 / 5) + 32;
+            // Change Celsius unit to Fahrenheit unit
             newUnit = '°F';
             setUnit(newUnit);
             console.log(newUnit);
         } else if (unit === '°F') {
-            // Convert Fahrenheit to Kelvin
-            newTemp = (((temperature - 32) * 5 / 9) + 273);
+            // Change Fahrenheit unit to Kelvin unit
             newUnit = 'K';
             setUnit(newUnit);
             console.log(newUnit);
         } else {
-            // Convert Kelvin to Celsius
-            newTemp = temperature - 273;
+            // Convert Kelvin unit to Celsius unit
             newUnit = '°C';
             setUnit(newUnit);
             console.log(newUnit);
         }
 
         const client = connectToMqtt();
-        setTemperature(Math.round(newTemp));
-
-        console.log(newTemp);
         console.log(newUnit);
         client.onConnected = () => {
             publishToTopic(client, TEMP_UNIT_TOPIC, newUnit, "TEMP_UNIT " );
@@ -73,7 +78,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
                     {/*Value*/}
                     <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{temperature}</Text>
                     {/*Unit*/}
-                    <TouchableOpacity onPress={convertTemperature}>
+                    <TouchableOpacity onPress={publishChangedTempUnit}>
                         <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold", color:"#1881d5"}}>{unit}</Text>
                     </TouchableOpacity>
                 </View>

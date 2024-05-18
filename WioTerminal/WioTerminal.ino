@@ -51,6 +51,8 @@ void loop() {
 
 
       tempValue = dht.readTemperature();
+
+      float tempDisplayValue;
       String tempName = "Temperature";
       const char* tempNameChar = tempName.c_str();
 
@@ -59,25 +61,28 @@ void loop() {
 
     if (subscribedTempUnit == "°C"){
       tempUnit = "C";
+      tempDisplayValue = tempValue;
       Serial.println("Ceslius TEMP = " );
       Serial.print(tempValue);
     
     } else if (subscribedTempUnit == "°F"){
       tempUnit = "F";
-      tempValue = (tempValue * 9/5) + 32;
+      tempDisplayValue = (tempValue * 9/5) + 32;
       Serial.println("FAHRENHEIT TEMP = " );
       Serial.print(tempValue);
 
 
     }else if (subscribedTempUnit == "K"){
       tempUnit = "K";
-      tempValue = (tempValue  + 273);
+      tempDisplayValue = (tempValue  + 273);
       Serial.println("kelvin temp = " );
       Serial.print(tempValue);
     }
 
     String temperatureString = String(tempValue);
       const char* temperatureChars = temperatureString.c_str();
+
+      String tempDisplayString = String(tempDisplayValue);
 
     if(strcmp(customFanSpeedValue.c_str(), "auto") == 0) {
       Serial.println("ENTERING CHANGE SPEED!");
@@ -103,7 +108,7 @@ void loop() {
 
     //Temperature Strings
     tft.setTextSize(5);
-    tft.drawString(temperatureString, tempReadingX, tempReadingY);
+    tft.drawString(tempDisplayString, tempReadingX, tempReadingY);
     tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
      tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
@@ -111,7 +116,7 @@ void loop() {
     tft.setTextSize(4);
     tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
-    delay(5000);
+    delay(800);
     tft.fillScreen(TFT_RED);
 
     if (!client.connected()) {
