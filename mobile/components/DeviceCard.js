@@ -69,8 +69,18 @@ const DeviceCard = ({deviceTitle, deviceValue, deviceUnits, onPress}) =>{
                 </View>
                 <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{deviceTitle}</Text>
                 <View style={styles.deviceModeContainer}>
-                    <Icon name={selectedModeIcon} size={14}/>
-                    <Text style={styles.deviceModeTitle} numberOfLines={1}>{selectedModeName}</Text>
+                    <Icon name={determineModeType().modeIcon} size={14}/>
+                    <Text style={styles.deviceModeTitle} numberOfLines={1}>{determineModeType().modeName.toString()}</Text>
+                </View>
+                <View>
+                    <Switch
+                        trackColor={{false: 'lightgrey', true: '#57c325'}}
+                        thumbColor={'white'}
+                        ios_backgroundColor={'#f8f8f8'}
+                        disabled = {(selectedModeId === MODES.AUTO_MODE.ID)}
+                        onValueChange={toggleSwitch}
+                        value={isEnabled}
+                    />
                 </View>
         </View>
     </TouchableOpacity>
@@ -98,7 +108,7 @@ const styles = StyleSheet.create({
         columnGap: 7,
         alignItems: "center",
         justifyContent: 'flex-start',
-        width: 130 // TODO: enhance it later to limit the text to the size of the container
+        width: 130
     },
     toggle: {
         backgroundColor: "#f3f3f3",
