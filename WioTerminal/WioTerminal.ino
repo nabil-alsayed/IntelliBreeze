@@ -14,7 +14,7 @@ const int tempReadingY = 80;
 const int tempTitleX = 40 ;
 const int tempTitleY = 40;
 String tempUnit = "C";
-extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode
+extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch to auto mode speed or a slider value to switch to custom mode speed
 
 extern float tempValue = 0; //temperature sensor reading
 
@@ -75,6 +75,8 @@ void loop() {
   }
 
 // if fanState is on or customFanSpeedValue is auto then..
+// here, the customFanSpeedValue can take both "auto" value to switch to auto mode speed
+// or a slider value ranging 0-100 to switch to custom mode speed.
   if (fanState || (strcmp(customFanSpeedValue.c_str(), "auto") == 0) ) {
     // if its in auto, changeSpeed depending on temperature
     if (strcmp(customFanSpeedValue.c_str(), "auto") == 0 ) {

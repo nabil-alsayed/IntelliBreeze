@@ -29,7 +29,7 @@
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
-  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
+  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/sensor/fanspeed" ;
 
    String selectedMode;
    String customFanSpeedValue = "";
@@ -193,10 +193,10 @@
   }
 }
 
-  void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName){
+  void publish(const char* PUBLISHING_TOPIC, const char* payload, const char* topicName){
 
     snprintf(msg, 50, "%.1f", payload); // Convert temperature to string
-        client.publish(SUBSCRIPTION_TOPIC, payload); // Publish temperature value to MQTT broker
+        client.publish(PUBLISHING_TOPIC, payload); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.printf("Published %s\n", topicName);
         Serial.println(payload);
