@@ -28,6 +28,10 @@ build-react-native:
     - eas build --platform android #build the android version
     - echo "React Native build successful!" # success message
 
+  only: # To restrict pushing defects to main and maintain less usage of EAS builds
+    - main
+    - merge_requests
+
 compile-arduino:
   stage: build
   tags:
