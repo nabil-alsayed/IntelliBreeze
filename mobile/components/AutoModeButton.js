@@ -5,12 +5,16 @@ import {ModeFormContext} from "../contexts/ModeFormContext";
 import {MODES} from "../constants/LogicConstants";
 
 const AutoModeButton = () => {
-const { selectedModeId } = useContext(ModeFormContext)
+    const { selectedModeId } = useContext(ModeFormContext)
+
+    const handleSelectionHighlight = () => {
+        return selectedModeId === MODES.AUTO_MODE.ID  ;
+    }
 
     return (
         <View style={styles.smallContainer}>
-            <View style={[styles.modeContainer, {backgroundColor : selectedModeId === MODES.AUTO_MODE.ID ? "#169EFFFF" : "#fff"}]}>
-                <Icon name={"gear"} size={25} style={{color : selectedModeId === MODES.AUTO_MODE.ID ? "#fff" : "#000"}}/>
+            <View style={[styles.modeContainer, {backgroundColor : handleSelectionHighlight() ? "#169EFFFF" : "#fff"}]}>
+                <Icon name={"tachometer"} size={25} style={{color : handleSelectionHighlight() ? "#fff" : "#000"}}/>
             </View>
             <Text style={styles.subTitle}>Auto</Text>
         </View>
