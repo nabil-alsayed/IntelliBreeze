@@ -170,14 +170,30 @@ const ModesDisplayWidget = () => {
     // Checks if the mode is not null and is not Auto Mode
     const topic = FAN_SPEED.TOPIC;
     const topicName = FAN_SPEED.TOPIC_NAME;
+    const client = connectToMqtt();
     if (selectedModeId && selectedModeId !== MODES.AUTO_MODE.ID) {
       const selectedMode = modes.find(mode => mode.id === selectedModeId);
       const selectedFanSpeed = selectedMode.FanSpeed;
-      publishMessage(topic, `${selectedFanSpeed}`, topicName);
+
+      try {
+        client.onConnected = () => {
+          publishToTopic(client, topic, selectedFanSpeed, topicName);
+        };
+      } catch (error) {
+        console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
+      }
       console.log(`Publishing fan speed for mode ${selectedMode.ModeName}: ${selectedFanSpeed}`);
     } else {
-      //useTemperatureThreshold();
-      publishMessage(topic,MODES.AUTO_MODE.ID, topicName);
+
+      try {
+        client.onConnected = () => {
+          publishToTopic(client, topic, MODES.AUTO_MODE.ID, topicName);
+        };
+      } catch (error) {
+        console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log
+      }
+
+
       console.log(`Publishing fan speed for mode AUTO`);
     }
   }, [modes,selectedModeId]);
