@@ -2,14 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DeviceCard from "./DeviceCard";
 
-
 const DevicesDisplayWidget = () => {
-
-
     return (
         <View style={styles.container}>
             <Text style={styles.sectionTitle}>Linked Devices</Text>
-            <View style={{flexDirection:'row', width:"100%", columnGap:15}}>
+            <View style={styles.deviceCardContainer}>
                 <DeviceCard
                     deviceTitle = "Fan"
                     deviceUnits = "Cycle"
@@ -20,16 +17,25 @@ const DevicesDisplayWidget = () => {
 }
 const styles = StyleSheet.create({
     container:{
-        flex:1,
+        flex: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
         width: "100%",
-        rowGap: 15,
+        padding: 0,
+
     },
     sectionTitle:{
         color: "#000",
         fontSize: 17,
-        fontWeight:'400'
+        fontWeight:'400',
+        marginTop: 20,
+
+    },
+    deviceCardContainer: {
+        flexDirection: 'row',
+        width: '100%',
+        columnGap: 15,
+        marginTop: 20,
     }
 });
 
