@@ -16,14 +16,18 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "host.expo.nabilalsayed"
+      "bundleIdentifier": "host.expo.nabilalsayed",
+      "runtimeVersion": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.raghav_khurana.mobile"
+      "package": "com.raghav_khurana.mobile",
+      "runtimeVersion": {
+        "policy": "appVersion"
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +37,9 @@
         "projectId": "86e8fd22-45f1-47e3-a46f-0e791047ed72"
       }
     },
-    "owner": "nabil.alsayed"
+    "owner": "nabil.alsayed",
+    "updates": {
+      "url": "https://u.expo.dev/86e8fd22-45f1-47e3-a46f-0e791047ed72"
+    }
   }
 }
