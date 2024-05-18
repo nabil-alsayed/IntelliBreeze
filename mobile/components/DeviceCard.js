@@ -16,6 +16,26 @@ const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
 
     const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
 
+    useEffect(()=>{
+
+        const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
+        const handleMessage = (message) =>{
+            setAutoDutyCycles(parseInt(message.payloadString));
+        }
+        try{
+            const client = connectToMqtt(); // connect to mqtt
+
+            client.onConnected = () => { // on connection
+                console.log("Successfully connected to MQTT.");
+                subscribeToTopic(client, handleMessage, AUTO_FAN_SPEED_SUB_TOPIC, "Subscribing to auto fan Speed");
+            }
+            console.log("Successfully subscribed to auto fan speed");
+        }catch(error){
+            console.error("Failed to subscribed to auto fan speed", error);
+        }
+
+
+    })
 
     useEffect(() => {
         // Find the mode that matches the selectedModeId

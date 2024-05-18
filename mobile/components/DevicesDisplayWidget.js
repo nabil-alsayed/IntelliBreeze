@@ -1,59 +1,22 @@
-import React, {useContext, useEffect, useState} from "react";
+import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import DeviceCard from "./DeviceCard";
-import {connectToMqtt, subscribeToTopic} from "../utils/mqttUtils";
-import { useNavigation } from "@react-navigation/native";
-import {ModeFormContext} from "../contexts/ModeFormContext";
-import AddDeviceButton from "./AddDeviceButton";
 
 
 const DevicesDisplayWidget = () => {
 
-    const navigation = useNavigation();
-  
-  const handleButtonPress = () => {
-    navigation.navigate("FanSpeedScreen");};
 
-    const { autoDutyCycles, setAutoDutyCycles } = useContext(ModeFormContext);
-
-  useEffect(()=>{
-
-      const MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/app/manual/fanspeed";
-      const AUTO_FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed";
-
-      const handleMessage = (message) =>{
-          setAutoDutyCycles(parseInt(message.payloadString));
-          console.log("fan speed (Auto Mode)", message.payloadString);
-      }
-
-      try{
-          const client = connectToMqtt(); // connect to mqtt
-
-          client.onConnected = () => { // on connection
-              console.log("Successfully connected to MQTT.");
-              subscribeToTopic(client, handleMessage, AUTO_FAN_SPEED_SUB_TOPIC, "Subscribing to auto fan Speed");
-          }
-          console.log("Successfully subscribed to auto fan speed");
-      }catch(error){
-          console.error("Failed to subscribed to auto fan speed", error);
-      }
-
-  })
-
-  return (
-    <View style={styles.container}>
-        <Text style={styles.sectionTitle}>Linked Devices</Text>
-        <View style={{flexDirection:'row', width:"100%", columnGap:15}}>
-            <DeviceCard
-            deviceTitle = "Fan"
-            deviceValue = {autoDutyCycles}
-            deviceUnits = "Cycle"
-            onPress= {handleButtonPress}
-              />
-            <AddDeviceButton/>
+    return (
+        <View style={styles.container}>
+            <Text style={styles.sectionTitle}>Linked Devices</Text>
+            <View style={{flexDirection:'row', width:"100%", columnGap:15}}>
+                <DeviceCard
+                    deviceTitle = "Fan"
+                    deviceUnits = "Cycle"
+                />
+            </View>
         </View>
-    </View>
-  );
+    );
 }
 const styles = StyleSheet.create({
     container:{
