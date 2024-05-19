@@ -5,6 +5,7 @@
 #define DHT_PIN 0
 #define DHT_TYPE DHT11
 #define Gate 2
+#define TFT_DEEPSKYBLUE 0x05FF
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
@@ -14,7 +15,8 @@ const int tempReadingY = 30;
 const int tempTitleX = 40 ;
 const int tempTitleY = 0;
 String tempUnit = "C";
-extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch to auto mode speed or a slider value to switch to custom mode speed
+extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch 
+                                      //to auto mode speed or a slider value to switch to custom mode speed
 
 extern float tempValue = 0; //temperature sensor reading
 
@@ -33,6 +35,8 @@ int fanSpeedReadingX = 40;
 const int fanSpeedReadingY = 190;
 const int fanSpeedTitleX = 45 ;
 const int fanSpeedTitleY = 160;
+
+
 
 void setup() {
   tft.begin();
@@ -125,6 +129,13 @@ void loop() {
   String fanSpeedName = "Fan Speed";
   const char* fanSpeedNameChar = fanSpeedName.c_str();
 
+
+    // temperature value at which colour of WIO Terminal display should switch between red and blue colours 
+    // red = warmer than preffered medium threshold set in app
+    // blue = colder than preffered medium threshold set in app
+
+    //float colourSwitchThreshold = mediumThresholdValue.toFloat();
+    //if (tempValue > )
     tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
      tft.setTextSize(2); //sets the size of text
     //prints strings from given coordinates
@@ -149,9 +160,21 @@ void loop() {
     fanSpeedReadingX = ((320 - tft.textWidth(fanSpeedLevel)) / 2);
     tft.drawString(fanSpeedLevel, fanSpeedReadingX, fanSpeedReadingY);
 
-  delay(1000);
-  tft.fillScreen(TFT_RED);
 
+  delay(1000);
+
+  // Functionality fir switching the colour of the WIO Terminal display depending on the the current speed of the fan
+  
+  if (fanSpeedLevel == "FAN IS OFF:("){
+        tft.fillScreen(TFT_WHITE);
+  } else if (fanSpeedLevel == "LOW"){
+    tft.fillScreen(TFT_DEEPSKYBLUE);
+  } else if (fanSpeedLevel == "MEDIUM"){
+    tft.fillScreen(TFT_YELLOW);
+  } else if (fanSpeedLevel == "HIGH"){
+    tft.fillScreen(TFT_RED);
+  }
+  
   if (!client.connected()) {
     reconnect();
   }
