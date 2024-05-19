@@ -1,18 +1,18 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Text, StyleSheet, View, Switch } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
-import { ModeFormContext } from "../contexts/ModeFormContext";
+import { FanContext } from "../contexts/FanContext";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
 import { MODES } from '../constants/LogicConstants'
 
 
 const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
-    const { selectedModeId, modes } = useContext(ModeFormContext)
+    const { selectedModeId, modes } = useContext(FanContext)
     const [ selectedModeName, setSelectedModeName ] = useState('Auto')
     const [ selectedModeIcon, setSelectedModeIcon ] = useState('gear')
     const [ isEnabled, setIsEnabled ] = useState(false)
-    const { autoDutyCycles, setAutoDutyCycles, fanIsOn, setFanIsOn } = useContext(ModeFormContext);
+    const { autoDutyCycles, setAutoDutyCycles, fanIsOn, setFanIsOn } = useContext(FanContext);
 
     const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
 

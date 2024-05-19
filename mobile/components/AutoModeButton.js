@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import {StyleSheet, Text, View} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import {ModeFormContext} from "../contexts/ModeFormContext";
+import {FanContext} from "../contexts/FanContext";
 import {MODES} from "../constants/LogicConstants";
 
 const AutoModeButton = () => {
-    const { selectedModeId } = useContext(ModeFormContext)
+    const { selectedModeId } = useContext(FanContext)
 
     const handleSelectionHighlight = () => {
         return selectedModeId === MODES.AUTO_MODE.ID  ;

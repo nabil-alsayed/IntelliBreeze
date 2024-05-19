@@ -1,7 +1,6 @@
 import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
-import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import DevicesDisplayWidget from "../components/DevicesDisplayWidget";
