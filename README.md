@@ -134,7 +134,7 @@ The image below shows the setup used during development. It can provide as a use
 
 The following diagram illustrates how the basic overview of the project should look like:-
 
-![diagram](/uploads/e0d46160a709ef92ca2b59f12a5f4e79/diagram.png)
+![diagram](graphics/IntellibreezeSystemArchitecture.drawio.png)
 
 ## Contributers
 
