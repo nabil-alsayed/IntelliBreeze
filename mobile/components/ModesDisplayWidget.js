@@ -187,6 +187,7 @@ const ModesDisplayWidget = () => {
       try {
         client.onConnected = () => {
           publishToTopic(client, topic, MODES.AUTO_MODE.ID, topicName);
+          publishToTopic(client, MODENAME_PUB_TOPIC, MODES.AUTO_MODE.ID,"selectedModeName")
         };
       } catch (error) {
         console.error("Publishing Error", error); // Shows error on phone app and highlights error message in log

@@ -9,6 +9,11 @@
   String startingThresholdValue = "";
   boolean fanIsOn = false;
 
+  //Initialisations for LOW-MEDIUM-HIGH Fan speed values (measured in dutyCycles)
+  const int lowFanSpeedDutyCycle = 70;
+  const int mediumFanSpeedDutyCycle = 180;
+  const int highFanSpeedDutyCycle = 253;
+
 //function that changes speed of the fan to LOW, MEDIUM, HIGH and OFF in auto mode
 
   void changeSpeed(){
@@ -18,7 +23,7 @@
 
     if(tempValue >= startingThreshold && (tempValue < mediumThreshold && tempValue < highThreshold)){
       
-      dutyCycle = 70;
+      dutyCycle = lowFanSpeedDutyCycle;
       analogWrite(fanPin, dutyCycle);
       Serial.print("Temperature is above ");
       Serial.println(startingThreshold);
@@ -26,7 +31,7 @@
 
     }else if(tempValue>=mediumThreshold && tempValue<highThreshold){
 
-      dutyCycle = 180;
+      dutyCycle = mediumFanSpeedDutyCycle;
       analogWrite(fanPin, dutyCycle);
       Serial.print("Temperature is above ");
       Serial.println(mediumThreshold);
@@ -35,7 +40,7 @@
 
     } else if (tempValue>=highThreshold){
 
-      dutyCycle = 255;
+      dutyCycle = highFanSpeedDutyCycle;
       analogWrite(fanPin, dutyCycle);
       Serial.print("Temperature is above ");
       Serial.println(highThreshold);

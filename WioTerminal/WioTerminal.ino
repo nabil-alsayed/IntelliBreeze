@@ -10,9 +10,9 @@ DHT dht(DHT_PIN, DHT_TYPE);
 
 //TEMPERATURE_READING_INITIALISATIONS
 const int tempReadingX = 40;
-const int tempReadingY = 80;
+const int tempReadingY = 20;
 const int tempTitleX = 40 ;
-const int tempTitleY = 40;
+const int tempTitleY = 0;
 String tempUnit = "C";
 extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch to auto mode speed or a slider value to switch to custom mode speed
 
@@ -20,13 +20,19 @@ extern float tempValue = 0; //temperature sensor reading
 
 //SELECTED MODE_READING INITIALISATION
 const int modeReadingX = 80;
-const int modeReadingY = 180;
+const int modeReadingY = 100;
 const int modeTitleX = 80 ;
-const int modeTitleY = 140;
+const int modeTitleY = 80;
 
 String subscribedTempUnit = "C";
 
 bool fanState = false; // true = on, false = off
+
+//CURRENT FAN SPEED INITIALISATIONS
+const int fanSpeedReadingX = 200;
+const int fanSpeedReadingY = 180;
+const int fanSpeedTitleX = 45 ;
+const int fanSpeedTitleY = 160;
 
 void setup() {
   tft.begin();
@@ -81,6 +87,7 @@ void loop() {
     // if its in auto, changeSpeed depending on temperature
     if (strcmp(customFanSpeedValue.c_str(), "auto") == 0 ) {
       changeSpeed();
+      
     // else if its in on state (meaning customFanSpeedValue not publishing the auto String but a value instead), then changeSpeedToCustomMode based on slider
     } else {
       changeSpeedToCustomMode();
@@ -92,29 +99,55 @@ void loop() {
   }
 
   float fanSpeedValue = dutyCycle;
+  String fanSpeedLevel;
+      if(dutyCycle == 0){
+
+        fanSpeedLevel = "FAN IS OFF";
+
+      } else if(dutyCycle >= lowFanSpeedDutyCycle && dutyCycle < mediumFanSpeedDutyCycle){
+
+        fanSpeedLevel = "LOW";
+        Serial.print("LOW");
+
+      } else if (dutyCycle >= mediumFanSpeedDutyCycle && dutyCycle < highFanSpeedDutyCycle) {
+
+        fanSpeedLevel = "MEDIUM";
+        Serial.print("MEDIUM");
+
+      } else if (dutyCycle >= highFanSpeedDutyCycle) {
+
+        fanSpeedLevel = "HIGH";
+        Serial.print("HIGH");
+      }
+  
   String fanSpeedString = String(fanSpeedValue);
   const char* fanSpeedChars = fanSpeedString.c_str();
   String fanSpeedName = "Fan Speed";
   const char* fanSpeedNameChar = fanSpeedName.c_str();
 
-  tft.setTextColor(TFT_BLACK); //sets the text colour to black
-  tft.setTextSize(2); //sets the size of text
+    tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
+     tft.setTextSize(2); //sets the size of text
+    //prints strings from given coordinates
 
-  //Prints String from given coordinates
+    //Label Strings
+    tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
+    tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
+    tft.drawString("Current Fan Speed:", fanSpeedTitleX, fanSpeedTitleY);
+    
 
-  //Label Strings
-  tft.drawString("Current Temperature:", tempTitleX, tempTitleY);
-  tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
+    //Temperature Strings
+    tft.setTextSize(5);
+    tft.drawString(temperatureString, tempReadingX, tempReadingY);
+    tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
+     tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
-  //Temperature Strings
-  tft.setTextSize(5);
-  tft.drawString(temperatureString, tempReadingX, tempReadingY);
-  tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
-  tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
+     //Selected fan mode Strings:
+    tft.setTextSize(4);
+    tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
-  //Selected fan mode Strings:
-  tft.setTextSize(4);
-  tft.drawString(selectedMode, modeReadingX, modeReadingY);
+    //Current Fan Speed Strings:
+    tft.setTextSize(4);
+    tft.drawString(fanSpeedLevel, fanSpeedReadingX, fanSpeedReadingY);
 
   delay(1000);
   tft.fillScreen(TFT_RED);
