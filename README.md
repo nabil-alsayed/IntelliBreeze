@@ -136,6 +136,10 @@ The following diagram illustrates how the basic overview of the project should l
 
 ![diagram](graphics/IntellibreezeSystemArchitecture.drawio.png)
 
+## Demo Video
+
+https://youtu.be/aPwEXxAsZw4?si=BPe_JnXoBVX5SAx8 
+
 ## Contributers
 
 <details><summary>Team Members</summary>
