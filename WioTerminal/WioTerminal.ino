@@ -5,22 +5,24 @@
 #define DHT_PIN 0
 #define DHT_TYPE DHT11
 #define Gate 2
+#define TFT_DEEPSKYBLUE 0x05FF
 
 DHT dht(DHT_PIN, DHT_TYPE);
 
 //TEMPERATURE_READING_INITIALISATIONS
 const int tempReadingX = 40;
-const int tempReadingY = 20;
+const int tempReadingY = 30;
 const int tempTitleX = 40 ;
 const int tempTitleY = 0;
 String tempUnit = "C";
-extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch to auto mode speed or a slider value to switch to custom mode speed
+extern String customFanSpeedValue;    // value set by user in the application for fan speed for a specific custom mode, can receive "auto" value to switch 
+                                      //to auto mode speed or a slider value to switch to custom mode speed
 
 extern float tempValue = 0; //temperature sensor reading
 
 //SELECTED MODE_READING INITIALISATION
-const int modeReadingX = 80;
-const int modeReadingY = 100;
+int modeReadingX = 80;
+const int modeReadingY = 110;
 const int modeTitleX = 80 ;
 const int modeTitleY = 80;
 
@@ -29,10 +31,12 @@ String subscribedTempUnit = "C";
 bool fanState = false; // true = on, false = off
 
 //CURRENT FAN SPEED INITIALISATIONS
-const int fanSpeedReadingX = 200;
-const int fanSpeedReadingY = 180;
+int fanSpeedReadingX = 40;
+const int fanSpeedReadingY = 190;
 const int fanSpeedTitleX = 45 ;
 const int fanSpeedTitleY = 160;
+
+
 
 void setup() {
   tft.begin();
@@ -102,7 +106,7 @@ void loop() {
   String fanSpeedLevel;
       if(dutyCycle == 0){
 
-        fanSpeedLevel = "FAN IS OFF";
+        fanSpeedLevel = "FAN IS OFF:(";
 
       } else if(dutyCycle >= lowFanSpeedDutyCycle && dutyCycle < mediumFanSpeedDutyCycle){
 
@@ -125,8 +129,11 @@ void loop() {
   String fanSpeedName = "Fan Speed";
   const char* fanSpeedNameChar = fanSpeedName.c_str();
 
+
+
     tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
      tft.setTextSize(2); //sets the size of text
+     
     //prints strings from given coordinates
 
     //Label Strings
@@ -136,22 +143,34 @@ void loop() {
     
 
     //Temperature Strings
-    tft.setTextSize(5);
+    tft.setTextSize(4);
     tft.drawString(temperatureString, tempReadingX, tempReadingY);
     tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
      tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
      //Selected fan mode Strings:
-    tft.setTextSize(4);
+    modeReadingX = ((320 - tft.textWidth(selectedMode)) / 2);
     tft.drawString(selectedMode, modeReadingX, modeReadingY);
 
     //Current Fan Speed Strings:
-    tft.setTextSize(4);
+    fanSpeedReadingX = ((320 - tft.textWidth(fanSpeedLevel)) / 2);
     tft.drawString(fanSpeedLevel, fanSpeedReadingX, fanSpeedReadingY);
 
-  delay(1000);
-  tft.fillScreen(TFT_RED);
 
+  delay(1000);
+
+  // Functionality fir switching the colour of the WIO Terminal display depending on the the current speed of the fan
+  
+  if (fanSpeedLevel == "FAN IS OFF:("){
+        tft.fillScreen(TFT_WHITE);
+  } else if (fanSpeedLevel == "LOW"){
+    tft.fillScreen(TFT_DEEPSKYBLUE);
+  } else if (fanSpeedLevel == "MEDIUM"){
+    tft.fillScreen(TFT_YELLOW);
+  } else if (fanSpeedLevel == "HIGH"){
+    tft.fillScreen(TFT_RED);
+  }
+  
   if (!client.connected()) {
     reconnect();
   }

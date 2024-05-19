@@ -34,11 +34,24 @@
    String selectedMode;
    String customFanSpeedValue = "";
 
+
   void setup_wifi() {
+  
+  const int contributorsLabelY = 80;
   delay(10);
   tft.setTextSize(2);
-  tft.setCursor((320 - tft.textWidth("Connecting to Wi-Fi..")) / 2, 120);
+  tft.setCursor((320 - tft.textWidth("Connecting to Wi-Fi..")) / 2, 20);
   tft.print("Connecting to Wi-Fi..");
+
+  tft.setCursor((320 - tft.textWidth("Contributors:")) / 2, contributorsLabelY);
+  tft.print("Contributors:");
+
+  tft.drawString("Nabil Al Sayed", (320 - tft.textWidth("Nabil Al Sayed")) / 2, contributorsLabelY + 30);
+  tft.drawString("Vaibhav Puram", (320 - tft.textWidth("Vaibhav Puram")) / 2, contributorsLabelY + 50);
+  tft.drawString("Manas Ahuja", (320 - tft.textWidth("Manas Ahuja")) / 2, contributorsLabelY + 70);
+  tft.drawString("Mohamed Taha Jasser", (320 - tft.textWidth("Mohammed Taha Jasser")) / 2, contributorsLabelY + 90);
+  tft.drawString("Raghav Khurana", (320 - tft.textWidth("Raghav Khurana")) / 2, contributorsLabelY + 110);
+
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -54,6 +67,7 @@
   tft.fillScreen(TFT_BLACK);
   tft.setCursor((320 - tft.textWidth("Connected!")) / 2, 120);
   tft.print("Connected!");
+
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP()); // Display Local IP Address
   }
