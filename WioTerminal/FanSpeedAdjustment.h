@@ -12,6 +12,9 @@ extern int dutyCycle;                //used to control the pulse width modulatio
 extern float tempValue;              //used to compare user thresholds to current temperature
 extern boolean fanIsOn;
 
+extern const int lowFanSpeedDutyCycle; //LOW FAN SPEED DUTY CYCLE VALUE
+extern const int mediumFanSpeedDutyCycle; //MEDIUM FAN SPEED DUTY CYCLE VALUE
+extern const int highFanSpeedDutyCycle; //HIGH FAN SPEED DUTY CYCLE VALUE
 
 
 //function changes speed of fan using thresholds
