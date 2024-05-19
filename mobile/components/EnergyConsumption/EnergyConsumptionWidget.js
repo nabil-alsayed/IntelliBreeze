@@ -24,7 +24,7 @@ const EnergyConsumptionWidget = () => {
         autoDutyCycles,
         setAutoDutyCycles
     } = useContext(FanContext);
-    const unit = "kWh";
+    const unit = "Watt";
 
 
     // Hook to subscribe to Fan's Duty Cycles to use for Auto Mode's Energy Calc
