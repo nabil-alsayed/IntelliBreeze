@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import { View, Text, StyleSheet, Image} from 'react-native';
 import Slider from '@react-native-community/slider';
-import { convertTemperature } from '../../utils/temperatureConverterUtils';
+import { convertToTemperature } from '../../utils/temperatureConverterUtils';
 import {TemperatureContext} from "../../contexts/TemperatureContext";
 
 const TemperatureSlider = ({ label, value, onValueChange, disabled }) => {
@@ -9,7 +9,7 @@ const TemperatureSlider = ({ label, value, onValueChange, disabled }) => {
     const {
         unit,
     } = useContext(TemperatureContext);
-    let temperature = convertTemperature(value, unit)
+    let temperature = convertToTemperature(value, unit)
 
     return (
         <View style={styles.container}>
@@ -24,7 +24,7 @@ const TemperatureSlider = ({ label, value, onValueChange, disabled }) => {
                         Switches at: { }
                     </Text>
                     <Text style={[styles.value,{fontWeight:"bold"}]}>
-                       {temperature}
+                        {temperature}
                     </Text>
                 </View>
                 <Slider
@@ -93,3 +93,4 @@ const styles = StyleSheet.create({
 });
 
 export default TemperatureSlider;
+

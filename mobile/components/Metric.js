@@ -1,63 +1,72 @@
 import React, {useContext, useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
-import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import {useTopicSubscription} from "../hooks/useTopicSubscription";
 import {TemperatureContext} from "../contexts/TemperatureContext";
 
-const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
-const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature" //TODO: Move To Constants
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
-const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: Enhance SOLID
+const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
     const {
         unit,
         setUnit
     } = useContext(TemperatureContext);
     const [temperature, setTemperature] = useState(0);
-    const temperatureTopic = "/intellibreeze/sensor/temperature"; //TODO: Move to constants
-    const topicName = "temperature"; //TODO: Move to constants
+    const temperatureTopic = "/intellibreeze/sensor/temperature";
+    const topicName = "temperature";
+
+    const convertSubscribedTemperature = (subscribedTemp) => {
+        let newTemp;
+        if (unit === '°C') {
+            // Convert Celsius temperature to Fahrenheit
+            newTemp = subscribedTemp;
+
+        } else if (unit === '°F') {
+            // Convert Fahrenheit temperature to Kelvin
+            newTemp = (subscribedTemp * 9 / 5) + 32;
+
+        } else {
+            // Convert Kelvin temperature to Celsius
+            newTemp = subscribedTemp + 273;
+        }
+        setTemperature(newTemp);
+    }
 
     // Subscribe for Temperature
     useTopicSubscription((newTemperature) => {
-        setTemperature(newTemperature);
+        convertSubscribedTemperature(newTemperature);
     }, temperatureTopic, topicName);
 
-    const client = connectToMqtt();
-
-    const convertTemperature = () => {
+    const publishChangedTempUnit = () => {
+        let newUnit;
 
         if (unit === '°C') {
-            // Convert Celsius to Fahrenheit
-            const newTemp = (temperature * 9/5) + 32;
-            setTemperature(Math.round(newTemp));
-            setUnit('°F');
-        } else if (unit === '°F'){
-            // Convert Fahrenheit to Celsius
-            const newTemp = (((temperature - 32) * 5/9) + 273);
-            setTemperature(Math.round(newTemp));
-            setUnit('K');
-
-        }else {
-            // Convert Fahrenheit to Kelvin
-            const newTemp = temperature - 273 ;
-            setTemperature(Math.round(newTemp));
-            setUnit('°C');
-
+            // Change Celsius unit to Fahrenheit unit
+            newUnit = '°F';
+            setUnit(newUnit);
+            console.log(newUnit);
+        } else if (unit === '°F') {
+            // Change Fahrenheit unit to Kelvin unit
+            newUnit = 'K';
+            setUnit(newUnit);
+            console.log(newUnit);
+        } else {
+            // Convert Kelvin unit to Celsius unit
+            newUnit = '°C';
+            setUnit(newUnit);
+            console.log(newUnit);
         }
+
+        const client = connectToMqtt();
+        console.log(newUnit);
+        client.onConnected = () => {
+            publishToTopic(client, TEMP_UNIT_TOPIC, newUnit, "TEMP_UNIT " );
+            console.log(newUnit);
+        };
     };
 
-    const onMessageArrived = (message) => {
-        console.log("temperature:", message.payloadString);
-        if (message.destinationName === TEMP_PUB_TOPIC) {
-            setTemperature(parseInt(message.payloadString));
-        }
-    };
-
-    client.onConnected = () => {
-        subscribeToTopic(client, onMessageArrived, TEMP_PUB_TOPIC, "currentTemp")
-        publishToTopic(client, TEMP_UNIT_TOPIC, unit, "currentTemperature" );
-        console.log(unit);
-    };
     return (
         <View style={styles.container}>
             <View style={styles.iconContainer}>
@@ -68,7 +77,7 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
                     {/*Value*/}
                     <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold"}}>{temperature}</Text>
                     {/*Unit*/}
-                    <TouchableOpacity onPress={convertTemperature}>
+                    <TouchableOpacity onPress={publishChangedTempUnit}>
                         <Text numberOfLines={1} style={{fontSize:25, fontWeight:"bold", color:"#1881d5"}}>{unit}</Text>
                     </TouchableOpacity>
                 </View>

@@ -36,8 +36,6 @@ const int fanSpeedReadingY = 190;
 const int fanSpeedTitleX = 45 ;
 const int fanSpeedTitleY = 160;
 
-
-
 void setup() {
   tft.begin();
   tft.fillScreen(TFT_BLACK);
@@ -53,40 +51,48 @@ void setup() {
 }
 
 void loop() {
-  tempValue = dht.readTemperature();
-  String tempName = "Temperature";
-  const char* tempNameChar = tempName.c_str();
 
-  Serial.print("preliminary tempValue = ");
-  Serial.println(tempValue);
-  Serial.print("subscribedTempUnit = ");
-  Serial.println(subscribedTempUnit);
+      tempValue = dht.readTemperature();
 
-  if (subscribedTempUnit == "°F") {
-    tempUnit = "F";
-    tempValue = (tempValue * 9 / 5) + 32;
-    Serial.print("FAHRENHEIT TEMP = ");
-    Serial.println(tempValue);
-  } else if (subscribedTempUnit == "K") {
-    tempUnit = "K";
-    tempValue = (tempValue + 273);
-    Serial.print("kelvin temp = ");
-    Serial.println(tempValue);
-  }
+      float tempDisplayValue;
+      tempDisplayValue = tempValue;
+      String tempName = "Temperature";
+      const char* tempNameChar = tempName.c_str();
 
-  String temperatureString = String(tempValue);
-  const char* temperatureChars = temperatureString.c_str();
+        Serial.println("subscribedTempUnit = " );
+        Serial.print(subscribedTempUnit);
 
-// if fanToggleValue is HIGH, then the state of fan is on and running and vice versa
-  if (fanToggleValue == "HIGH") {
-    fanState = true;
-  } else if (fanToggleValue == "LOW") {
-    fanState = false;
-  }
+    if (subscribedTempUnit == "°C"){
+      tempUnit = "C";
+      tempDisplayValue = tempValue;
+    
+    } else if (subscribedTempUnit == "°F"){
+      tempUnit = "F";
+      tempDisplayValue = (tempValue * 9/5) + 32;
 
-// if fanState is on or customFanSpeedValue is auto then..
-// here, the customFanSpeedValue can take both "auto" value to switch to auto mode speed
-// or a slider value ranging 0-100 to switch to custom mode speed.
+    }else if (subscribedTempUnit == "K"){
+      tempUnit = "K";
+      tempDisplayValue = (tempValue  + 273);
+    }
+
+    
+    String temperatureString = String(tempValue);
+      const char* temperatureChars = temperatureString.c_str();
+
+      Serial.print(String(tempDisplayValue));
+        
+      String tempDisplayString = String(tempDisplayValue);
+
+      // if fanToggleValue is HIGH, then the state of fan is on and running and vice versa
+      if (fanToggleValue == "HIGH") {
+      fanState = true;
+      } else if (fanToggleValue == "LOW") {
+      fanState = false;
+      }
+
+  // if fanState is on or customFanSpeedValue is auto then..
+  // here, the customFanSpeedValue can take both "auto" value to switch to auto mode speed
+  // or a slider value ranging 0-100 to switch to custom mode speed.
   if (fanState || (strcmp(customFanSpeedValue.c_str(), "auto") == 0) ) {
     // if its in auto, changeSpeed depending on temperature
     if (strcmp(customFanSpeedValue.c_str(), "auto") == 0 ) {
@@ -96,14 +102,17 @@ void loop() {
     } else {
       changeSpeedToCustomMode();
     }
-// otherwise, if fanState is off, turn it off.
+  // otherwise, if fanState is off, turn it off.
   } else {
     dutyCycle = 0;
     analogWrite(fanPin, dutyCycle); // Turn off the fan
   }
 
+
+  //Adjust Fan Speed Level
   float fanSpeedValue = dutyCycle;
   String fanSpeedLevel;
+
       if(dutyCycle == 0){
 
         fanSpeedLevel = "FAN IS OFF:(";
@@ -131,8 +140,8 @@ void loop() {
 
 
 
-    tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
-     tft.setTextSize(2); //sets the size of text
+  tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
+  tft.setTextSize(2); //sets the size of text
      
     //prints strings from given coordinates
 
@@ -141,12 +150,11 @@ void loop() {
     tft.drawString("Selected Mode:", modeTitleX, modeTitleY);
     tft.drawString("Current Fan Speed:", fanSpeedTitleX, fanSpeedTitleY);
     
-
     //Temperature Strings
     tft.setTextSize(4);
-    tft.drawString(temperatureString, tempReadingX, tempReadingY);
+    tft.drawString(tempDisplayString, tempReadingX, tempReadingY);
     tft.drawString(".", tempReadingX + 180, tempReadingY - 30);
-     tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
+    tft.drawString(tempUnit, tempReadingX + 200, tempReadingY);
 
      //Selected fan mode Strings:
     modeReadingX = ((320 - tft.textWidth(selectedMode)) / 2);
@@ -159,10 +167,10 @@ void loop() {
 
   delay(1000);
 
-  // Functionality fir switching the colour of the WIO Terminal display depending on the the current speed of the fan
+  // Functionality for switching the colour of the WIO Terminal display depending on the the current speed of the fan
   
   if (fanSpeedLevel == "FAN IS OFF:("){
-        tft.fillScreen(TFT_WHITE);
+    tft.fillScreen(TFT_WHITE);
   } else if (fanSpeedLevel == "LOW"){
     tft.fillScreen(TFT_DEEPSKYBLUE);
   } else if (fanSpeedLevel == "MEDIUM"){
