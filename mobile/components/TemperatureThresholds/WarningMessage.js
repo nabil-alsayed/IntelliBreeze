@@ -15,7 +15,7 @@ const WarningMessage = ({ message, onPressSave, onPressCancel }) => {
                     <TouchableOpacity onPress={onPressCancel}
                                       style={[styles.button]}>
                         <Text style={[styles.message,{color:"#fff", fontSize: 16,}]}>
-                            Cancel
+                            Go back
                         </Text>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={onPressSave}

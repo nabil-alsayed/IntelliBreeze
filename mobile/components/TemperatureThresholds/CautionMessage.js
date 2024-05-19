@@ -15,7 +15,7 @@ const CautionMessage = ({ message, onPressOk }) => {
                     <TouchableOpacity onPress={onPressOk}
                                       style={[styles.button]}>
                         <Text style={[styles.message,{color:"#fff", fontSize: 16,}]}>
-                            OK
+                            Go back
                         </Text>
                     </TouchableOpacity>
                 </View>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     button: {
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:"#0180EEFF",
+        backgroundColor:"#d40808",
         width:'100%',
         height:50,
         borderRadius:20
