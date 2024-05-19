@@ -26,14 +26,17 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width:"100%",
+        height:"100%",
         backgroundColor: "#f3f3f3",
         alignItems: "center",
         justifyContent: "flex-start",
     },
     innerContainer: {
         rowGap:15,
-        paddingHorizontal:20
+        paddingHorizontal:20,
+        width:"100%",
+        height:"100%",
     }
 });
 

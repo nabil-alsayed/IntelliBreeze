@@ -17,19 +17,18 @@ const DevicesDisplayWidget = () => {
 }
 const styles = StyleSheet.create({
     container:{
-        flex: 1,
+        flexGrow: 1,
         flexDirection: "column",
         justifyContent: "flex-start",
         width: "100%",
-        padding: 0,
+        paddingVertical: 10,
 
     },
     sectionTitle:{
+        width: "100%",
         color: "#000",
         fontSize: 17,
         fontWeight:'400',
-        marginTop: 20,
-
     },
     deviceCardContainer: {
         flexDirection: 'row',
