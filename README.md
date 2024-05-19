@@ -139,17 +139,17 @@ The following diagram illustrates how the basic overview of the project should l
 ## Contributers
 
 <details><summary>Team Members</summary>
-
-- Nabil Al Sayed
-
-- Manas Ahuja
-
-- Vaibhav Puram
-
-- Raghav Khurana
-
-- Mohamed Taha Jasser
 </details>
+
+- **Nabil Al Sayed** : Made significant contributions to the UI of the mobile app and contributions to the aruduino.
+
+- **Manas Ahuja**: Made contributions to the UI of the mobile app and contributions to the arduino. Made significant contributions to the setup of the hardware.
+
+- **Vaibhav Puram**: Made contributions to the UI of the mobile app and contributions to the arduino code and helped structure arduino classes.
+
+- **Raghav Khurana**: Made contributions to the UI of the mobile app and significant contributions to the arduino code and helped structure arduino classes.
+
+- **Mohamed Taha Jasser**: Made contributions to the UI of the mobile app and contributions to the arduino. Made significant contributions to the setup of the hardware.
 
 ## Acknowledgments
 
