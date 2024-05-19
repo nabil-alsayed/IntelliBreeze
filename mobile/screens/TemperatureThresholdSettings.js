@@ -127,38 +127,38 @@ const TemperatureThresholdSettings = () => {
                         Set the temperatures at which the fan speeds change, or select defaults.
                     </Text>
                 </View>
-            {/*Default Checkbox begins here*/}
-            <View style={styles.checkBoxWrapper}>
-                <DefaultCheckBox
-                    onPress={() => {setPreferredTemp(SLIDER_VALUES.preferredTemp);setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
-                    onToggle = {handleDefaultCheckboxToggle}
-                />
+                {/*Default Checkbox begins here*/}
+                <View style={styles.subContainer}>
+                    <DefaultCheckBox
+                        onPress={() => {setPreferredTemp(SLIDER_VALUES.preferredTemp);setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                        onToggle = {handleDefaultCheckboxToggle}
+                    />
 
-                <TemperatureSlider
-                    label="OFF to LOW"
-                    icon={faFan}
-                    value={preferredTemp}
-                    onValueChange={setPreferredTemp}
-                    disabled={slidersDisabled}
-                /> 
+                    <TemperatureSlider
+                        label="OFF to LOW"
+                        icon={faFan}
+                        value={preferredTemp}
+                        onValueChange={setPreferredTemp}
+                        disabled={slidersDisabled}
+                    />
 
-                <TemperatureSlider
-                    label="LOW to MEDIUM"
-                    icon={faFan}
-                    value={lowToMediumRange}
-                    onValueChange={setLowToMediumRange}
-                    disabled={slidersDisabled}
-                />
+                    <TemperatureSlider
+                        label="LOW to MEDIUM"
+                        icon={faFan}
+                        value={lowToMediumRange}
+                        onValueChange={setLowToMediumRange}
+                        disabled={slidersDisabled}
+                    />
 
-                <TemperatureSlider
-                    label="MEDIUM to HIGH"
-                    icon={faFan}
-                    value={mediumToHighRange}
-                    onValueChange={setMediumToHighRange}
-                    disabled={slidersDisabled}
-                />
+                    <TemperatureSlider
+                        label="MEDIUM to HIGH"
+                        icon={faFan}
+                        value={mediumToHighRange}
+                        onValueChange={setMediumToHighRange}
+                        disabled={slidersDisabled}
+                    />
 
-                <SaveButton onPress={checkThreshold} />
+                    <SaveButton onPress={checkThreshold} />
 
 
                 {/*condition and execution to show the caution message*/}
@@ -204,8 +204,13 @@ const TemperatureThresholdSettings = () => {
 //styling for individual components of the UI
 const styles = StyleSheet.create({
     container: {
-        flexShrink: 1,
-        backgroundColor: '#f0f0f0',
+        flexGrow:1,
+        backgroundColor: '#f8f8f8',
+    },
+    subContainer:{
+        rowGap:15,
+        flexGrow:1,
+        flexDirection:"column",
     },
     header: {
         justifyContent:"center",
