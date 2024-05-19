@@ -130,14 +130,10 @@ void loop() {
   const char* fanSpeedNameChar = fanSpeedName.c_str();
 
 
-    // temperature value at which colour of WIO Terminal display should switch between red and blue colours 
-    // red = warmer than preffered medium threshold set in app
-    // blue = colder than preffered medium threshold set in app
 
-    //float colourSwitchThreshold = mediumThresholdValue.toFloat();
-    //if (tempValue > )
     tft.setTextColor(TFT_BLACK);         //sets the text colour to blac
      tft.setTextSize(2); //sets the size of text
+     
     //prints strings from given coordinates
 
     //Label Strings
