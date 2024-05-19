@@ -1,4 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import 'firebase/database';
+import "firebase/compat/app";
+import { db } from "../firebaseConfig";
+import {collection, updateDoc, doc, onSnapshot} from "firebase/firestore";
+import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
+import "../components/Metric";
+import CautionMessage from "../components/TemperatureThresholds/CautionMessage";
 import { StyleSheet, View, Text, SafeAreaView, StatusBar } from 'react-native';
 import { faFan } from '@fortawesome/free-solid-svg-icons';
 import SaveButton from '../components/TemperatureThresholds/SaveButton';
@@ -6,34 +13,38 @@ import WarningMessage from '../components/TemperatureThresholds/WarningMessage';
 import ConfirmationMessage from '../components/TemperatureThresholds/ConfirmationMessage';
 import DefaultCheckBox from '../components/TemperatureThresholds/DefaultCheckBox';
 import TemperatureSlider from '../components/TemperatureThresholds/TemperatureSlider';
-import { db } from '../firebaseConfig';
-import { collection, updateDoc, doc, onSnapshot } from 'firebase/firestore';
-import { connectToMqtt, publishToTopic } from '../utils/mqttUtils';
 import { SLIDER_VALUES, TEMPERATURE } from "../constants/LogicConstants";
+
+
 
 
 {/*PURPOSE OF SCREEN: This screen allows the user to change the temperatures at which they would like the fan to change its
  speed in automatic mode. The default checkbox component allows the user to select hard coded temperature thresholds, whereas
  the sliders allow them to set it freely. These values are saved to firebase and published to the MQTT broker when the save
- is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher than the
- temperature at which th fan switches to medium.*/}
+ button is pressed. A warning message is displayed if the temperature at which the fan switches to low is set higher
+ than the temperature at which the fan switches to medium.*/}
 
 const TemperatureThresholdSettings = () => {
-        const [lowToMediumRange, setLowToMediumRange] = useState(0);
-        const [mediumToHighRange, setMediumToHighRange] = useState(0);
-        const [showWarning, setShowWarning] = useState(false);
-        const [showConfirmation, setShowConfirmation] = useState(false);
-        const [slidersDisabled, setSlidersDisabled] = useState(false);
-        const collectionRef = collection(db, TEMPERATURE.dbPath);
-        const documentID = TEMPERATURE.documentId;
-        const HIGH_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.HIGH_THRESHOLD_PUB_TOPIC
-        const MED_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.MED_THRESHOLD_PUB_TOPIC
+    const[preferredTemp, setPreferredTemp] = useState(0);
+    const [lowToMediumRange, setLowToMediumRange] = useState(0);
+    const [mediumToHighRange, setMediumToHighRange] = useState(0);
+    const [showWarning, setShowWarning] = useState(false);
+    const [showCaution, setShowCaution] = useState(false);
+    const [showConfirmation, setShowConfirmation] = useState(false);
+    const [slidersDisabled, setSlidersDisabled] = useState(false);
+    const collectionRef = collection(db, TEMPERATURE.dbPath);
+    const documentID = TEMPERATURE.documentId;    
+    const HIGH_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.HIGH_THRESHOLD_PUB_TOPIC
+    const MED_THRESHOLD_PUB_TOPIC = TEMPERATURE.thresholds.MED_THRESHOLD_PUB_TOPIC
+    const PREF_TEMP_PUB_TOPIC = TEMPERATURE.thresholds.PREF_TEMP_PUB_TOPIC;
 
     //variable to store data to firestore
     const newThresholds = {
+        PreferredTemp: preferredTemp,
         LowToMediumRange: lowToMediumRange,
         MediumToHighRange: mediumToHighRange
     }
+
 
     //This fetches the temperatureThresholds from the firebase and renders the latest updated value
     useEffect(() => {
@@ -41,8 +52,10 @@ const TemperatureThresholdSettings = () => {
             try {
                 querySnapshot.forEach((doc) => {
                     const data = doc.data();
+                    setPreferredTemp(data.PreferredTemp);
                     setLowToMediumRange(data.LowToMediumRange);
                     setMediumToHighRange(data.MediumToHighRange);
+
                 });
             } catch (error) {
                 console.error("Failed to fetch previous thresholds", error);
@@ -50,6 +63,7 @@ const TemperatureThresholdSettings = () => {
         });
         return () => fetchTemperatureThreshold();
     }, [ ]);
+
 
 
     //this method is responsible for updating the slider values to the firebase
@@ -62,11 +76,12 @@ const TemperatureThresholdSettings = () => {
 
             const client = connectToMqtt();
             client.onConnected = () => {
+                publishToTopic(client, PREF_TEMP_PUB_TOPIC, String((preferredTemp)), "preferred Temperature");
                 publishToTopic(client, HIGH_THRESHOLD_PUB_TOPIC, String((mediumToHighRange)), "high temperature threshold");
                 publishToTopic(client, MED_THRESHOLD_PUB_TOPIC, String((lowToMediumRange)), "medium temperature threshold");
-
+                
+                
             };
-
 
         } catch (error) {
             console.error("Failed to save!");
@@ -74,25 +89,32 @@ const TemperatureThresholdSettings = () => {
         }
     }
 
+
     //this is the core method which verifies the slider input
-    const checkThreshold = (lowToMediumRange, mediumToHighRange) => {
-        if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
+    const checkThreshold = () => {
+    if((preferredTemp > lowToMediumRange) || (preferredTemp > mediumToHighRange)){ //is not allowed so shows caution
+       setShowCaution(true);
+       setShowConfirmation(false);
+    } else if (lowToMediumRange > mediumToHighRange) { //can be allowed but displays warning as is unusual
+        console.log("ENTERED WARNING MESSAGE")
+
+            setShowCaution(false);
             setShowWarning(true);
             setShowConfirmation(false);
-        } else {
+    } else {
+            setShowCaution(false);
             setShowWarning(false);
             updateThreshold().then(() => {
                 setShowConfirmation(true); //threshold addition is successful hence we return confirmation message
-
             });
-
-
         }
     }
 
     const handleDefaultCheckboxToggle = (isChecked) => {
         setSlidersDisabled(isChecked);
     };
+
+
 
     //UI for the sliders
     return (
@@ -105,11 +127,20 @@ const TemperatureThresholdSettings = () => {
                         Set the temperatures at which the fan speeds change, or select defaults.
                     </Text>
                 </View>
-
+            {/*Default Checkbox begins here*/}
+            <View style={styles.checkBoxWrapper}>
                 <DefaultCheckBox
-                    onPress={() => {setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
+                    onPress={() => {setPreferredTemp(SLIDER_VALUES.preferredTemp);setLowToMediumRange(SLIDER_VALUES.mediumDefaultThreshold); setMediumToHighRange(SLIDER_VALUES.highDefaultThreshold); setSlidersDisabled(true)}}
                     onToggle = {handleDefaultCheckboxToggle}
                 />
+
+                <TemperatureSlider
+                    label="OFF to LOW"
+                    icon={faFan}
+                    value={preferredTemp}
+                    onValueChange={setPreferredTemp}
+                    disabled={slidersDisabled}
+                /> 
 
                 <TemperatureSlider
                     label="LOW to MEDIUM"
@@ -129,6 +160,18 @@ const TemperatureThresholdSettings = () => {
 
                 <SaveButton onPress={checkThreshold} />
 
+
+                {/*condition and execution to show the caution message*/}
+                {showCaution && (
+
+                    <CautionMessage
+                        message="Your selected preferred temperature value must be lower than both the LOW to MEDIUM and MEDIUM to HIGH thresholds!"
+                        onPressOk={() => setShowCaution(false)}
+                    />
+
+                        )}
+
+
                 {/*condition and execution to show the warning message*/}
                 {showWarning && (
 
@@ -144,6 +187,7 @@ const TemperatureThresholdSettings = () => {
 
                 )}
 
+
                 {/*condition and execution to show the confirmation message*/}
                 {showConfirmation && (
                     <ConfirmationMessage
@@ -151,6 +195,7 @@ const TemperatureThresholdSettings = () => {
                         onPress={() => setShowConfirmation(false)}
                     />
                 )}
+            </View>    
             </View>
         </SafeAreaView>
     );

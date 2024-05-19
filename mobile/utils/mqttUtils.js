@@ -37,6 +37,7 @@ export const subscribeToTopic = (client, handleMessage, topic, topicName) => {
 
 //Method to publish to any topic
 export const publishToTopic = (client, topic, payload, topicName) => {
+    payload = (String (payload));
     const topicDescription = topicName;
     topicName = new Message(payload);
     topicName.destinationName = topic;

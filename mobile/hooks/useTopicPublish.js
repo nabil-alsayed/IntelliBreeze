@@ -26,7 +26,7 @@ export const useTopicPublish = () => {
     }, []);
 
     const publishMessage = (topic, payload, topicName) => {
-        if (client && client.isConnected()) {
+        if (client.isConnected()) {
             client.publish(topic, payload);
             console.log(`Message published to ${topicName}: ${payload}`);
         } else {

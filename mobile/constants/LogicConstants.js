@@ -1,5 +1,5 @@
 export const FAN_SPEED = {
-    TOPIC: "/intellibreeze/sensor/fanspeed",
+    TOPIC: "/intellibreeze/app/sensor/fanspeed",
     TOPIC_NAME: "FAN SPEED",
     MIN_SPEED_LIMIT: 1,
     MAX_SPEED_LIMIT: 100
@@ -13,6 +13,7 @@ export const AUTO_MODE = {
 }
 export const TEMPERATURE = {
     thresholds: {
+        PREF_TEMP_PUB_TOPIC: "/intellibreeze/app/temperature",
         HIGH_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/highThreshold",
         MED_THRESHOLD_PUB_TOPIC: "/intellibreeze/app/mediumThreshold",
     },
@@ -27,7 +28,7 @@ export const MODES = {
 }
 
 export const SLIDER_VALUES = {
+    preferredTemp: 23,
     mediumDefaultThreshold: 25,
     highDefaultThreshold: 27
 }
-

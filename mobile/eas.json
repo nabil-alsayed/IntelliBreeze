@@ -1,0 +1,33 @@
+{
+  "cli": {
+    "version": ">= 0.47.0"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "android": {
+        "buildType": "apk",
+        "node": "18.0.0",
+        "channel": "development"
+      },
+      "ios": {
+        "simulator": true,
+        "node": "18.0.0",
+        "channel": "development"
+      }
+    },
+    "production": {
+      "android": {
+        "buildType": "app-bundle",
+        "node": "18.0.0",
+        "channel": "production"
+      },
+      "ios": {
+        "buildConfiguration": "Release",
+        "node": "18.0.0",
+        "channel": "production"
+      }
+    }
+  }
+}

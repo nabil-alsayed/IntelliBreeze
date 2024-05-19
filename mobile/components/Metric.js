@@ -1,17 +1,21 @@
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import {FontAwesome6} from '@expo/vector-icons';
 import {connectToMqtt, publishToTopic} from "../utils/mqttUtils";
 import {useTopicSubscription} from "../hooks/useTopicSubscription";
+import {TemperatureContext} from "../contexts/TemperatureContext";
 
-const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit" //TODO: Move To Constants
-const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature" //TODO: Move To Constants
+const TEMP_UNIT_TOPIC = "/intellibreeze/app/tempUnit"
+const TEMP_PUB_TOPIC =  "/intellibreeze/sensor/temperature"
 
-const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: Enhance SOLID
-    const [unit, setUnit] = useState('°C'); //
+const Metric = ({ iconName, metricName, metricValue, metricUnit}) => {
+    const {
+        unit,
+        setUnit
+    } = useContext(TemperatureContext);
     const [temperature, setTemperature] = useState(0);
-    const temperatureTopic = "/intellibreeze/sensor/temperature"; //TODO: Move to constants
-    const topicName = "temperature"; //TODO: Move to constants
+    const temperatureTopic = "/intellibreeze/sensor/temperature";
+    const topicName = "temperature";
 
     const convertSubscribedTemperature = (subscribedTemp) => {
         let newTemp;
@@ -26,7 +30,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
         } else {
             // Convert Kelvin temperature to Celsius
             newTemp = subscribedTemp + 273;
-
         }
         setTemperature(newTemp);
     }
@@ -35,7 +38,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
     useTopicSubscription((newTemperature) => {
         convertSubscribedTemperature(newTemperature);
     }, temperatureTopic, topicName);
-
 
     const publishChangedTempUnit = () => {
         let newUnit;
@@ -64,9 +66,6 @@ const Metric = ({ iconName, metricName, metricValue, metricUnit}) => { //TODO: E
             console.log(newUnit);
         };
     };
-
-
-
 
     return (
         <View style={styles.container}>

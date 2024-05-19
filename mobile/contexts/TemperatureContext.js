@@ -3,12 +3,17 @@ import React, {createContext, useState} from 'react';
 export const TemperatureContext = createContext(null);
 
 export const TemperatureProvider = ({ children }) => {
+    const[preferredTemp, setPreferredTemp] = useState(0);
     const [lowToMediumRange, setLowToMediumRange] = useState(0);
     const [mediumToHighRange, setMediumToHighRange] = useState(0);
     const [tempUnit, setTempUnit] = useState('C');
     const [isAutoMode, setIsAutoMode] = useState(false);
+    const [unit, setUnit] = useState('°C'); //
+
 
     const value = {
+        preferredTemp,
+        setPreferredTemp,
         lowToMediumRange,
         setLowToMediumRange,
         mediumToHighRange,
@@ -17,6 +22,8 @@ export const TemperatureProvider = ({ children }) => {
         setTempUnit,
         isAutoMode,
         setIsAutoMode,
+        unit,
+        setUnit,
     }
 
     return (

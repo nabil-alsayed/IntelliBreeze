@@ -27,26 +27,31 @@
 
     //MQTT Fan Speed Related Topics
   const char* MANUAL_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/manual/fanspeed" ; // Topic for WIO to subscribe to from the GUI, because the user sets the fan speed via a slider
-  const char* MANUAL_FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/manual/fanspeed"; //Topic for WIO to publish
   const char* AUTO_FAN_SPEED_PUB_TOPIC = "/intellibreeze/sensor/automatic/fanspeed"; //Topic for WIO to publish
   const char* FAN_TOGGLE_SUB_TOPIC = "/intellibreeze/app/manual/button";
-  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/sensor/fanspeed" ;
+  const char* FAN_SPEED_SUB_TOPIC = "/intellibreeze/app/sensor/fanspeed" ;
 
    String selectedMode;
    String customFanSpeedValue = "";
 
 
-
-  void setupClient(){
-      client.subscribe(MANUAL_FAN_SPEED_SUB_TOPIC);
-      client.subscribe(PREF_TEMP_SUB_TOPIC);
-  }
-
   void setup_wifi() {
+  
+  const int contributorsLabelY = 80;
   delay(10);
   tft.setTextSize(2);
-  tft.setCursor((320 - tft.textWidth("Connecting to Wi-Fi..")) / 2, 120);
+  tft.setCursor((320 - tft.textWidth("Connecting to Wi-Fi..")) / 2, 20);
   tft.print("Connecting to Wi-Fi..");
+
+  tft.setCursor((320 - tft.textWidth("Contributors:")) / 2, contributorsLabelY);
+  tft.print("Contributors:");
+
+  tft.drawString("Nabil Al Sayed", (320 - tft.textWidth("Nabil Al Sayed")) / 2, contributorsLabelY + 30);
+  tft.drawString("Vaibhav Puram", (320 - tft.textWidth("Vaibhav Puram")) / 2, contributorsLabelY + 50);
+  tft.drawString("Manas Ahuja", (320 - tft.textWidth("Manas Ahuja")) / 2, contributorsLabelY + 70);
+  tft.drawString("Mohamed Taha Jasser", (320 - tft.textWidth("Mohammed Taha Jasser")) / 2, contributorsLabelY + 90);
+  tft.drawString("Raghav Khurana", (320 - tft.textWidth("Raghav Khurana")) / 2, contributorsLabelY + 110);
+
   Serial.println();
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -62,6 +67,7 @@
   tft.fillScreen(TFT_BLACK);
   tft.setCursor((320 - tft.textWidth("Connected!")) / 2, 120);
   tft.print("Connected!");
+
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP()); // Display Local IP Address
   }
@@ -80,8 +86,41 @@
   }
   Serial.println();
 
+  // Conditional for changing speed of fan manually
+  /*
+    if (strcmp(topic, MANUAL_FAN_SPEED_SUB_TOPIC) == 0) {
+        manualFanSpeedSliderValue = "";
+
+        for (int i = 0; i < length; i++) {
+          manualFanSpeedSliderValue += (char)payload[i];
+        }
+
+        Serial.print("Received fan slider value: ");
+        Serial.println(manualFanSpeedSliderValue);
+      }
+*/
+  // Conditional for toggling on and off the fan
+  if (strcmp(topic, FAN_TOGGLE_SUB_TOPIC) == 0) {
+      fanToggleValue = "";
+
+      for (int i = 0; i < length; i++) {
+        fanToggleValue += (char)payload[i];
+      }
+
+      Serial.print("Received fan toggle value: ");
+      Serial.println(fanToggleValue);
+
+  //Conditional for storing LOW temperature threshold payload into variable
+  } else if(strcmp(topic, PREF_TEMP_SUB_TOPIC) == 0){
+    startingThresholdValue = "";
+
+    for(int i = 0; i <length; i++){
+      startingThresholdValue += (char)payload[i];
+    }
+    Serial.println("Received Preferred Temperature value: ");
+    Serial.println(startingThresholdValue);
   //Conditional for storing HIGH temperature threshold payload into variable
-  if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
+  } else if (strcmp(topic, HIGH_THRESHOLD_SUB_TOPIC) == 0) {
     highThresholdValue = ""; //this is done so new value is not concatenated with previously saved values
 
     for (int i = 0; i < length; i++) {
@@ -111,6 +150,7 @@
 
           Serial.println("Received Custom Fan Speed value: ");
           Serial.println(customFanSpeedValue);
+          //selectedMode = "";
    } else if (strcmp(topic, TEMPUNIT_SUB_TOPIC) == 0){
 
     subscribedTempUnit = String(buff_p);
@@ -119,8 +159,10 @@
 
         selectedMode = String(buff_p);
   }
+
     buff_p[length] = '\0';
-  }
+
+}
 
   void reconnect() {
   // Loop until we're reconnected
@@ -140,15 +182,19 @@
       //Subscribing to temperature threshold values
       client.subscribe(HIGH_THRESHOLD_SUB_TOPIC);
       client.subscribe(MED_THRESHOLD_SUB_TOPIC);
+      client.subscribe(PREF_TEMP_SUB_TOPIC); 
 
       //Subscribing to fan speeds values from GUI
       client.subscribe(FAN_SPEED_SUB_TOPIC);
 
       //subscribe to incoming temperature units from phone app
       client.subscribe(TEMPUNIT_SUB_TOPIC);
-      
+
       //Subscribe to published selected mode name from phone app
       client.subscribe(MODENAME_SUB_TOPIC);
+
+      //Subscribe to toggle mode from phone app
+      client.subscribe(FAN_TOGGLE_SUB_TOPIC);
 
     } else {
       Serial.print("failed, rc=");
@@ -161,10 +207,10 @@
   }
 }
 
-  void publish(const char* SUBSCRIPTION_TOPIC, const char* payload, const char* topicName){
+  void publish(const char* PUBLISHING_TOPIC, const char* payload, const char* topicName){
 
     snprintf(msg, 50, "%.1f", payload); // Convert temperature to string
-        client.publish(SUBSCRIPTION_TOPIC, payload); // Publish temperature value to MQTT broker
+        client.publish(PUBLISHING_TOPIC, payload); // Publish temperature value to MQTT broker
         //client.publish(TEMP_PUB_TOPIC, msg); // Publish temperature value to MQTT broker
         Serial.printf("Published %s\n", topicName);
         Serial.println(payload);
