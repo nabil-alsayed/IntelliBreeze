@@ -1,6 +1,5 @@
 import React from "react";
 import { Text, View, StyleSheet } from "react-native";
-import DropDownMenuButton from "./DropDownMenuButton";
 
 const Header = () => {
   return (
@@ -8,10 +7,6 @@ const Header = () => {
       <View style={styles.leftContainer}>
         <Text style={styles.headerText}>Hello! 👋</Text>
         <Text style={styles.subHeaderText}>Welcome back to IntelliBreeze</Text>
-      </View>
-      <View style={styles.dropDownMenu}>
-        {/*TODO: Un-hide it after implementing it*/}
-        <DropDownMenuButton />
       </View>
     </View>
   );

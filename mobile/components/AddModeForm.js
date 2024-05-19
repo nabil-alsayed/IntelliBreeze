@@ -4,7 +4,7 @@ import MultiSlider from '@ptomasroos/react-native-multi-slider';
 import IconPicker from "./IconPicker";
 import { db } from "../firebaseConfig";
 import {collection, addDoc, onSnapshot} from "firebase/firestore";
-import { ModeFormContext } from "../contexts/ModeFormContext";
+import { FanContext } from "../contexts/FanContext";
 import {FAN_SPEED} from "../constants/LogicConstants";
 
 const AddModeForm = () => {
@@ -16,7 +16,7 @@ const AddModeForm = () => {
         setModes,
         setModalVisible,
         setFormValid,
-    } = useContext(ModeFormContext);
+    } = useContext(FanContext);
 
     const handleModalClose = () => { setModalVisible(false) }
 
@@ -64,7 +64,7 @@ const AddModeForm = () => {
 
     return (
         <View style={styles.form}>
-            <ModeFormContext.Provider value={setModalVisible}>
+            <FanContext.Provider value={setModalVisible}>
                 <View style={styles.settingField}>
                     <Text style={styles.label}>Choose Mode Name</Text>
                     <TextInput
@@ -106,7 +106,7 @@ const AddModeForm = () => {
                     <TouchableOpacity style={[styles.button,{backgroundColor: validateForm() === true ? "#169EFFFF" : "#909092"}]} onPress={submitMode}><Text style={[styles.buttonText,{color:"#fff"}]}>Create Mode</Text></TouchableOpacity>
                     <TouchableOpacity style={[styles.button,{backgroundColor:"#fff"}]} onPress={handleModalClose}><Text style={[styles.buttonText,{color:"#000"}]}>Cancel</Text></TouchableOpacity>
                 </View>
-            </ModeFormContext.Provider>
+            </FanContext.Provider>
         </View>
     )
 }

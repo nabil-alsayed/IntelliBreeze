@@ -4,7 +4,7 @@ import Mode from "./Mode";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Divider } from '@rneui/themed';
 import AddModeForm from "./AddModeForm";
-import {ModeFormContext} from "../contexts/ModeFormContext";
+import {FanContext} from "../contexts/FanContext";
 import { collection, onSnapshot, updateDoc, doc, getDoc} from "firebase/firestore";
 import {db} from "../firebaseConfig";
 import ModeSettingsForm from "./ModeSettingsForm";
@@ -30,7 +30,7 @@ const ModesDisplayWidget = () => {
     setModeEditModalVisible,
     selectedModeId,
     setSelectedModeId,
-  } = useContext(ModeFormContext);
+  } = useContext(FanContext);
   const {
     lowToMediumRange,
     mediumToHighRange,
@@ -276,7 +276,7 @@ const ModesDisplayWidget = () => {
 
 const styles = StyleSheet.create({
   mainContainer:{
-    flex:1,
+    flexGrow: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
     width: "100%",

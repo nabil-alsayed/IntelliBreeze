@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {Text, View, StyleSheet, TextInput, TouchableOpacity} from 'react-native';
-import { ModeFormContext } from "../contexts/ModeFormContext";
+import { FanContext } from "../contexts/FanContext";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebaseConfig";
 import IconPicker from "./IconPicker";
@@ -15,7 +15,7 @@ const ModeSettingsForm = ({modeId} ) => {
         setModeEditModalVisible,
         modeConfirmationModalVisible,
         setModeConfirmationModalVisible
-    } = useContext(ModeFormContext);
+    } = useContext(FanContext);
     const [modeDetails, setModeDetails] = useState({
         modeName: '',
         selectedIcon: '',

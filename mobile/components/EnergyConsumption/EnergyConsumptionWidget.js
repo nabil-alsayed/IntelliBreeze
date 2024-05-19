@@ -5,7 +5,7 @@ import moment from 'moment';
 import { db } from "../../firebaseConfig";
 import { doc, setDoc, updateDoc, getDoc } from "firebase/firestore";
 import EnergyCalculatorUtils from '../../utils/energyCalculatorUtils';
-import { ModeFormContext } from "../../contexts/ModeFormContext";
+import { FanContext } from "../../contexts/FanContext";
 import { useTopicSubscription } from "../../hooks/useTopicSubscription";
 import { AUTO_MODE } from "../../constants/LogicConstants";
 
@@ -23,7 +23,7 @@ const EnergyConsumptionWidget = () => {
         selectedModeId,
         autoDutyCycles,
         setAutoDutyCycles
-    } = useContext(ModeFormContext);
+    } = useContext(FanContext);
     const unit = "kWh";
 
 

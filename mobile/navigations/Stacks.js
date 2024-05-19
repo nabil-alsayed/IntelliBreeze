@@ -11,7 +11,6 @@ const Stacks = () => {
         <NavigationContainer>
             <Stack.Navigator screenOptions={{ headerShown: true }}>
                 <Stack.Screen name={"Home"} component={HomeScreen}/>
-                <Stack.Screen name={"FanSpeedScreen"} component={FanSpeedScreen} />
                 <Stack.Screen name={"TemperatureThreshold"} component={TemperatureThresholdSettings}/>
             </Stack.Navigator>
         </NavigationContainer>

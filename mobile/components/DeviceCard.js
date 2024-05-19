@@ -1,18 +1,18 @@
 import React, {useContext, useEffect, useState} from "react";
 import { Text, StyleSheet, View, Switch } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
-import { ModeFormContext } from "../contexts/ModeFormContext";
+import { FanContext } from "../contexts/FanContext";
 import Icon from "react-native-vector-icons/FontAwesome";
 import {connectToMqtt, publishToTopic, subscribeToTopic} from "../utils/mqttUtils";
 import { MODES } from '../constants/LogicConstants'
 
 
 const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
-    const { selectedModeId, modes } = useContext(ModeFormContext)
+    const { selectedModeId, modes } = useContext(FanContext)
     const [ selectedModeName, setSelectedModeName ] = useState('Auto')
     const [ selectedModeIcon, setSelectedModeIcon ] = useState('gear')
     const [ isEnabled, setIsEnabled ] = useState(false)
-    const { autoDutyCycles, setAutoDutyCycles, fanIsOn, setFanIsOn } = useContext(ModeFormContext);
+    const { autoDutyCycles, setAutoDutyCycles, fanIsOn, setFanIsOn } = useContext(FanContext);
 
     const FAN_TOGGLE_PUB_TOPIC = "/intellibreeze/app/manual/button";
 
@@ -87,15 +87,15 @@ const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
 
     return(
         <View style={styles.container}>
-            <View style={{flex:1, flexDirection:"column", justifyContent: 'space-evenly'}}>
-                <View style={{flexDirection:'row', columnGap:15}}>
+            <View style={{width:"100%",height:"100%", flexDirection:"column",justifyContent: 'space-evenly'}}>
+                <View style={{flexDirection:'row', columnGap:15, height:40, alignItems:"center"}}>
                     <FontAwesome5 name={"fan"} size={35}></FontAwesome5>
-                    <View style={{flexDirection:'row', columnGap:5}}>
-                        <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{autoDutyCycles}</Text>
-                        <Text style={[styles.deviceSubText, {color: "#000"}]}>{deviceUnits}</Text>
+                    <View style={{flexGrow:1,justifyContent:"flex-end",flexDirection:'row', columnGap:5}}>
+                        <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]} numberOfLines={1}>{autoDutyCycles}</Text>
+                        <Text style={[styles.deviceSubText, {color: "#000"}]} numberOfLines={1}>{deviceUnits}</Text>
                     </View>
                 </View>
-                <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]}>{deviceTitle}</Text>
+                <Text style={[styles.deviceSubText, {fontWeight: 'bold', color: "#000"}]} numberOfLines={1}>{deviceTitle}</Text>
                 <View style={styles.deviceModeContainer}>
                     <Icon name={determineModeType().modeIcon} size={14}/>
                     <Text style={styles.deviceModeTitle} numberOfLines={1}>{determineModeType().modeName.toString()}</Text>
@@ -117,19 +117,19 @@ const DeviceCard = ({deviceTitle, deviceUnits, onPress}) =>{
 
 const styles = StyleSheet.create({
     container: {
+        width:"50%",
         padding: 15,
         flexDirection: "column",
         borderRadius: 20,
-        backgroundColor: "#00BFFF",
-        width: "100%",
-        maxWidth: 170,
-        height: 215,
+        backgroundColor: "#fff",
+        height: 205,
         alignItems: "center",
         justifyContent: "center",
     },
     deviceModeContainer: {
         backgroundColor: "#f3f3f3",
-        flexShrink:1,
+        height:40,
+        width: 130,
         paddingVertical:10,
         paddingHorizontal:10,
         borderRadius:6,
@@ -137,7 +137,6 @@ const styles = StyleSheet.create({
         columnGap: 7,
         alignItems: "center",
         justifyContent: 'flex-start',
-        width: 130
     },
     toggle: {
         backgroundColor: "#f3f3f3",
@@ -150,6 +149,7 @@ const styles = StyleSheet.create({
     },
     deviceSubText: {
         fontSize: 20,
+        width:"100",
     },
     title: {
         fontSize: 15,

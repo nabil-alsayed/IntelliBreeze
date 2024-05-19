@@ -1,7 +1,6 @@
 import {StyleSheet, ScrollView, SafeAreaView} from "react-native";
 import {StatusBar} from "expo-status-bar";
 import Header from "../components/Header";
-import MetricsDisplayWidget from "../components/MetricsDisplayWidget";
 import ModeDisplayWidget from "../components/ModesDisplayWidget";
 import EnergyConsumptionWidget from "../components/EnergyConsumption/EnergyConsumptionWidget";
 import DevicesDisplayWidget from "../components/DevicesDisplayWidget";
@@ -26,14 +25,17 @@ const HomeScreen = () => {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        width:"100%",
+        height:"100%",
         backgroundColor: "#f3f3f3",
         alignItems: "center",
         justifyContent: "flex-start",
     },
     innerContainer: {
         rowGap:15,
-        paddingHorizontal:20
+        paddingHorizontal:20,
+        width:"100%",
+        height:"100%",
     }
 });
 

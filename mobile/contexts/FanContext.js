@@ -1,8 +1,8 @@
 import React, { createContext, useState } from 'react';
 
-export const ModeFormContext = createContext();
+export const FanContext = createContext();
 
-export const ModeFormProvider = ({ children }) => {
+export const FanProvider = ({ children }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modeEditModalVisible, setModeEditModalVisible] = useState(false);
     const [fanSpeed, setFanSpeed] = useState(0);
@@ -37,8 +37,8 @@ export const ModeFormProvider = ({ children }) => {
     };
 
     return (
-        <ModeFormContext.Provider value={value}>
+        <FanContext.Provider value={value}>
             {children}
-        </ModeFormContext.Provider>
+        </FanContext.Provider>
     );
 };
