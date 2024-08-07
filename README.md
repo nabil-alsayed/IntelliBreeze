@@ -12,129 +12,50 @@ Our product is a smart fan system that is capable of providing optimal comfort i
 
 The sensors attached to our smart fan provide temperature and energy consumption analytics to the user through our pocket-friendly app. Additionally, the system will notify the user upon any adjustments in the fan speed. Together, this allows the user to stay informed about their environment and the state of the fan, promoting control over their usage.
 
-### Purpose
-**Mission Statement:** "**Summer is coming!** We want to provide a solution that creates a cooler and more relaxing atmosphere for the world"
+### Purpose & Benefits
 
-The Intellibreeze fan is aimed towards customers located in warmer climates during warmer times of the year. It is a smart-fan that is capable of dectecting the temperature of the surrounding enviroment and turn the fan on based on how warm the surroundings are. The fan contains numerous modes like: Manual, Auto, and Custom. Each mode has it own use and benefits.
+**Mission Statement:** "**Summer is coming!** Do you ever feel drenched in sweat during summer? Do you feel like life will be automated one day and that even the temperature around you will change depending on your preferences?"
 
-**Auto:** Allows the user to set three different temperature thresholds that determine both when the automatically fan will turn on/off and at what temperatures the fan speed will change.
+Say no more and welcome iSenseCool, which provides an automated ventilation fan cooling system around your room based on your preferred temperatures. Maybe it's mid-December and you live in the Northern Hemisphere, then iSenseCool would always be ready for that one lucky hot day in December to cool you off.
 
-**Manual:** This allows the fan to be controlled by a toggle button that swithces on or off.
+Or maybe you live down South, where the summer is at its peak and the system is ready to handle even the hottest temperatures. Then join us on our journey where we deliver a comfortable environment for you.
 
-**Custom:** Allows the user to create a custom mode with its own unique name and logo. It also allows the user to selected a fixed preferred fan speed value that the fan will run at whenever the mode is activated.
+These main features are what we deliver when you decide to join the iSenseCool environment:-
 
-The UI on the mobile application is very simple and all of the functionalities of the fan are easily asscessible.
+**Auto:** Allows for change of threshold on when each state of the fan activates, whether its on off, low, medium or high speeds of the fan.
 
-### Benefits
+**Manual:** Allows the fan to be controlled by a toggle button that switches on or off.
 
-- The Intellibreeze fan runs independently in auto mode which is a "hands free" mode
-- The Intellibreeze fan allows for multiple custom mode, this means that the fan can be suited for multiple users
-- The fan is remotely connected from the phone, when away from the fan the user can do mutiple things like:
-    1. Turning the fan on and off
-    2. Monitoring the real time temperature of the surroundings
-    3. Monitoring the energy consumption of the fan in real time
-    4. Monitoring the fan speed in real time
+**The Display of Temperature and Fan Speed** You can at all times see the temperature and fan speed either when you are looking at the app or you are about to sleep and want a quick glance through the Wio display.
 
+All of these features available to you within one screen only for maximum accessibility.
 
 ## Dependencies & Requirements
 
 Here are a couple of things that you will need before moving on to the **Installation Guide** of IntelliBreeze.
 
-- [Wio Terminal from Seeed Studio](https://www.seeedstudio.com/Wio-Terminal-p-4509.html)
+- [Wio Terminal](https://www.seeedstudio.com/Wio-Terminal-p-4509.html)
 - [Arduino IDE](https://www.arduino.cc/en/software)
-- Wio Terminal Grove Sensors (The list of sensors can be found in the Wiki)
-- Other hardware components as listed below
-
-#### **Required Components**
-
-1. **`MOSFET Transistor`**
-   - `IRF530N` (or any n-channel MOSFET)
-     - The MOSFET is an essential component for controlling the fan speed. The IRF530N is recommended due to its compatibility with the Wio-Terminal's maximum 5V voltage output. It is crucial to use an n-channel MOSFET for this application, as it operates with lower gate voltage. [Here](https://www.nextpcb.com/blog/how-does-a-mosfet-work) is a more detailed description of how a MOSFET transistor works.
-
-2. **`Wio-Terminal`**
-    - The Wio-Terminal serves as the central controller for the smart fan system. Its 5V output voltage is compatible with the MOSFET's gate voltage requirements.
-
-3. **`Five male-to-male jumper wires`** + **Alligator Clips**
-    - The jumper wires serve as a connection basis between the different hardware components and the breadboard. They are responsbile for transmitting signals and power. Alligator clips facilitate the process of connecting the raw ends of the wire for better stability.
-
-4. **`12V DC Fan`**
-    - For optimal performance in this project, consider using the `Arctic P12 PWM PST` fan. With a starting voltage of **3.9V** and a typical operating voltage of **12V**, it aligns well with the project requirements. Although it's designed as a 4-pin fan, only two pins, the **negative/ground** and **positive/VCC** terminals, are necessary for this project since the PWM and tachometer pins are not utilized. Therefore, a 2-pin fan variant suffices.
-
-5. **`Basic/Variable DC Power Supply`**
-    - A basic 12V DC supply suffices. If a variable DC supply is used, the voltage must be set to `12V` and current to `0.1A`(for the recommended fan above, otherwise, the technical specifications for the used fan must be checked).
-
-6. **`Grove - Temperature & Humidity Sensor (DHT11)`**
-    - [Here](https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/) is the link to the information for the temperature sensor required for this project. To point out, this temperature sensor can take readings from `0 to 50 °C`, which is compatible with the temperature threshold adjustment sliders in the mobile application. However, if a different sensor with a different range is used, changing these constants just requires a change to the minThresholdLimit and maxThresholdLimit in the LogicConstants class under the constants folder.
-
-
-
-
-
-## Running the GUI on the phone
+- Any IDE that you use for programming, the one used is [IntelliJ IDEA](https://www.jetbrains.com/idea/)
+- [Grove - Temperature & Humidity Sensor (DHT11)](https://wiki.seeedstudio.com/Grove-TemperatureAndHumidity_Sensor/)
+- [MOSFET Transistor IRF530N](https://www.amazon.se/-/en/IRF530NPBF-IRF530N-0-127ohm-Transistor-Channel/dp/B0BDV8J5QF/ref=sr_1_3?crid=3UJUMYKXZTE0R&dib=eyJ2IjoiMSJ9.MWJESM82HU7d9rR4ILDMIHH7-v3n3CVpSa2uNZVN1f4W6_riGE8uMF-czT-HjiOPGvzhnBynddyqaPKgFk84_dcScA9-l32_M1jk3q3Y_q1QTf-__gUxvRVT9LiJhOnsIsHtMGXbXPo3MxW89kc4LEGlmd_RPAX3Vg2slZSLE1zmB7du4E2Qm6AH4QmuY213SqAPRPCzOntmfTlRRWKEsdy6U1iwUWqSGG7AOnlj1UbyrwfM5ftcr8RBrgKFKiSVVmEhzEQSqvI_c2fJCmc_o-viMeE9sK6wwqm8iNjcfzU.Vkp07Hqqmd-fIU9TA1hamBlmXBqw0rm9V_c6IIBT77A&dib_tag=se&keywords=irf530n+mosfet&qid=1723060443&sprefix=IRF530N%2Caps%2C102&sr=8-3) (You can find how a MOSFET transistor works [here](https://www.reddit.com/r/explainlikeimfive/comments/k2nwvg/eli5_how_do_mosfets_work/), or you can use any n-channel MOSFET Transistor.)
+- A 12DC fan, the one used here is an [Arctic P12](https://www.arctic.de/en/P12/ACFAN00118A)
+- A 12V DC supply, the one used here is [AGM Battery](https://www.clasohlson.com/se/AGM-batteri-12-V/p/36-5459), anything lower than 12V will either twitch the signals and get the fan to work at less than full speed or not even work if its too little. 
+- [Male-to-male jumper wires](https://www.amazon.se/AZDelivery-kompatibel-Raspberry-Breadboard-inklusive/dp/B07KKJ69DV?source=ps-sl-shoppingads-lpcontext&ref_=fplfs&psc=1&smid=A1X7QLRQH87QA3), you do not need to buy these ones specifically, as long as its male-to-male jumper wires and its more than a few (I'd say 10+).
 
 ## Installation guides
-To run the the expo application and be able to access the GUI of this project the following need to be installed: Node.js and Expo go
 
-Refer to the following link for installing Node.js on your laptop: https://nodejs.org/en/learn/getting-started/how-to-install-nodejs
-
-To install EXPO GO find your App store/Play store and select expo go and install it
-
-## Setting up the Expo Go and running the GUI
-
-1. Pull the code from the main branch
-
-2. Navigate to the directory -> /dit113g8/mobile/
-
-3. Run command **`npm install`** to install the dependencies to your local machine.
-
-4. After you successfully installed the necessary dependencies type the command **`npm start`**
-
-6. After running **`npm start`** you receive a QR Code that can be scanned if your on an IOS device you can use the phone camera to scan the QR code. If you are on Andriod then you can navigate the EXPO GO app and click the button **`Scan QR code`** and you can scan the QR code from there
-
-7. The app should bundle and run successfully!!
-
-
-
+TBD
 
 ## Usage
 
-The following section consists of concrete steps to set-up the hardware components in order to run the fan-system.
-
-### Hardware - Setting up the Fan System
-
-Refer to the user manual given with the Wio Terminal, specifically the map for the GPIO (General Purpose Input/Output) pins to follow the steps below. If possible, wear insulated rubber gloves to, although unlikely, avoid getting shocked. 
-1. Connect the **`positive terminal`** of the fan to the **`positive/VCC pin`** of the DC power supply. Use an alligator clip, if required, to hold the jumper wire stable on a non-variable power supply.
-2. Connect the **`negative terminal/Ground pin`** of the fan to the **`Drain`** of the MOSFET.
-3. Connect the **`Gate`** of the MOSFET to **`pin number 16`** (PWM1/A2/D2) on the GPIO of the Wio Terminal .
-4. To establish a common ground, connect the **`Source`** of the MOSFET to a ground pin (**`GND, i.e. pin 39`**) on the GPIO of the Wio Terminal.
-5. Connect the **`Source`** of the MOSFET to the **`negative terminal`** of the power supply.  
-6. Connect the `Temperature and Humidity Sensor` to the **right hand side** grove socket on the Wio Terminal.
-7. Connect the **type-c end** of the USB cable into the USB port of the Wio Terminal, and the **type-a end** into your computer from where the Arduino code will be uploaded.
-
-Following is the circuit diagram that can be referred to while following the steps above.
-#### Circuit Diagram
-![CircuitDiagram](graphics/IntellibreezeCircuitDesign.png)
-
-The image below shows the setup used during development. It can provide as a useful reference for how the temperature sensor is connected to the Wio and anything that maybe unclear in the circuit diagram above.
-#### Image for replication
-![image info](graphics/IntellibreezeCircuitPicture.png)
-
-### Using the WIO Terminal
-
-1. Download the Arduino IDE and navigate to **`File`** then click on **`Open`**
-2. Locate the directory where the Intellibreeze project (**`dit113g8`**) is stored and open the **` WioTerminal`** folder an click **`Open`**
-3. After the sketch has opened connect the Wio terminal to the laptop using the USB port and turn on the switch of the WIO Terminal.
-4. When the Wio Terminal is connect navigate to the top left of the screen and ensure that the correct port is selected, the device should be displayed in **`BOLD`**
-5. Once all of these steps are done click the arrow button on the top left to upload the code.
-6. There you have it! The WIO Terminal should be running and the display should be on!
-
-
+TBD
 
 ## System Design
 
-The following diagram illustrates how the basic overview of the project should look like:-
+This diagram shows how the project should be designed:-
 
-![diagram](graphics/IntellibreezeSystemArchitecture.drawio.png)
+
 
 ## Demo Video
 
@@ -145,15 +66,7 @@ https://youtu.be/aPwEXxAsZw4?si=BPe_JnXoBVX5SAx8
 <details><summary>Team Members</summary>
 </details>
 
-- **Nabil Al Sayed** : Made significant contributions to the UI of the mobile app and contributions to the aruduino.
-
-- **Manas Ahuja**: Made contributions to the UI of the mobile app and contributions to the arduino. Made significant contributions to the setup of the hardware.
-
-- **Vaibhav Puram**: Made contributions to the UI of the mobile app and contributions to the arduino code and helped structure arduino classes.
-
-- **Raghav Khurana**: Made contributions to the UI of the mobile app and significant contributions to the arduino code and helped structure arduino classes.
-
-- **Mohamed Taha Jasser**: Made contributions to the UI of the mobile app and contributions to the arduino. Made significant contributions to the setup of the hardware.
+- **Mohamed Taha Jasser**: The only member that worked on the whole project due to it being a re-examination.
 
 ## Acknowledgments
 
